@@ -41,6 +41,11 @@ export const PublicFooter: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link href="/demo" className="hover:text-white transition-colors text-[#FF5A36]">
+                  Demo Schedule & Schema
+                </Link>
+              </li>
+              <li>
                 <Link href="/pricing" className="hover:text-white transition-colors">
                   Pricing Plans
                 </Link>
