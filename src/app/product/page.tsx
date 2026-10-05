@@ -18,17 +18,17 @@ import {
 import { LoadingState } from "@/components/scheduling/LoadingState";
 import { ScheduleResultView } from "@/components/scheduling/ScheduleResultView";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
+import CustomDatePicker from "@/components/scheduling/CustomDatePicker";
 import { generateSchedule, DailySchedule } from "@/lib/apiClient";
 
 export default function ProductPage() {
   const [file, setFile] = useState<File | null>(null);
   const [useSampleRoster, setUseSampleRoster] = useState(false);
   const [start, setStart] = useState("2026-10-01");
-  const [end, setEnd] = useState("2026-10-02");
+  const [end, setEnd] = useState("2026-10-05");
   const [prompt, setPrompt] = useState(
     "Create a balanced weekly schedule. Make sure employees are assigned only during their available hours, match critical skills, and do not exceed maximum working limits."
   );
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -134,30 +134,6 @@ export default function ProductPage() {
     { label: "👥 Min 2 Staff Per Station", prompt: "Ensure at least 2 staff members per shift and strictly respect all unavailability dates." },
     { label: "🛡️ Zero Consecutive Nights", prompt: "Prevent employees from working consecutive evening/night shifts and enforce mandatory 12h rest." },
   ];
-
-  const handleDatePreset = (days: number) => {
-    const today = new Date();
-    const startDateStr = today.toISOString().split("T")[0];
-    const endDateObj = new Date(today);
-    endDateObj.setDate(today.getDate() + days - 1);
-    const endDateStr = endDateObj.toISOString().split("T")[0];
-    setStart(startDateStr);
-    setEnd(endDateStr);
-    setIsDatePickerOpen(false);
-  };
-
-  // Format date range label
-  const formatDateLabel = () => {
-    try {
-      const s = new Date(start);
-      const e = new Date(end);
-      const sStr = s.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-      const eStr = e.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-      return `${sStr} – ${eStr}`;
-    } catch {
-      return `${start} → ${end}`;
-    }
-  };
 
   return (
     <main className="flex-1 flex flex-col items-center justify-start py-8 sm:py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-linear-to-b from-white via-zinc-50/40 to-white">
@@ -304,92 +280,16 @@ export default function ProductPage() {
                     </button>
                   )}
 
-                  {/* Date Horizon Pill / Dropdown Button */}
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
-                      className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 transition shadow-2xs"
-                    >
-                      <Calendar className="h-3.5 w-3.5 text-zinc-500" />
-                      <span>{formatDateLabel()}</span>
-                    </button>
-
-                    {/* Date Picker Popover */}
-                    {isDatePickerOpen && (
-                      <div className="absolute left-0 bottom-full mb-2 z-30 w-72 rounded-2xl border border-zinc-200 bg-white p-4 shadow-xl animate-in fade-in zoom-in-95 duration-150">
-                        <div className="flex items-center justify-between mb-3 border-b border-zinc-100 pb-2">
-                          <span className="text-xs font-bold text-zinc-900">
-                            Scheduling Horizon
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => setIsDatePickerOpen(false)}
-                            className="text-zinc-400 hover:text-zinc-600 p-1"
-                          >
-                            <X className="h-3.5 w-3.5" />
-                          </button>
-                        </div>
-
-                        {/* Quick Presets */}
-                        <div className="grid grid-cols-3 gap-1.5 mb-3">
-                          <button
-                            type="button"
-                            onClick={() => handleDatePreset(2)}
-                            className="p-1.5 rounded-lg border border-zinc-100 bg-zinc-50 text-[10px] font-medium text-zinc-700 hover:bg-zinc-100 text-center"
-                          >
-                            2 Days
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDatePreset(3)}
-                            className="p-1.5 rounded-lg border border-zinc-100 bg-zinc-50 text-[10px] font-medium text-zinc-700 hover:bg-zinc-100 text-center"
-                          >
-                            3 Days
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDatePreset(7)}
-                            className="p-1.5 rounded-lg border border-zinc-100 bg-zinc-50 text-[10px] font-medium text-zinc-700 hover:bg-zinc-100 text-center"
-                          >
-                            7 Days
-                          </button>
-                        </div>
-
-                        <div className="space-y-2.5">
-                          <div>
-                            <label className="block text-[11px] font-semibold text-zinc-600 mb-1">
-                              Start Date
-                            </label>
-                            <input
-                              type="date"
-                              value={start}
-                              onChange={(e) => setStart(e.target.value)}
-                              className="block w-full rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-xs text-zinc-900 focus:bg-white focus:outline-hidden"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-[11px] font-semibold text-zinc-600 mb-1">
-                              End Date
-                            </label>
-                            <input
-                              type="date"
-                              value={end}
-                              onChange={(e) => setEnd(e.target.value)}
-                              className="block w-full rounded-lg border border-zinc-200 bg-zinc-50 p-2 text-xs text-zinc-900 focus:bg-white focus:outline-hidden"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => setIsDatePickerOpen(false)}
-                            className="w-full mt-2 rounded-xl bg-[#0B0F1A] py-2 text-xs font-semibold text-white hover:bg-zinc-800 transition"
-                          >
-                            Apply Horizon
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  {/* Custom Calendar Date Picker */}
+                  <CustomDatePicker
+                    mode="week"
+                    startDate={start}
+                    endDate={end}
+                    onDateChange={({ startDate: s, endDate: e }) => {
+                      if (s) setStart(s);
+                      if (e) setEnd(e);
+                    }}
+                  />
                 </div>
 
                 {/* Right Action: Generate Roster Button */}
