@@ -5,6 +5,7 @@ export interface GenerateScheduleParams {
   start: string;
   end: string;
   prompt?: string;
+  provider?: "gemini" | "openai";
 }
 
 export interface EmployeeAssignment {
@@ -55,15 +56,25 @@ export async function generateSchedule(params: GenerateScheduleParams): Promise<
   if (params.prompt) {
     formData.append("prompt", params.prompt);
   }
+  if (params.provider) {
+    formData.append("provider", params.provider);
+  }
 
   const response = await fetch(`${API_BASE_URL}/api/schedule/generate`, {
     method: "POST",
     body: formData
   });
 
-  const data = await response.json();
+  let data: any;
+  try {
+    data = await response.json();
+  } catch {
+    data = { error: `Server error (${response.status}): ${response.statusText}` };
+  }
+
   if (!response.ok || !data.success) {
-    throw new Error(data.error || "Failed to generate schedule");
+    const errorMsg = data.error || data.message || `Failed to generate schedule (HTTP ${response.status})`;
+    throw new Error(errorMsg);
   }
 
   return data;
