@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   description:
     "Upload your employee data, specify shift requirements in plain text, and generate conflict-free, mathematically validated schedules in seconds.",
   icons: {
-    icon: "/orbit-app-icon.svg",
-    shortcut: "/orbit-symbol-dark.svg",
-    apple: "/orbit-app-icon.svg",
+    icon: "/images/logo/orbit-weave-app-icon.svg",
+    shortcut: "/images/logo/orbit-weave-symbol-light-bg.svg",
+    apple: "/images/logo/orbit-weave-app-icon.svg",
   },
 };
 
@@ -32,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-zinc-50/50 text-zinc-900 font-sans">
+      <body className="min-h-full flex flex-col bg-[#F6F7FB] text-slate-900 font-sans selection:bg-[#2F5BFF]/20 selection:text-[#2F2C59]">
         <PublicHeader />
         <div className="flex-1 flex flex-col">{children}</div>
         <PublicFooter />

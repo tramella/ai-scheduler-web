@@ -3,42 +3,41 @@
 import React, { useState } from "react";
 import {
   Mail,
-  MessageSquare,
-  CheckCircle2,
-  Clock,
-  MapPin,
-  Send,
-  Copy,
-  Check,
   Building2,
-  Sparkles,
+  ArrowRight,
   LifeBuoy,
-  Bug,
+  Check,
+  Copy,
+  Clock,
+  ShieldCheck,
+  CheckCircle2,
+  Send,
+  HelpCircle,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function ContactPage() {
-  const [inquiryType, setInquiryType] = useState<"general" | "enterprise" | "feedback" | "bug">("general");
+  const [inquiryType, setInquiryType] = useState<string>("general");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
-  const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
   const [ticketId, setTicketId] = useState("");
 
-  const inquiryTypes = [
-    { id: "general", label: "General", icon: MessageSquare },
-    { id: "enterprise", label: "Enterprise / Custom Rules", icon: Building2 },
-    { id: "feedback", label: "Feature Suggestion", icon: Sparkles },
-    { id: "bug", label: "Report Issue", icon: Bug },
+  const inquiryCategories = [
+    { id: "general", label: "General Support" },
+    { id: "rules", label: "Custom Shift Rules" },
+    { id: "enterprise", label: "Multi-Store & Enterprise" },
+    { id: "bug", label: "Issue / Bug Report" },
   ];
 
   const handleCopyEmail = (address: string) => {
     navigator.clipboard.writeText(address);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
+    setCopiedEmail(address);
+    setTimeout(() => setCopiedEmail(null), 2000);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -46,161 +45,187 @@ export default function ContactPage() {
     if (!name || !email || !message) return;
 
     setLoading(true);
-    // Simulate lightweight client submission with generated ticket ID
     setTimeout(() => {
       const randomNum = Math.floor(10000 + Math.random() * 90000);
       setTicketId(`ORB-${randomNum}`);
       setLoading(false);
       setSubmitted(true);
-    }, 600);
+    }, 500);
   };
 
   const handleReset = () => {
     setName("");
     setEmail("");
     setCompany("");
-    setSubject("");
     setMessage("");
     setSubmitted(false);
   };
 
   return (
-    <main className="flex-1 py-12 sm:py-20 bg-linear-to-b from-white via-zinc-50/40 to-white">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="max-w-3xl mx-auto text-center mb-14">
-          <div className="inline-flex items-center space-x-2 rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-800 mb-4 border border-zinc-200/60">
-            <LifeBuoy className="h-3.5 w-3.5 text-[#FF5A36]" />
-            <span>Support & Inquiries</span>
+    <main className="min-h-[calc(100vh-4rem)] bg-slate-50/60 py-12 sm:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        {/* Top Header Badge & Intro */}
+        <div className="max-w-3xl mb-12 sm:mb-16">
+          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-900/[0.05] px-3.5 py-1 text-xs font-semibold text-slate-800 mb-4">
+            <LifeBuoy className="h-3.5 w-3.5 text-slate-700" />
+            <span>Support & Operations</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900">
-            Let&apos;s talk about your <span className="text-[#FF5A36]">scheduling</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[#2F2C59] leading-tight">
+            How can we help your team?
           </h1>
-          <p className="mt-3.5 text-base sm:text-lg text-zinc-600 max-w-xl mx-auto">
-            Have a question about custom roster constraints, enterprise SLA, or general feedback? We&apos;re here to help.
+          <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
+            Have questions about custom store shift constraints, roster imports, or multi-location setups? We typically respond in under 2 hours.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Sidebar Info */}
-          <div className="lg:col-span-5 space-y-5">
-            {/* Direct Channel Cards */}
-            <div className="rounded-3xl border border-zinc-200/90 bg-white p-6 sm:p-7 shadow-xs space-y-6">
-              <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
-                <h3 className="font-bold text-lg text-zinc-900">Direct Contact</h3>
-                <span className="inline-flex items-center space-x-1.5 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 border border-emerald-200/80">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span>Avg response &lt; 2h</span>
-                </span>
-              </div>
+        {/* 2-Column Split: Info / Channels on Left, Clean Elevated Form on Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+          
+          {/* Left Column: Direct Channels & Information (Span 5) */}
+          <div className="lg:col-span-5 space-y-6">
+            
+            <div className="space-y-3.5">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                Direct Channels
+              </h2>
 
-              {/* Email 1 */}
-              <div className="group rounded-2xl border border-zinc-100 bg-zinc-50/50 p-4 transition hover:bg-zinc-50 hover:border-zinc-200">
+              {/* Support Email Card */}
+              <div className="group rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
                 <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white border border-zinc-200 text-zinc-700 shadow-2xs">
-                      <Mail className="h-4 w-4 text-[#FF5A36]" />
+                  <div className="flex items-center space-x-3.5">
+                    <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800 group-hover:scale-105 transition-transform">
+                      <Mail className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                        General & Support
-                      </p>
-                      <a
-                        href="mailto:support@orbit-scheduling.com"
-                        className="text-sm font-semibold text-zinc-900 hover:text-[#FF5A36] transition-colors"
-                      >
-                        support@orbit-scheduling.com
-                      </a>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        Technical & Roster Support
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-0.5">Help with files, solver rules, or accounts</p>
                     </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => handleCopyEmail("support@orbit-scheduling.com")}
+                    className="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition"
                     title="Copy email"
-                    className="p-1.5 text-zinc-400 hover:text-zinc-700 hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition"
                   >
-                    {copiedEmail ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                    {copiedEmail === "support@orbit-scheduling.com" ? (
+                      <Check className="h-4 w-4 text-slate-900" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
                   </button>
+                </div>
+                <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                  <a
+                    href="mailto:support@orbit-scheduling.com"
+                    className="font-semibold text-slate-900 hover:underline"
+                  >
+                    support@orbit-scheduling.com
+                  </a>
+                  <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 font-medium text-slate-600">
+                    <Clock className="h-3 w-3 mr-1 text-slate-500" /> &lt; 2h response
+                  </span>
                 </div>
               </div>
 
-              {/* Email 2 */}
-              <div className="group rounded-2xl border border-zinc-100 bg-zinc-50/50 p-4 transition hover:bg-zinc-50 hover:border-zinc-200">
+              {/* Enterprise / Sales Card */}
+              <div className="group rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
                 <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white border border-zinc-200 text-zinc-700 shadow-2xs">
-                      <Building2 className="h-4 w-4 text-[#0B0F1A]" />
+                  <div className="flex items-center space-x-3.5">
+                    <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800 group-hover:scale-105 transition-transform">
+                      <Building2 className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-                        Sales & Enterprise
-                      </p>
-                      <a
-                        href="mailto:sales@orbit-scheduling.com"
-                        className="text-sm font-semibold text-zinc-900 hover:text-[#FF5A36] transition-colors"
-                      >
-                        sales@orbit-scheduling.com
-                      </a>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        Multi-Unit & Custom Constraints
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-0.5">Custom enterprise rules and SLA setup</p>
                     </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => handleCopyEmail("sales@orbit-scheduling.com")}
+                    className="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition"
                     title="Copy email"
-                    className="p-1.5 text-zinc-400 hover:text-zinc-700 hover:bg-white rounded-lg border border-transparent hover:border-zinc-200 transition"
                   >
-                    <Copy className="h-3.5 w-3.5" />
+                    {copiedEmail === "sales@orbit-scheduling.com" ? (
+                      <Check className="h-4 w-4 text-slate-900" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
+                <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                  <a
+                    href="mailto:sales@orbit-scheduling.com"
+                    className="font-semibold text-slate-900 hover:underline"
+                  >
+                    sales@orbit-scheduling.com
+                  </a>
+                  <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 font-medium text-slate-600">
+                    Dedicated engineer
+                  </span>
+                </div>
               </div>
 
-              {/* Hours and SLA */}
-              <div className="space-y-3 pt-2 text-xs text-zinc-500">
-                <div className="flex items-center space-x-2.5">
-                  <Clock className="h-4 w-4 text-zinc-400 shrink-0" />
-                  <span>Mon – Fri • 09:00 – 18:00 (UTC+7)</span>
+              {/* Knowledge Base / FAQ Link */}
+              <Link
+                href="/faq"
+                className="group block rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3.5">
+                    <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800 group-hover:scale-105 transition-transform">
+                      <HelpCircle className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        Browse Knowledge Base & FAQ
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-0.5">Instant answers on templates and solver logic</p>
+                    </div>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-900 group-hover:translate-x-0.5 transition-all" />
                 </div>
-                <div className="flex items-center space-x-2.5">
-                  <MapPin className="h-4 w-4 text-zinc-400 shrink-0" />
-                  <span>Ho Chi Minh City, Vietnam • Global Remote</span>
-                </div>
+              </Link>
+            </div>
+
+            {/* Reassurance Banner */}
+            <div className="rounded-2xl bg-white border border-slate-200/90 p-4.5 flex items-start space-x-3.5 shadow-xs">
+              <ShieldCheck className="h-5 w-5 text-slate-800 shrink-0 mt-0.5" />
+              <div className="text-xs text-slate-600 leading-relaxed">
+                <strong className="text-slate-900 font-bold block mb-0.5">Human Roster Specialists on Standby</strong>
+                Every inquiry is reviewed directly by scheduling specialists and product engineers. No automated runaround.
               </div>
             </div>
 
-            {/* Quick Note Card */}
-            <div className="rounded-3xl border border-zinc-200/70 bg-linear-to-br from-zinc-50 via-white to-orange-50/30 p-6 text-xs text-zinc-600 leading-relaxed shadow-2xs">
-              <div className="flex items-center space-x-2 text-zinc-900 font-bold mb-1.5">
-                <Sparkles className="h-4 w-4 text-[#FF5A36]" />
-                <span>Custom Roster Integration?</span>
-              </div>
-              <p>
-                Have a proprietary HR / attendance software or complex shift rotation agreements? Contact our team for bespoke API integrations and dedicated LLM fine-tuning.
-              </p>
-            </div>
           </div>
 
-          {/* Right Main Form */}
+          {/* Right Column: Clean Executive Contact Form (Span 7) */}
           <div className="lg:col-span-7">
-            <div className="rounded-3xl border border-zinc-200/90 bg-white p-6 sm:p-8 shadow-xs">
+            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-9 shadow-sm">
+              
               {submitted ? (
-                <div className="py-10 text-center space-y-4">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200/80 shadow-xs">
-                    <CheckCircle2 className="h-8 w-8" />
+                <div className="py-12 text-center space-y-5">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-900 border border-slate-200">
+                    <CheckCircle2 className="h-8 w-8 text-slate-900" />
                   </div>
-                  <div>
-                    <span className="inline-block font-mono text-xs font-semibold px-2.5 py-1 rounded-md bg-zinc-100 text-zinc-700 mb-2">
-                      Reference #{ticketId}
+                  <div className="space-y-1">
+                    <span className="inline-block font-mono text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
+                      Ticket #{ticketId}
                     </span>
-                    <h3 className="text-2xl font-bold text-zinc-900">Message Received!</h3>
+                    <h3 className="text-2xl font-black text-[#2F2C59]">Message Received</h3>
                   </div>
-                  <p className="text-sm text-zinc-600 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong className="text-zinc-900">{name}</strong>. Your inquiry has been dispatched to our engineering & product team. We will respond to <strong className="text-zinc-900">{email}</strong> within 1 business day.
+                  <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+                    Thank you, <strong className="text-slate-900">{name}</strong>. Our team has received your inquiry regarding <strong className="text-slate-900">{company || "your organization"}</strong>. We will reply to <strong className="text-slate-900">{email}</strong> within 2 hours.
                   </p>
                   <div className="pt-4">
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="inline-flex items-center justify-center rounded-xl border border-zinc-200 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-800 hover:bg-zinc-50 transition shadow-2xs"
+                      className="inline-flex items-center justify-center rounded-xl bg-[#2F2C59] px-6 py-2.5 text-xs font-semibold text-white hover:bg-[#1E1B3A] transition shadow-xs border border-[#2F2C59]"
                     >
                       Send Another Inquiry
                     </button>
@@ -208,126 +233,119 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Inquiry Type Chips */}
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-2.5">
-                      What can we help you with?
+                  
+                  {/* Category Pill Selection */}
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                      Inquiry Subject
                     </label>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                      {inquiryTypes.map((item) => {
-                        const Icon = item.icon;
-                        const isSelected = inquiryType === item.id;
+                      {inquiryCategories.map((cat) => {
+                        const isSelected = inquiryType === cat.id;
                         return (
                           <button
-                            key={item.id}
+                            key={cat.id}
                             type="button"
-                            onClick={() => setInquiryType(item.id as any)}
-                            className={`flex flex-col items-center text-center p-3 rounded-xl border text-xs font-medium transition-all ${
+                            onClick={() => setInquiryType(cat.id)}
+                            className={`px-3 py-2 text-xs font-medium rounded-xl text-center transition-all cursor-pointer ${
                               isSelected
-                                ? "border-zinc-900 bg-[#0B0F1A] text-white shadow-2xs"
-                                : "border-zinc-200 bg-zinc-50/50 text-zinc-600 hover:border-zinc-300 hover:bg-white"
+                                ? "bg-[#2F2C59] text-white shadow-xs font-semibold"
+                                : "bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80"
                             }`}
                           >
-                            <Icon className={`h-4 w-4 mb-1.5 ${isSelected ? "text-[#FF5A36]" : "text-zinc-400"}`} />
-                            <span className="leading-tight">{item.label}</span>
+                            {cat.label}
                           </button>
                         );
                       })}
                     </div>
                   </div>
 
-                  {/* Name and Email */}
+                  {/* Name & Email Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
-                        Your Name <span className="text-rose-500">*</span>
+                    <div className="space-y-1.5">
+                      <label htmlFor="contact-name" className="block text-xs font-semibold text-slate-800">
+                        Your Name <span className="text-slate-400">*</span>
                       </label>
                       <input
+                        id="contact-name"
                         type="text"
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Alex Morgan"
-                        className="block w-full rounded-xl border border-zinc-200 bg-zinc-50/40 py-2.5 px-3.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-zinc-900/10 transition"
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F2C59] focus:ring-4 focus:ring-[#2F2C59]/10 transition-all outline-hidden"
                       />
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
-                        Work Email <span className="text-rose-500">*</span>
+
+                    <div className="space-y-1.5">
+                      <label htmlFor="contact-email" className="block text-xs font-semibold text-slate-800">
+                        Work Email <span className="text-slate-400">*</span>
                       </label>
                       <input
+                        id="contact-email"
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="alex@company.com"
-                        className="block w-full rounded-xl border border-zinc-200 bg-zinc-50/40 py-2.5 px-3.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-zinc-900/10 transition"
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F2C59] focus:ring-4 focus:ring-[#2F2C59]/10 transition-all outline-hidden"
                       />
                     </div>
                   </div>
 
-                  {/* Company & Subject */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
-                        Company / Organization <span className="text-zinc-400 font-normal">(Optional)</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={company}
-                        onChange={(e) => setCompany(e.target.value)}
-                        placeholder="e.g. Acme Hospitality"
-                        className="block w-full rounded-xl border border-zinc-200 bg-zinc-50/40 py-2.5 px-3.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-zinc-900/10 transition"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
-                        Subject
-                      </label>
-                      <input
-                        type="text"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        placeholder="e.g. Question on multi-branch scheduling"
-                        className="block w-full rounded-xl border border-zinc-200 bg-zinc-50/40 py-2.5 px-3.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-zinc-900/10 transition"
-                      />
-                    </div>
+                  {/* Store / Organization Name */}
+                  <div className="space-y-1.5">
+                    <label htmlFor="contact-company" className="block text-xs font-semibold text-slate-800">
+                      Store or Organization Name <span className="text-slate-400 font-normal">(Optional)</span>
+                    </label>
+                    <input
+                      id="contact-company"
+                      type="text"
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
+                      placeholder="e.g. Apex Health Clinic / Blue Bottle San Francisco"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F2C59] focus:ring-4 focus:ring-[#2F2C59]/10 transition-all outline-hidden"
+                    />
                   </div>
 
-                  {/* Message */}
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1.5">
-                      Message <span className="text-rose-500">*</span>
+                  {/* Message Field */}
+                  <div className="space-y-1.5">
+                    <label htmlFor="contact-message" className="block text-xs font-semibold text-slate-800">
+                      Message Details <span className="text-slate-400">*</span>
                     </label>
                     <textarea
+                      id="contact-message"
                       required
                       rows={5}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Describe your question, scheduling constraints, or feedback in detail..."
-                      className="block w-full rounded-xl border border-zinc-200 bg-zinc-50/40 p-3.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-900 focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-zinc-900/10 transition"
+                      placeholder="Tell us about your team size, custom shift constraints, or any questions you have..."
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-4 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F2C59] focus:ring-4 focus:ring-[#2F2C59]/10 transition-all outline-hidden"
                     />
                   </div>
 
-                  {/* Submit Button */}
-                  <div className="flex items-center justify-between pt-2">
-                    <p className="text-xs text-zinc-500">
-                      We respect your privacy. No spam.
-                    </p>
+                  {/* Footer & Submit Button */}
+                  <div className="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-slate-100">
+                    <span className="text-xs text-slate-500">
+                      We never share or sell your contact information.
+                    </span>
                     <button
                       type="submit"
                       disabled={loading}
-                      className="inline-flex items-center justify-center rounded-xl bg-[#0B0F1A] px-6 py-3 text-sm font-semibold text-white shadow-xs hover:bg-zinc-800 disabled:opacity-50 transition active:scale-[0.99] border border-zinc-800 group"
+                      className="inline-flex items-center justify-center space-x-2 rounded-xl bg-[#2F2C59] px-7 py-3 text-sm font-semibold text-white shadow-xs hover:bg-[#1E1B3A] disabled:opacity-50 transition-all active:scale-[0.99] border border-[#2F2C59] cursor-pointer"
                     >
-                      <Send className="mr-2 h-4 w-4 text-[#FF5A36] group-hover:translate-x-0.5 transition-transform" />
-                      <span>{loading ? "Sending..." : "Send Message"}</span>
+                      <Send className="h-4 w-4 text-white" />
+                      <span>{loading ? "Transmitting..." : "Send Message"}</span>
                     </button>
                   </div>
                 </form>
               )}
+
             </div>
           </div>
+
         </div>
+
       </div>
     </main>
   );
