@@ -567,29 +567,29 @@ export default function DemoScheduleReviewPage() {
     const s = shiftName.toLowerCase();
     if (s.includes("morning") || s.includes("sáng") || s.includes("opening")) {
       return {
-        hex: "#F59E0B",
-        bg: "bg-amber-500/10 border-amber-500/30 text-amber-950",
-        borderLeft: "border-l-4 border-l-[#F59E0B]",
+        hex: "#2F5BFF",
+        bg: "bg-blue-500/10 border-blue-500/30 text-blue-950",
+        borderLeft: "border-l-4 border-l-[#2F5BFF]",
         icon: Sun,
-        iconColor: "text-[#D97706]",
+        iconColor: "text-[#2F5BFF]",
       };
     }
     if (s.includes("afternoon") || s.includes("chiều") || s.includes("peak")) {
       return {
-        hex: "#FF5A36",
-        bg: "bg-[#FF5A36]/10 border-[#FF5A36]/35 text-[#7C1C07]",
-        borderLeft: "border-l-4 border-l-[#FF5A36]",
+        hex: "#FF7A59",
+        bg: "bg-[#FF7A59]/10 border-[#FF7A59]/35 text-[#7C1C07]",
+        borderLeft: "border-l-4 border-l-[#FF7A59]",
         icon: Sunset,
-        iconColor: "text-[#FF5A36]",
+        iconColor: "text-[#FF7A59]",
       };
     }
     if (s.includes("night") || s.includes("đêm") || s.includes("closing")) {
       return {
-        hex: "#6366F1",
+        hex: "#2F2C59",
         bg: "bg-indigo-500/10 border-indigo-500/30 text-indigo-950",
-        borderLeft: "border-l-4 border-l-[#6366F1]",
+        borderLeft: "border-l-4 border-l-[#2F2C59]",
         icon: Moon,
-        iconColor: "text-[#6366F1]",
+        iconColor: "text-[#2F2C59]",
       };
     }
     return {
@@ -608,11 +608,11 @@ export default function DemoScheduleReviewPage() {
         {/* Top Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-zinc-200">
           <div>
-            <div className="inline-flex items-center space-x-2 rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-800 mb-2 border border-zinc-200/80">
-              <Sparkles className="h-3.5 w-3.5 text-[#FF5A36]" />
+            <div className="inline-flex items-center space-x-2 rounded-full bg-indigo-50/70 px-3.5 py-1 text-xs font-semibold text-zinc-800 mb-2 border border-indigo-100">
+              <Sparkles className="h-3.5 w-3.5 text-[#FF7A59]" />
               <span>Modern Calendar & Resource Matrix</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#0B0F1A]">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#2F2C59]">
               Workforce Roster Calendar
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-zinc-500">
@@ -626,7 +626,7 @@ export default function DemoScheduleReviewPage() {
               onClick={() => setIsAddShiftOpen(true)}
               className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 sm:px-3.5 py-2 sm:py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition"
             >
-              <Plus className="h-3.5 w-3.5 text-[#FF5A36] shrink-0" />
+              <Plus className="h-3.5 w-3.5 text-[#FF7A59] shrink-0" />
               <span>Add Shift</span>
             </button>
 
@@ -642,9 +642,9 @@ export default function DemoScheduleReviewPage() {
             <button
               type="button"
               onClick={() => handleCopy(JSON.stringify(data, null, 2), "export-json")}
-              className="col-span-2 sm:col-span-1 inline-flex items-center justify-center space-x-1.5 rounded-xl bg-[#0B0F1A] px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 shadow-xs transition border border-zinc-800"
+              className="col-span-2 sm:col-span-1 inline-flex items-center justify-center space-x-1.5 rounded-xl bg-[#2F2C59] px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs font-semibold text-white hover:bg-[#1E1B3A] shadow-xs transition border border-[#2F2C59]"
             >
-              <Download className="h-3.5 w-3.5 text-[#FF5A36] shrink-0" />
+              <Download className="h-3.5 w-3.5 text-[#FF7A59] shrink-0" />
               <span>Export JSON / Schema</span>
             </button>
           </div>
@@ -738,7 +738,7 @@ export default function DemoScheduleReviewPage() {
                   setCurrentPage(1);
                 }}
                 placeholder="Search staff name or ID..."
-                className="w-full rounded-xl border border-zinc-200 bg-white py-2 pl-9 pr-8 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-hidden focus:ring-1 focus:ring-zinc-900 shadow-2xs"
+                className="w-full rounded-xl border border-zinc-200 bg-white py-2 pl-9 pr-8 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] focus:border-[#2F5BFF] shadow-2xs"
               />
               {searchEmployee && (
                 <button
@@ -764,7 +764,7 @@ export default function DemoScheduleReviewPage() {
                     }}
                     className={`capitalize whitespace-nowrap rounded-xl px-2.5 sm:px-3 py-1.5 text-xs font-semibold transition shrink-0 ${
                       isSelected
-                        ? "bg-[#0B0F1A] text-white shadow-2xs"
+                        ? "bg-[#2F2C59] text-white shadow-2xs"
                         : "bg-zinc-50 border border-zinc-200 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
                     }`}
                   >
@@ -786,7 +786,7 @@ export default function DemoScheduleReviewPage() {
                     <tr className="border-b border-zinc-200 bg-zinc-50/90 text-xs font-bold uppercase tracking-wider text-zinc-600">
                       <th className="py-3 sm:py-4 px-3 sm:px-5 w-44 sm:w-56 md:w-64 lg:w-72 min-w-[160px] sm:min-w-[220px] md:min-w-[260px] sticky left-0 z-20 bg-zinc-50/95 backdrop-blur-xs border-r border-zinc-200">
                         <div className="flex items-center space-x-1.5 sm:space-x-2">
-                          <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#FF5A36] shrink-0" />
+                          <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#FF7A59] shrink-0" />
                           <span className="truncate text-xs">Staff ({filteredEmployees.length})</span>
                         </div>
                       </th>
@@ -814,7 +814,7 @@ export default function DemoScheduleReviewPage() {
                         <tr key={emp.id} className="hover:bg-zinc-50/40 transition-colors">
                           <td className="py-3 sm:py-4 px-2.5 sm:px-4 md:px-5 align-top sticky left-0 z-10 bg-white border-r border-zinc-200 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.04)] w-44 sm:w-56 md:w-64 lg:w-72 min-w-[160px] sm:min-w-[220px] md:min-w-[260px]">
                             <div className="flex items-start space-x-2 sm:space-x-3">
-                              <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-[#0B0F1A] text-white font-extrabold text-[10px] sm:text-xs shadow-2xs">
+                              <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-[#2F2C59] text-white font-extrabold text-[10px] sm:text-xs shadow-2xs">
                                 {emp.name.charAt(0)}
                               </div>
                               <div className="min-w-0 flex-1">
@@ -899,17 +899,17 @@ export default function DemoScheduleReviewPage() {
               {/* Left: Shift Color Palette Legend */}
               <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-500 font-medium">
                 <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                  <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#F59E0B] ring-2 ring-[#F59E0B]/30 shadow-2xs" />
+                  <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#2F5BFF] ring-2 ring-[#2F5BFF]/30 shadow-2xs" />
                   <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Morning Shift</span>
                   <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">07:00–15:00</span>
                 </div>
                 <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                  <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#FF5A36] ring-2 ring-[#FF5A36]/30 shadow-2xs" />
+                  <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#FF7A59] ring-2 ring-[#FF7A59]/30 shadow-2xs" />
                   <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Afternoon Shift</span>
                   <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">14:30–22:30</span>
                 </div>
                 <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#6366F1] ring-2 ring-[#6366F1]/30 shadow-2xs" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#2F2C59] ring-2 ring-[#2F2C59]/30 shadow-2xs" />
                   <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Night Shift</span>
                   <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">22:00–06:00</span>
                 </div>
@@ -970,7 +970,7 @@ export default function DemoScheduleReviewPage() {
           <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white p-4 sm:p-6 lg:p-7 shadow-xs space-y-3 sm:space-y-4 animate-in fade-in duration-150">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-zinc-100">
               <div className="flex items-center space-x-2">
-                <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5 text-[#FF5A36] shrink-0" />
+                <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5 text-[#FF7A59] shrink-0" />
                 <h3 className="font-bold text-base sm:text-lg text-zinc-900">October 2026 Monthly Matrix</h3>
               </div>
               <span className="text-[11px] sm:text-xs text-zinc-500">
@@ -1012,14 +1012,14 @@ export default function DemoScheduleReviewPage() {
                     }}
                     className={`min-h-[70px] sm:min-h-[95px] md:min-h-[110px] rounded-xl sm:rounded-2xl border p-1.5 sm:p-2 flex flex-col justify-between transition ${
                       hasShifts
-                        ? "border-zinc-200 bg-white hover:border-[#FF5A36]/60 hover:shadow-sm cursor-pointer"
+                        ? "border-zinc-200 bg-white hover:border-[#2F5BFF]/60 hover:shadow-sm cursor-pointer"
                         : "border-zinc-100 bg-zinc-50/40 text-zinc-400"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-1">
                       <span
                         className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 ${
-                          hasShifts ? "bg-[#0B0F1A] text-white" : "text-zinc-500"
+                          hasShifts ? "bg-[#2F2C59] text-white" : "text-zinc-500"
                         }`}
                       >
                         {cell.dayNum}
@@ -1065,7 +1065,7 @@ export default function DemoScheduleReviewPage() {
           <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white p-4 sm:p-6 lg:p-7 shadow-xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <h3 className="font-bold text-sm sm:text-base text-zinc-900 flex items-center space-x-2">
-                <Database className="h-4 w-4 text-[#FF5A36] shrink-0" />
+                <Database className="h-4 w-4 text-[#FF7A59] shrink-0" />
                 <span>Prisma ORM & SQL DDL</span>
               </h3>
               <button
@@ -1150,7 +1150,7 @@ CREATE TABLE IF NOT EXISTS shift_assignments (
                   </button>
                   <button
                     type="submit"
-                    className="rounded-xl bg-[#0B0F1A] px-3.5 sm:px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800 transition"
+                    className="rounded-xl bg-[#2F2C59] px-3.5 sm:px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] transition border border-[#2F2C59]"
                   >
                     Add to Calendar
                   </button>
@@ -1181,7 +1181,7 @@ CREATE TABLE IF NOT EXISTS shift_assignments (
                 <button
                   type="button"
                   onClick={() => handleCopy(window.location.href, "share-link")}
-                  className="rounded-xl bg-[#0B0F1A] px-3 sm:px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 transition shrink-0"
+                  className="rounded-xl bg-[#2F2C59] px-3 sm:px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-[#1E1B3A] transition shrink-0 border border-[#2F2C59]"
                 >
                   {copiedType === "share-link" ? "Copied!" : "Copy"}
                 </button>

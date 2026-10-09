@@ -321,15 +321,15 @@ export default function CustomDatePicker({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start space-x-2 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 py-2 text-xs font-bold text-zinc-900 shadow-2xs transition focus:outline-hidden hover:border-[#FF5A36]/50 active:scale-[0.99] group"
+        className="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start space-x-2 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 px-3.5 py-2 text-xs font-bold text-zinc-900 shadow-2xs transition focus:outline-hidden hover:border-[#2F5BFF]/50 active:scale-[0.99] group"
       >
         <div className="flex items-center space-x-2 truncate">
-          <CalendarIcon className="h-4 w-4 text-[#FF5A36] shrink-0 group-hover:rotate-6 transition-transform" />
+          <CalendarIcon className="h-4 w-4 text-[#2F5BFF] shrink-0 group-hover:rotate-6 transition-transform" />
           <span className="truncate">{buttonLabel}</span>
         </div>
         <ChevronDown
           className={`h-3.5 w-3.5 text-zinc-400 transition-transform duration-150 shrink-0 ${
-            isOpen ? "rotate-180 text-[#FF5A36]" : ""
+            isOpen ? "rotate-180 text-[#2F5BFF]" : ""
           }`}
         />
       </button>
@@ -343,10 +343,10 @@ export default function CustomDatePicker({
               {/* Range Instruction Pill */}
               <div className="flex items-center justify-between">
                 {rangeStep === "selecting_end" ? (
-                  <span className="inline-flex items-center text-[11px] font-bold text-[#FF5A36]">
+                  <span className="inline-flex items-center text-[11px] font-bold text-[#FF7A59]">
                     <span className="relative flex h-2 w-2 mr-1.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5A36] opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5A36]"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF7A59] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF7A59]"></span>
                     </span>
                     Click End Date to complete range
                   </span>
@@ -356,7 +356,7 @@ export default function CustomDatePicker({
                       {effectiveStart} → {effectiveEnd}
                     </span>
                     {rangeDurationText && (
-                      <span className="text-[10px] font-bold bg-orange-500/10 text-[#FF5A36] px-1.5 py-0.5 rounded-md border border-[#FF5A36]/20">
+                      <span className="text-[10px] font-bold bg-blue-500/10 text-[#2F5BFF] px-1.5 py-0.5 rounded-md border border-[#2F5BFF]/20">
                         {rangeDurationText}
                       </span>
                     )}
@@ -383,28 +383,28 @@ export default function CustomDatePicker({
                 <button
                   type="button"
                   onClick={applyThisWeek}
-                  className="rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-orange-500/10 hover:text-[#FF5A36] hover:border-[#FF5A36]/40 transition"
+                  className="rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-blue-500/10 hover:text-[#2F5BFF] hover:border-[#2F5BFF]/40 transition"
                 >
                   This Week
                 </button>
                 <button
                   type="button"
                   onClick={() => applyPreset(3)}
-                  className="rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-orange-500/10 hover:text-[#FF5A36] hover:border-[#FF5A36]/40 transition"
+                  className="rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-blue-500/10 hover:text-[#2F5BFF] hover:border-[#2F5BFF]/40 transition"
                 >
                   3 Days
                 </button>
                 <button
                   type="button"
                   onClick={() => applyPreset(5)}
-                  className="rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-orange-500/10 hover:text-[#FF5A36] hover:border-[#FF5A36]/40 transition"
+                  className="rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-blue-500/10 hover:text-[#2F5BFF] hover:border-[#2F5BFF]/40 transition"
                 >
                   5 Days
                 </button>
                 <button
                   type="button"
                   onClick={() => applyPreset(7)}
-                  className="rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-orange-500/10 hover:text-[#FF5A36] hover:border-[#FF5A36]/40 transition"
+                  className="rounded-lg border border-zinc-200 bg-zinc-50 px-2 py-1 text-[11px] font-medium text-zinc-700 hover:bg-blue-500/10 hover:text-[#2F5BFF] hover:border-[#2F5BFF]/40 transition"
                 >
                   7 Days
                 </button>
@@ -422,7 +422,7 @@ export default function CustomDatePicker({
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-sm font-extrabold text-[#0B0F1A]">
+            <span className="text-sm font-extrabold text-[#2F2C59]">
               {monthHeaderTitle}
             </span>
             <button
@@ -479,15 +479,15 @@ export default function CustomDatePicker({
                   }}
                   className={`relative py-0.5 flex items-center justify-center transition-colors ${
                     isInRange && !isRangeStart && !isRangeEnd
-                      ? "bg-orange-500/10 text-orange-950 font-bold"
+                      ? "bg-blue-500/10 text-indigo-950 font-bold"
                       : ""
                   } ${
                     isRangeStart && effectiveStart !== effectiveEnd
-                      ? "bg-gradient-to-r from-transparent to-orange-500/10 rounded-l-xl"
+                      ? "bg-gradient-to-r from-transparent to-blue-500/10 rounded-l-xl"
                       : ""
                   } ${
                     isRangeEnd && effectiveStart !== effectiveEnd
-                      ? "bg-gradient-to-l from-transparent to-orange-500/10 rounded-r-xl"
+                      ? "bg-gradient-to-l from-transparent to-blue-500/10 rounded-r-xl"
                       : ""
                   }`}
                 >
@@ -496,10 +496,10 @@ export default function CustomDatePicker({
                     onClick={() => handleCellClick(dateStr)}
                     className={`h-8 w-8 rounded-xl flex items-center justify-center text-xs transition duration-150 ${
                       isSelected || isRangeStart || isRangeEnd
-                        ? "bg-[#FF5A36] text-white shadow-xs font-extrabold hover:bg-[#e04826] scale-105"
+                        ? "bg-[#2F5BFF] text-white shadow-xs font-extrabold hover:bg-[#254acc] scale-105"
                         : isCurrentMonth
                         ? isInRange
-                          ? "text-[#FF5A36] font-extrabold hover:bg-[#FF5A36]/20"
+                          ? "text-[#2F5BFF] font-extrabold hover:bg-[#2F5BFF]/20"
                           : "text-zinc-800 hover:bg-zinc-100 font-medium"
                         : "text-zinc-300 hover:text-zinc-500 hover:bg-zinc-50 font-normal"
                     }`}
@@ -523,9 +523,9 @@ export default function CustomDatePicker({
             <button
               type="button"
               onClick={handleApply}
-              className="flex-1 rounded-xl bg-[#0B0F1A] hover:bg-zinc-800 text-white py-2.5 text-xs font-bold shadow-xs transition active:scale-[0.98] border border-zinc-800 flex items-center justify-center space-x-1.5"
+              className="flex-1 rounded-xl bg-[#2F2C59] hover:bg-[#1E1B3A] text-white py-2.5 text-xs font-bold shadow-xs transition active:scale-[0.98] border border-[#2F2C59] flex items-center justify-center space-x-1.5"
             >
-              <Sparkles className="h-3.5 w-3.5 text-[#FF5A36]" />
+              <Sparkles className="h-3.5 w-3.5 text-[#FF7A59]" />
               <span>Apply Range</span>
             </button>
           </div>

@@ -32,7 +32,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({ value, onChange }) => 
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="e.g., Create a weekly schedule. Make sure employees are assigned only during their available hours and do not exceed their maximum working hours."
-          className="block w-full rounded-xl border border-zinc-200 bg-white p-4 text-sm text-zinc-900 placeholder-zinc-400 shadow-2xs focus:border-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-zinc-900 leading-relaxed transition"
+          className="block w-full rounded-2xl border border-zinc-200 bg-white p-4 text-sm text-zinc-900 placeholder-zinc-400 shadow-2xs focus:border-[#2F5BFF] focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/10 leading-relaxed transition"
         />
       </div>
 
@@ -44,7 +44,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({ value, onChange }) => 
             key={pIdx}
             type="button"
             onClick={() => onChange(preset)}
-            className="rounded-lg bg-zinc-100/80 hover:bg-zinc-200/80 border border-zinc-200/60 px-2.5 py-1 text-[11px] font-medium text-zinc-700 transition"
+            className="rounded-xl bg-indigo-50/50 hover:bg-indigo-100/70 border border-indigo-100/80 px-2.5 py-1 text-[11px] font-medium text-zinc-700 transition"
           >
             {preset.slice(0, 38)}...
           </button>
