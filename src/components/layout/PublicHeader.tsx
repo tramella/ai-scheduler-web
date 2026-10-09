@@ -30,7 +30,7 @@ export const PublicHeader: React.FC = () => {
             className="flex items-center space-x-3 group transition opacity-95 hover:opacity-100 focus:outline-hidden"
           >
             <Image
-              src="/orbit-logo-dark.svg"
+              src="/images/logo/orbit-weave-logo-indigo-light-bg.svg"
               alt="ORBIT"
               width={140}
               height={40}

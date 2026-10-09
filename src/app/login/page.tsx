@@ -36,7 +36,7 @@ export default function LoginPage() {
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center mb-2 group transition">
             <Image
-              src="/orbit-logo-dark.svg"
+              src="/images/logo/orbit-weave-logo-indigo-light-bg.svg"
               alt="ORBIT"
               width={160}
               height={48}

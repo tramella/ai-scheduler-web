@@ -11,7 +11,7 @@ export const PublicFooter: React.FC = () => {
           <div className="md:col-span-2 space-y-4">
             <Link href="/" className="inline-flex items-center group transition opacity-95 hover:opacity-100">
               <Image
-                src="/orbit-logo-light.svg"
+                src="/images/logo/orbit-weave-logo-dark-bg.svg"
                 alt="ORBIT"
                 width={120}
                 height={36}

@@ -618,39 +618,39 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
   return (
     <div className="space-y-6">
       {/* ================= 1. TOP HERO & ACTION CONTROLS ================= */}
-      <div className="rounded-3xl border border-zinc-200/80 bg-white/90 backdrop-blur-xs p-6 sm:p-7 shadow-xs relative overflow-hidden">
+      <div className="rounded-3xl border border-zinc-200/80 bg-white/90 backdrop-blur-xs p-4 sm:p-6 lg:p-7 shadow-xs relative overflow-hidden">
         {/* Subtle decorative glow */}
         <div className="absolute top-0 right-0 -z-10 w-96 h-48 bg-gradient-to-l from-[#FF5A36]/8 to-transparent blur-2xl pointer-events-none"></div>
 
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div>
-            <div className="flex items-center space-x-2.5 mb-2">
-              <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200/80 shadow-2xs">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold text-emerald-700 border border-emerald-200/80 shadow-2xs">
                 <span className="relative flex h-2 w-2 mr-1.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
                 AI Schedule Generated & Verified
               </span>
-              <span className="text-zinc-300">•</span>
-              <span className="text-xs font-mono font-bold text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-md">
+              <span className="text-zinc-300 hidden sm:inline">•</span>
+              <span className="text-[11px] sm:text-xs font-mono font-bold text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-md">
                 {viewMode === "day" ? singleDate : `${startDate} → ${endDate}`}
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0B0F1A]">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-[#0B0F1A]">
               Workforce Roster Matrix
             </h2>
-            <p className="mt-1 text-xs sm:text-sm text-zinc-500 max-w-2xl">
+            <p className="mt-1 text-xs sm:text-sm text-zinc-500 max-w-2xl leading-relaxed">
               Optimized resource schedule for {employeesList.length} staff members with balanced workload, legal rest compliance, and zero shift conflicts.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-2.5 w-full lg:w-auto shrink-0">
             <button
               type="button"
               onClick={() => setIsAddShiftOpen(true)}
-              className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99]"
+              className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 sm:px-3.5 py-2 sm:py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99]"
             >
               <Plus className="h-3.5 w-3.5 text-[#FF5A36]" />
               <span>Add Shift</span>
@@ -659,7 +659,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={() => setIsShareModalOpen(true)}
-              className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99]"
+              className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 sm:px-3.5 py-2 sm:py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99]"
             >
               <Share2 className="h-3.5 w-3.5 text-zinc-500" />
               <span>Share</span>
@@ -668,7 +668,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={onRegenerate}
-              className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99]"
+              className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 sm:px-3.5 py-2 sm:py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99]"
             >
               <RefreshCw className="h-3.5 w-3.5 text-zinc-500" />
               <span>Regenerate</span>
@@ -678,100 +678,100 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
               type="button"
               onClick={handleExport}
               disabled={isExporting}
-              className="inline-flex items-center space-x-1.5 rounded-xl bg-[#0B0F1A] px-4 py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 disabled:opacity-50 transition active:scale-[0.99] border border-zinc-800 shadow-xs group"
+              className="col-span-2 sm:col-span-1 inline-flex items-center justify-center space-x-1.5 rounded-xl bg-[#0B0F1A] px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 disabled:opacity-50 transition active:scale-[0.99] border border-zinc-800 shadow-xs group"
             >
               <Download className="h-3.5 w-3.5 text-[#FF5A36] group-hover:translate-y-0.5 transition-transform" />
-              <span>{isExporting ? "Exporting..." : "Export Excel (.xlsx)"}</span>
+              <span>{isExporting ? "Exporting..." : "Export (.xlsx)"}</span>
             </button>
           </div>
         </div>
 
         {exportError && (
-          <div className="mt-4 rounded-xl bg-rose-50 p-3 text-xs font-medium text-rose-700 border border-rose-200">
+          <div className="mt-3 sm:mt-4 rounded-xl bg-rose-50 p-3 text-xs font-medium text-rose-700 border border-rose-200">
             {exportError}
           </div>
         )}
       </div>
 
       {/* ================= 2. EXECUTIVE KPI METRICS STRIP ================= */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-2xs hover:border-zinc-300 transition duration-150">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-3 sm:p-4 shadow-2xs hover:border-zinc-300 transition duration-150">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Total Staff</span>
-            <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
-              <Users className="h-4 w-4" />
+            <span className="text-[11px] sm:text-xs font-bold text-zinc-400 uppercase tracking-wider">Total Staff</span>
+            <div className="p-1.5 sm:p-2 rounded-xl bg-blue-50 text-blue-600">
+              <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
           </div>
-          <div className="mt-2 flex items-baseline space-x-2">
-            <span className="text-2xl font-extrabold tracking-tight text-[#0B0F1A]">
+          <div className="mt-1.5 sm:mt-2 flex items-baseline space-x-1.5 sm:space-x-2">
+            <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#0B0F1A]">
               {kpiStats.totalStaff}
             </span>
-            <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
               Active
             </span>
           </div>
-          <p className="mt-1 text-[11px] text-zinc-400">100% staff assigned to shifts</p>
+          <p className="mt-1 text-[10px] sm:text-[11px] text-zinc-400 truncate">100% assigned to shifts</p>
         </div>
 
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-2xs hover:border-zinc-300 transition duration-150">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-3 sm:p-4 shadow-2xs hover:border-zinc-300 transition duration-150">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Scheduled Hours</span>
-            <div className="p-2 rounded-xl bg-orange-50 text-[#FF5A36]">
-              <Timer className="h-4 w-4" />
+            <span className="text-[11px] sm:text-xs font-bold text-zinc-400 uppercase tracking-wider">Scheduled Hours</span>
+            <div className="p-1.5 sm:p-2 rounded-xl bg-orange-50 text-[#FF5A36]">
+              <Timer className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
           </div>
-          <div className="mt-2 flex items-baseline space-x-2">
-            <span className="text-2xl font-extrabold tracking-tight text-[#0B0F1A]">
+          <div className="mt-1.5 sm:mt-2 flex items-baseline space-x-1.5 sm:space-x-2">
+            <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#0B0F1A]">
               {kpiStats.totalHours} hrs
             </span>
-            <span className="text-xs font-semibold text-zinc-500">
+            <span className="text-[10px] sm:text-xs font-semibold text-zinc-500">
               ~{kpiStats.avgHours}h/staff
             </span>
           </div>
-          <p className="mt-1 text-[11px] text-zinc-400">Balanced weekly distribution</p>
+          <p className="mt-1 text-[10px] sm:text-[11px] text-zinc-400 truncate">Balanced distribution</p>
         </div>
 
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-2xs hover:border-zinc-300 transition duration-150">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-3 sm:p-4 shadow-2xs hover:border-zinc-300 transition duration-150">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Total Shifts</span>
-            <div className="p-2 rounded-xl bg-violet-50 text-violet-600">
-              <Layers className="h-4 w-4" />
+            <span className="text-[11px] sm:text-xs font-bold text-zinc-400 uppercase tracking-wider">Total Shifts</span>
+            <div className="p-1.5 sm:p-2 rounded-xl bg-violet-50 text-violet-600">
+              <Layers className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
           </div>
-          <div className="mt-2 flex items-baseline space-x-2">
-            <span className="text-2xl font-extrabold tracking-tight text-[#0B0F1A]">
-              {kpiStats.totalShifts} shifts
+          <div className="mt-1.5 sm:mt-2 flex items-baseline space-x-1.5 sm:space-x-2">
+            <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-[#0B0F1A]">
+              {kpiStats.totalShifts}
             </span>
-            <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] sm:text-xs font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
               100% Filled
             </span>
           </div>
-          <p className="mt-1 text-[11px] text-zinc-400">Across {schedules.length} scheduled days</p>
+          <p className="mt-1 text-[10px] sm:text-[11px] text-zinc-400 truncate">Across {schedules.length} days</p>
         </div>
 
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-2xs hover:border-zinc-300 transition duration-150">
+        <div className="rounded-2xl border border-zinc-200/80 bg-white p-3 sm:p-4 shadow-2xs hover:border-zinc-300 transition duration-150">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Labor Compliance</span>
-            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
-              <ShieldCheck className="h-4 w-4" />
+            <span className="text-[11px] sm:text-xs font-bold text-zinc-400 uppercase tracking-wider">Compliance</span>
+            <div className="p-1.5 sm:p-2 rounded-xl bg-emerald-50 text-emerald-600">
+              <ShieldCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
           </div>
-          <div className="mt-2 flex items-baseline space-x-2">
-            <span className="text-2xl font-extrabold tracking-tight text-emerald-600">
+          <div className="mt-1.5 sm:mt-2 flex items-baseline space-x-1.5 sm:space-x-2">
+            <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-emerald-600">
               {kpiStats.complianceRate}
             </span>
-            <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] sm:text-xs font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
               Verified
             </span>
           </div>
-          <p className="mt-1 text-[11px] text-zinc-400">0 Overtime & 0 Overlaps</p>
+          <p className="mt-1 text-[10px] sm:text-[11px] text-zinc-400 truncate">0 Overtime / Overlaps</p>
         </div>
       </div>
 
       {/* ================= 3. CUSTOM DATE PICKER & VIEW SWITCHER TOOLBAR ================= */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 py-1">
         {/* Left: 1 Single Custom Date Picker */}
-        <div className="flex items-center">
+        <div className="w-full sm:w-auto">
           <CustomDatePicker
             mode={viewMode === "day" ? "day" : viewMode === "month" ? "month" : "week"}
             startDate={startDate}
@@ -786,11 +786,11 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
         </div>
 
         {/* Right: View Switcher (Week / Day / Month / Table) */}
-        <div className="flex items-center space-x-1 bg-zinc-100/90 p-1 rounded-xl border border-zinc-200/80 shrink-0">
+        <div className="flex items-center space-x-1 bg-zinc-100/90 p-1 rounded-xl border border-zinc-200/80 w-full sm:w-auto justify-between sm:justify-start overflow-x-auto">
           <button
             type="button"
             onClick={() => setViewMode("week")}
-            className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
+            className={`flex-1 sm:flex-none text-center rounded-lg px-3 sm:px-3.5 py-1.5 text-xs font-bold transition ${
               viewMode === "week"
                 ? "bg-white text-zinc-900 shadow-xs"
                 : "text-zinc-600 hover:text-zinc-900"
@@ -801,7 +801,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           <button
             type="button"
             onClick={() => setViewMode("day")}
-            className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
+            className={`flex-1 sm:flex-none text-center rounded-lg px-3 sm:px-3.5 py-1.5 text-xs font-bold transition ${
               viewMode === "day"
                 ? "bg-white text-zinc-900 shadow-xs"
                 : "text-zinc-600 hover:text-zinc-900"
@@ -812,7 +812,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           <button
             type="button"
             onClick={() => setViewMode("month")}
-            className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
+            className={`flex-1 sm:flex-none text-center rounded-lg px-3 sm:px-3.5 py-1.5 text-xs font-bold transition ${
               viewMode === "month"
                 ? "bg-white text-zinc-900 shadow-xs"
                 : "text-zinc-600 hover:text-zinc-900"
@@ -823,7 +823,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           <button
             type="button"
             onClick={() => setViewMode("table")}
-            className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
+            className={`flex-1 sm:flex-none text-center rounded-lg px-3 sm:px-3.5 py-1.5 text-xs font-bold transition ${
               viewMode === "table"
                 ? "bg-white text-zinc-900 shadow-xs"
                 : "text-zinc-600 hover:text-zinc-900"
@@ -836,8 +836,8 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= 4. SEARCH BAR & ROLE FILTER CHIPS ================= */}
       {viewMode !== "month" && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-1">
-          <div className="relative flex-1 max-w-sm">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 py-1">
+          <div className="relative w-full md:w-72 lg:w-80">
             <Search className="pointer-events-none absolute inset-y-0 left-0 h-4 w-4 my-auto ml-3.5 text-zinc-400" />
             <input
               type="text"
@@ -846,7 +846,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setSearchEmployee(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Search staff by name or ID (e.g. 'NV001', 'An')..."
+              placeholder="Search staff name or ID..."
               className="w-full rounded-xl border border-zinc-200 bg-white py-2 pl-9 pr-8 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-hidden focus:ring-1 focus:ring-[#0B0F1A] transition shadow-2xs"
             />
             {searchEmployee && (
@@ -860,7 +860,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             )}
           </div>
 
-          <div className="flex items-center space-x-1.5 overflow-x-auto scrollbar-none py-0.5">
+          <div className="flex items-center space-x-1.5 overflow-x-auto scrollbar-none py-1 -mx-2 px-2 sm:mx-0 sm:px-0 w-full md:w-auto">
             {rolesWithCount.map((r) => {
               const isSelected = selectedRole === r.role;
               return (
@@ -871,7 +871,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                     setSelectedRole(r.role);
                     setCurrentPage(1);
                   }}
-                  className={`capitalize whitespace-nowrap rounded-xl px-3 py-1.5 text-xs font-semibold transition flex items-center space-x-1.5 ${
+                  className={`capitalize whitespace-nowrap rounded-xl px-2.5 sm:px-3 py-1.5 text-xs font-semibold transition flex items-center space-x-1.5 shrink-0 ${
                     isSelected
                       ? "bg-[#0B0F1A] text-white shadow-2xs"
                       : "bg-zinc-50 border border-zinc-200/80 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
@@ -895,15 +895,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
       {/* ================= 5. VIEW 1 & 2: CALENDAR MATRIX (WEEK & DAY) ================= */}
       {(viewMode === "week" || viewMode === "day") && (
         <div className="space-y-4">
-          <div className="rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
+          <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-left text-sm">
                 <thead>
                   <tr className="border-b border-zinc-200/90 bg-zinc-50/90 text-xs font-bold uppercase tracking-wider text-zinc-600">
-                    <th className="py-4 px-5 min-w-[250px] sm:min-w-[280px] sticky left-0 z-20 bg-zinc-50/95 backdrop-blur-xs border-r border-zinc-200">
-                      <div className="flex items-center space-x-2">
-                        <User className="h-4 w-4 text-[#FF5A36]" />
-                        <span>Staff Member ({filteredEmployees.length})</span>
+                    <th className="py-3 sm:py-4 px-3 sm:px-5 w-44 sm:w-56 md:w-64 lg:w-72 min-w-[160px] sm:min-w-[220px] md:min-w-[260px] sticky left-0 z-20 bg-zinc-50/95 backdrop-blur-xs border-r border-zinc-200">
+                      <div className="flex items-center space-x-1.5 sm:space-x-2">
+                        <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#FF5A36] shrink-0" />
+                        <span className="truncate text-xs">Staff ({filteredEmployees.length})</span>
                       </div>
                     </th>
 
@@ -917,15 +917,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                       return (
                         <th
                           key={dateStr}
-                          className="py-3.5 px-4 min-w-[200px] sm:min-w-[230px] border-r border-zinc-100 last:border-r-0 text-center"
+                          className="py-2.5 sm:py-3.5 px-2.5 sm:px-4 min-w-[140px] sm:min-w-[180px] md:min-w-[210px] border-r border-zinc-100 last:border-r-0 text-center"
                         >
-                          <div className="flex items-center justify-center space-x-2">
-                            <span className="font-extrabold text-sm text-zinc-900">{dayOfWeek}</span>
-                            <span className="text-[10px] font-bold text-zinc-500 bg-zinc-200/70 px-1.5 py-0.5 rounded-md">
+                          <div className="flex items-center justify-center space-x-1.5 sm:space-x-2">
+                            <span className="font-extrabold text-xs sm:text-sm text-zinc-900">{dayOfWeek}</span>
+                            <span className="text-[9px] sm:text-[10px] font-bold text-zinc-500 bg-zinc-200/70 px-1.5 py-0.5 rounded-md whitespace-nowrap">
                               {totalDayShifts} shifts
                             </span>
                           </div>
-                          <div className="text-[11px] font-mono text-zinc-400 font-medium mt-0.5">{dayNum}</div>
+                          <div className="text-[10px] sm:text-[11px] font-mono text-zinc-400 font-medium mt-0.5">{dayNum}</div>
                         </th>
                       );
                     })}
@@ -940,10 +940,10 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
                       return (
                         <tr key={emp.id} className="hover:bg-zinc-50/50 transition-colors">
-                          <td className="py-4 px-5 align-top sticky left-0 z-10 bg-white border-r border-zinc-200 shadow-[3px_0_8px_-3px_rgba(0,0,0,0.03)]">
-                            <div className="flex items-start space-x-3">
+                          <td className="py-3 sm:py-4 px-2.5 sm:px-4 md:px-5 align-top sticky left-0 z-10 bg-white border-r border-zinc-200 shadow-[3px_0_8px_-3px_rgba(0,0,0,0.03)] w-44 sm:w-56 md:w-64 lg:w-72 min-w-[160px] sm:min-w-[220px] md:min-w-[260px]">
+                            <div className="flex items-start space-x-2 sm:space-x-3">
                               <div
-                                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl font-extrabold text-xs shadow-sm ${avatarClass}`}
+                                className={`flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl font-extrabold text-[10px] sm:text-xs shadow-2xs ${avatarClass}`}
                               >
                                 {initial}
                               </div>
@@ -951,19 +951,19 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                 <p className="font-bold text-xs sm:text-sm text-zinc-900 truncate">
                                   {emp.name}
                                 </p>
-                                <div className="flex items-center space-x-1.5 text-[11px] text-zinc-500 mt-0.5">
-                                  <span className="font-mono text-[10px] text-zinc-600 bg-zinc-100 px-1.5 py-0.5 rounded font-bold">
+                                <div className="flex flex-wrap sm:flex-nowrap items-center gap-1 sm:space-x-1.5 text-[10px] sm:text-[11px] text-zinc-500 mt-0.5">
+                                  <span className="font-mono text-[9px] sm:text-[10px] text-zinc-600 bg-zinc-100 px-1.5 py-0.5 rounded font-bold shrink-0">
                                     {emp.id}
                                   </span>
-                                  <span>•</span>
+                                  <span className="hidden sm:inline">•</span>
                                   <span className="truncate font-medium text-zinc-600">{emp.role}</span>
                                 </div>
-                                <div className="mt-2 flex items-center space-x-2 text-[10px] font-medium text-zinc-400">
-                                  <span className="bg-zinc-50 border border-zinc-200 px-1.5 py-0.5 rounded">
+                                <div className="mt-1 sm:mt-2 flex flex-wrap sm:flex-nowrap items-center gap-1 sm:space-x-2 text-[9px] sm:text-[10px] font-medium text-zinc-400">
+                                  <span className="bg-zinc-50 border border-zinc-200 px-1 sm:px-1.5 py-0.5 rounded shrink-0">
                                     {emp.shiftCount} shifts
                                   </span>
-                                  <span>•</span>
-                                  <span className="text-zinc-600 font-semibold">{emp.totalHours} hrs/wk</span>
+                                  <span className="hidden sm:inline">•</span>
+                                  <span className="text-zinc-600 font-semibold whitespace-nowrap">{emp.totalHours} hrs/wk</span>
                                 </div>
                               </div>
                             </div>
@@ -976,10 +976,10 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                             return (
                               <td
                                 key={dateStr}
-                                className="py-3.5 px-3.5 align-top border-r border-zinc-100 last:border-r-0"
+                                className="py-2.5 sm:py-3.5 px-2 sm:px-3.5 align-top border-r border-zinc-100 last:border-r-0 min-w-[140px] sm:min-w-[180px] md:min-w-[210px]"
                               >
                                 {shiftsForCell.length > 0 ? (
-                                  <div className="space-y-2">
+                                  <div className="space-y-1.5 sm:space-y-2">
                                     {shiftsForCell.map((shift) => {
                                       const theme = getShiftBadgeTheme(shift.shiftName);
                                       const IconComponent = theme.icon;
@@ -987,21 +987,21 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                       return (
                                         <div
                                           key={shift.id}
-                                          className={`rounded-2xl border p-3 shadow-2xs transition duration-150 hover:shadow-xs hover:border-zinc-300 ${theme.bg} ${theme.borderLeft}`}
+                                          className={`rounded-xl sm:rounded-2xl border p-2 sm:p-2.5 lg:p-3 shadow-2xs transition duration-150 hover:shadow-xs hover:border-zinc-300 ${theme.bg} ${theme.borderLeft}`}
                                         >
                                           <div className="flex items-center justify-between gap-1">
-                                            <span className="font-extrabold text-xs text-zinc-900 truncate">
+                                            <span className="font-extrabold text-[11px] sm:text-xs text-zinc-900 truncate">
                                               {shift.shiftName}
                                             </span>
                                             <IconComponent className={`h-3.5 w-3.5 shrink-0 ${theme.iconColor}`} />
                                           </div>
-                                          <div className="flex items-center space-x-1 text-[11px] font-mono mt-1 text-zinc-700 font-semibold">
+                                          <div className="flex items-center space-x-1 text-[10px] sm:text-[11px] font-mono mt-1 text-zinc-700 font-semibold">
                                             <Clock className="h-3 w-3 shrink-0 text-zinc-400" />
-                                            <span>
+                                            <span className="truncate">
                                               {shift.start} – {shift.end}
                                             </span>
                                           </div>
-                                          <div className="flex items-center space-x-1 text-[10px] mt-1 text-zinc-500 truncate">
+                                          <div className="flex items-center space-x-1 text-[9px] sm:text-[10px] mt-0.5 sm:mt-1 text-zinc-500 truncate">
                                             <MapPin className="h-3 w-3 shrink-0 text-zinc-400" />
                                             <span className="truncate">{shift.locationName}</span>
                                           </div>
@@ -1010,7 +1010,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                     })}
                                   </div>
                                 ) : (
-                                  <div className="h-full min-h-[72px] flex items-center justify-center rounded-2xl border border-dashed border-zinc-200/80 bg-zinc-50/30 text-[11px] font-medium text-zinc-400 hover:border-zinc-300 transition">
+                                  <div className="h-full min-h-[58px] sm:min-h-[72px] flex items-center justify-center rounded-xl sm:rounded-2xl border border-dashed border-zinc-200/80 bg-zinc-50/30 text-[10px] sm:text-[11px] font-medium text-zinc-400 hover:border-zinc-300 transition">
                                     <span className="opacity-50 font-mono">Off</span>
                                   </div>
                                 )}
@@ -1033,30 +1033,29 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           </div>
 
           {/* ================= 6. SHIFT COLOR LEGEND & EMPLOYEE PAGINATION ROW ================= */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 py-2 px-1">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-2 px-1">
             {/* Left: Shift Color Palette Legend */}
-            <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 font-medium">
-              {/* <span className="font-bold uppercase tracking-wider text-[10px] text-zinc-400">Shift Colors:</span> */}
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-500 font-medium">
               <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#F59E0B] ring-2 ring-[#F59E0B]/30 shadow-2xs" />
-                <span className="font-semibold text-zinc-800 text-xs">Morning Shift</span>
-                <span className="text-[10px] font-mono text-zinc-400 font-medium">07:00–15:00</span>
+                <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#F59E0B] ring-2 ring-[#F59E0B]/30 shadow-2xs" />
+                <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Morning Shift</span>
+                <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">07:00–15:00</span>
               </div>
               <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#FF5A36] ring-2 ring-[#FF5A36]/30 shadow-2xs" />
-                <span className="font-semibold text-zinc-800 text-xs">Afternoon Shift</span>
-                <span className="text-[10px] font-mono text-zinc-400 font-medium">14:30–22:30</span>
+                <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#FF5A36] ring-2 ring-[#FF5A36]/30 shadow-2xs" />
+                <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Afternoon Shift</span>
+                <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">14:30–22:30</span>
               </div>
               <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#6366F1] ring-2 ring-[#6366F1]/30 shadow-2xs" />
-                <span className="font-semibold text-zinc-800 text-xs">Night Shift</span>
-                <span className="text-[10px] font-mono text-zinc-400 font-medium">22:00–06:00</span>
+                <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#6366F1] ring-2 ring-[#6366F1]/30 shadow-2xs" />
+                <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Night Shift</span>
+                <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">22:00–06:00</span>
               </div>
             </div>
 
             {/* Right: Clean Employee Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex items-center space-x-1.5 self-end md:self-auto shrink-0">
+              <div className="flex items-center space-x-1 sm:space-x-1.5 self-center sm:self-auto shrink-0">
                 <button
                   type="button"
                   onClick={() => setCurrentPage(1)}
@@ -1064,7 +1063,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                   className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
                   title="First Page"
                 >
-                  <ChevronsLeft className="h-4 w-4" />
+                  <ChevronsLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </button>
                 <button
                   type="button"
@@ -1073,10 +1072,10 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                   className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
                   title="Previous Page"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </button>
 
-                <span className="px-3.5 py-1 text-xs font-bold text-zinc-800">
+                <span className="px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs font-bold text-zinc-800 whitespace-nowrap">
                   Page {currentPage} of {totalPages}
                 </span>
 
@@ -1087,7 +1086,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                   className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
                   title="Next Page"
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </button>
                 <button
                   type="button"
@@ -1096,7 +1095,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                   className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
                   title="Last Page"
                 >
-                  <ChevronsRight className="h-4 w-4" />
+                  <ChevronsRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </button>
               </div>
             )}
@@ -1106,22 +1105,22 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= 7. VIEW 3: FULL MONTH CALENDAR OVERVIEW ================= */}
       {viewMode === "month" && (
-        <div className="rounded-3xl border border-zinc-200/90 bg-white p-6 sm:p-7 shadow-xs space-y-4 animate-in fade-in duration-150">
-          <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+        <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white p-4 sm:p-6 lg:p-7 shadow-xs space-y-3 sm:space-y-4 animate-in fade-in duration-150">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-zinc-100">
             <div className="flex items-center space-x-2">
-              <CalendarDays className="h-5 w-5 text-[#FF5A36]" />
-              <h3 className="font-bold text-lg text-zinc-900">Shift Horizon Month Overview</h3>
+              <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5 text-[#FF5A36] shrink-0" />
+              <h3 className="font-bold text-base sm:text-lg text-zinc-900">Shift Horizon Month Overview</h3>
             </div>
-            <span className="text-xs text-zinc-500 font-medium">
+            <span className="text-[11px] sm:text-xs text-zinc-500 font-medium">
               Click any active date card to focus single day schedule
             </span>
           </div>
 
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-7 gap-1 sm:gap-2">
             {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((dayName) => (
               <div
                 key={dayName}
-                className="text-center py-2 text-xs font-bold uppercase tracking-wider text-zinc-400 bg-zinc-50 rounded-xl border border-zinc-100"
+                className="text-center py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 bg-zinc-50 rounded-lg sm:rounded-xl border border-zinc-100 truncate"
               >
                 {dayName}
               </div>
@@ -1135,7 +1134,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 return (
                   <div
                     key={idx}
-                    className="min-h-[110px] rounded-2xl border border-dashed border-zinc-100 bg-zinc-50/20 p-2"
+                    className="min-h-[70px] sm:min-h-[95px] md:min-h-[110px] rounded-xl sm:rounded-2xl border border-dashed border-zinc-100 bg-zinc-50/20 p-1 sm:p-2"
                   />
                 );
               }
@@ -1149,48 +1148,48 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                       setViewMode("day");
                     }
                   }}
-                  className={`min-h-[110px] rounded-2xl border p-2.5 flex flex-col justify-between transition ${
+                  className={`min-h-[70px] sm:min-h-[95px] md:min-h-[110px] rounded-xl sm:rounded-2xl border p-1.5 sm:p-2.5 flex flex-col justify-between transition ${
                     hasShifts
                       ? "border-zinc-200 bg-white hover:border-[#FF5A36]/60 hover:shadow-xs cursor-pointer"
                       : "border-zinc-100 bg-zinc-50/40 text-zinc-400"
                   }`}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-1">
                     <span
-                      className={`h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                      className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 ${
                         hasShifts ? "bg-[#0B0F1A] text-white" : "text-zinc-500"
                       }`}
                     >
                       {cell.dayNum}
                     </span>
                     {hasShifts && (
-                      <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-md border border-emerald-200/60">
+                      <span className="text-[9px] sm:text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1 sm:px-1.5 py-0.5 rounded-md border border-emerald-200/60 truncate">
                         {summary.totalStaff} staff
                       </span>
                     )}
                   </div>
 
                   {hasShifts ? (
-                    <div className="space-y-1 my-1">
+                    <div className="space-y-0.5 sm:space-y-1 my-0.5 sm:my-1 overflow-hidden">
                       {summary.shifts.slice(0, 2).map((s, sIdx) => {
                         const theme = getShiftBadgeTheme(s.name);
                         return (
                           <div
                             key={sIdx}
-                            className={`text-[10px] truncate px-1.5 py-0.5 rounded-md font-medium border ${theme.bg}`}
+                            className={`text-[9px] sm:text-[10px] truncate px-1 sm:px-1.5 py-0.5 rounded-md font-medium border ${theme.bg}`}
                           >
                             {s.name.split(" ")[0]} ({s.employees.length})
                           </div>
                         );
                       })}
                       {summary.shifts.length > 2 && (
-                        <span className="text-[9px] text-zinc-400 font-medium pl-1">
-                          +{summary.shifts.length - 2} more shifts
+                        <span className="text-[8px] sm:text-[9px] text-zinc-400 font-medium pl-0.5 sm:pl-1 block truncate">
+                          +{summary.shifts.length - 2} more
                         </span>
                       )}
                     </div>
                   ) : (
-                    <span className="text-[10px] text-zinc-300 italic">No shifts</span>
+                    <span className="text-[9px] sm:text-[10px] text-zinc-300 italic">No shifts</span>
                   )}
                 </div>
               );
@@ -1201,16 +1200,16 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= 8. VIEW 4: TABLE VIEW ================= */}
       {viewMode === "table" && (
-        <div className="rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
+        <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-zinc-200 bg-zinc-50/80 text-xs font-bold uppercase tracking-wider text-zinc-600">
-                  <th className="py-3.5 px-6">Date</th>
-                  <th className="py-3.5 px-6">Location</th>
-                  <th className="py-3.5 px-6">Shift Details</th>
-                  <th className="py-3.5 px-6">Working Hours</th>
-                  <th className="py-3.5 px-6">Assigned Staff</th>
+                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Date</th>
+                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Location</th>
+                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Shift Details</th>
+                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Working Hours</th>
+                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Assigned Staff</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
@@ -1224,41 +1223,41 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                           key={`${day.date}_${loc.id}_${shift.id}_${sIdx}`}
                           className="hover:bg-zinc-50/50 transition-colors"
                         >
-                          <td className="py-3.5 px-6 font-bold text-zinc-900 whitespace-nowrap">
+                          <td className="py-3 sm:py-3.5 px-3 sm:px-6 font-bold text-zinc-900 whitespace-nowrap text-xs sm:text-sm">
                             {day.date}
                           </td>
-                          <td className="py-3.5 px-6">
-                            <span className="font-semibold text-zinc-800">{loc.name}</span>
+                          <td className="py-3 sm:py-3.5 px-3 sm:px-6">
+                            <span className="font-semibold text-zinc-800 text-xs sm:text-sm">{loc.name}</span>
                           </td>
-                          <td className="py-3.5 px-6">
+                          <td className="py-3 sm:py-3.5 px-3 sm:px-6">
                             <span
-                              className={`inline-flex items-center space-x-1.5 rounded-lg px-2.5 py-1 text-xs font-bold border ${theme.bg} ${theme.borderLeft}`}
+                              className={`inline-flex items-center space-x-1.5 rounded-lg px-2 sm:px-2.5 py-1 text-xs font-bold border ${theme.bg} ${theme.borderLeft}`}
                             >
                               <IconComponent className={`h-3 w-3 shrink-0 ${theme.iconColor}`} />
-                              <span>{shift.name}</span>
+                              <span className="truncate">{shift.name}</span>
                             </span>
                           </td>
-                          <td className="py-3.5 px-6 font-mono text-xs font-bold text-zinc-600 whitespace-nowrap">
+                          <td className="py-3 sm:py-3.5 px-3 sm:px-6 font-mono text-xs font-bold text-zinc-600 whitespace-nowrap">
                             {shift.start} – {shift.end}
                           </td>
-                        <td className="py-3.5 px-6">
-                          <div className="flex flex-wrap gap-1.5">
-                            {shift.employees.map((emp, eIdx) => (
-                              <span
-                                key={eIdx}
-                                className="inline-flex items-center rounded-lg bg-zinc-50 border border-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-800"
-                              >
-                                {emp.name}
-                              </span>
-                            ))}
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )
-              )}
-            </tbody>
+                          <td className="py-3 sm:py-3.5 px-3 sm:px-6">
+                            <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                              {shift.employees.map((emp, eIdx) => (
+                                <span
+                                  key={eIdx}
+                                  className="inline-flex items-center rounded-lg bg-zinc-50 border border-zinc-200 px-2 sm:px-2.5 py-1 text-xs font-medium text-zinc-800"
+                                >
+                                  {emp.name}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )
+                )}
+              </tbody>
             </table>
           </div>
         </div>
@@ -1266,15 +1265,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= MODAL: SHARE SCHEDULE ================= */}
       {isShareModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/40 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-6 sm:p-7 shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-zinc-950/40 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-md rounded-2xl sm:rounded-3xl border border-zinc-200 bg-white p-5 sm:p-7 shadow-2xl space-y-4 sm:space-y-5 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0B0F1A] text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0B0F1A] text-white shrink-0">
                   <Share2 className="h-4 w-4 text-[#FF5A36]" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-zinc-900">Share Schedule</h3>
+                  <h3 className="font-bold text-sm sm:text-base text-zinc-900">Share Schedule</h3>
                   <p className="text-xs text-zinc-500">Send schedule to team or export</p>
                 </div>
               </div>
@@ -1287,7 +1286,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
               </button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700">
                 Shareable Web Link
               </label>
@@ -1296,12 +1295,12 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                   type="text"
                   readOnly
                   value={typeof window !== "undefined" ? window.location.href : ""}
-                  className="flex-1 rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs text-zinc-700 font-mono focus:outline-hidden"
+                  className="flex-1 min-w-0 rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs text-zinc-700 font-mono focus:outline-hidden truncate"
                 />
                 <button
                   type="button"
                   onClick={handleCopyShareLink}
-                  className="inline-flex items-center space-x-1 rounded-xl bg-[#0B0F1A] px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 transition"
+                  className="inline-flex items-center space-x-1 rounded-xl bg-[#0B0F1A] px-3 sm:px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 transition shrink-0"
                 >
                   {copiedLink ? (
                     <Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -1314,13 +1313,13 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             </div>
 
             <div className="pt-2 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-500">
-              <span className="flex items-center text-emerald-600 font-semibold">
-                <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> Ready for live distribution
+              <span className="flex items-center text-emerald-600 font-semibold truncate mr-2">
+                <CheckCircle2 className="h-3.5 w-3.5 mr-1 shrink-0" /> Ready for live distribution
               </span>
               <button
                 type="button"
                 onClick={() => setIsShareModalOpen(false)}
-                className="text-xs font-bold text-zinc-800 hover:underline"
+                className="text-xs font-bold text-zinc-800 hover:underline shrink-0"
               >
                 Done
               </button>
@@ -1331,15 +1330,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= MODAL: ADD SHIFT / SCHEDULE ================= */}
       {isAddShiftOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/40 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-6 sm:p-7 shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-zinc-950/40 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-md rounded-2xl sm:rounded-3xl border border-zinc-200 bg-white p-5 sm:p-7 shadow-2xl space-y-4 sm:space-y-5 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0B0F1A] text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0B0F1A] text-white shrink-0">
                   <Plus className="h-4 w-4 text-[#FF5A36]" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-zinc-900">Add Shift Assignment</h3>
+                  <h3 className="font-bold text-sm sm:text-base text-zinc-900">Add Shift Assignment</h3>
                   <p className="text-xs text-zinc-500">Manually schedule an employee</p>
                 </div>
               </div>
@@ -1358,7 +1357,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 <h4 className="font-bold text-zinc-900">Shift Assigned Successfully!</h4>
               </div>
             ) : (
-              <form onSubmit={handleAddShiftSubmit} className="space-y-4">
+              <form onSubmit={handleAddShiftSubmit} className="space-y-3 sm:space-y-4">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1">
                     Select Employee <span className="text-rose-500">*</span>
@@ -1424,13 +1423,13 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsAddShiftOpen(false)}
-                    className="rounded-xl border border-zinc-200 px-4 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50"
+                    className="rounded-xl border border-zinc-200 px-3.5 sm:px-4 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="rounded-xl bg-[#0B0F1A] px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800 transition"
+                    className="rounded-xl bg-[#0B0F1A] px-3.5 sm:px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800 transition"
                   >
                     Confirm Assignment
                   </button>
@@ -1443,3 +1442,5 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
     </div>
   );
 };
+
+

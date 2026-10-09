@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   description:
     "Upload your employee data, specify shift requirements in plain text, and generate conflict-free, mathematically validated schedules in seconds.",
   icons: {
-    icon: "/orbit-app-icon.svg",
-    shortcut: "/orbit-symbol-dark.svg",
-    apple: "/orbit-app-icon.svg",
+    icon: "/images/logo/orbit-weave-app-icon.svg",
+    shortcut: "/images/logo/orbit-weave-symbol-light-bg.svg",
+    apple: "/images/logo/orbit-weave-app-icon.svg",
   },
 };
 

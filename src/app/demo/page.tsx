@@ -620,40 +620,40 @@ export default function DemoScheduleReviewPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 sm:gap-2.5 w-full md:w-auto">
             <button
               type="button"
               onClick={() => setIsAddShiftOpen(true)}
-              className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition"
+              className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 sm:px-3.5 py-2 sm:py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition"
             >
-              <Plus className="h-3.5 w-3.5 text-[#FF5A36]" />
+              <Plus className="h-3.5 w-3.5 text-[#FF5A36] shrink-0" />
               <span>Add Shift</span>
             </button>
 
             <button
               type="button"
               onClick={() => setIsShareOpen(true)}
-              className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition"
+              className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 sm:px-3.5 py-2 sm:py-2.5 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition"
             >
-              <Share2 className="h-3.5 w-3.5 text-zinc-500" />
+              <Share2 className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
               <span>Share</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleCopy(JSON.stringify(data, null, 2), "export-json")}
-              className="inline-flex items-center space-x-1.5 rounded-xl bg-[#0B0F1A] px-4 py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 shadow-xs transition border border-zinc-800"
+              className="col-span-2 sm:col-span-1 inline-flex items-center justify-center space-x-1.5 rounded-xl bg-[#0B0F1A] px-3.5 sm:px-4 py-2 sm:py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 shadow-xs transition border border-zinc-800"
             >
-              <Download className="h-3.5 w-3.5 text-[#FF5A36]" />
+              <Download className="h-3.5 w-3.5 text-[#FF5A36] shrink-0" />
               <span>Export JSON / Schema</span>
             </button>
           </div>
         </div>
 
         {/* View Selection & Time Navigation Bar with Custom Date Picker */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-1">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 py-1">
           {/* Left: 1 Custom Date Picker Dropdown */}
-          <div className="flex items-center">
+          <div className="w-full sm:w-auto">
             <CustomDatePicker
               mode={calendarView === "day" ? "day" : calendarView === "month" ? "month" : "week"}
               startDate={startDate}
@@ -668,14 +668,14 @@ export default function DemoScheduleReviewPage() {
           </div>
 
           {/* Right: View Switcher */}
-          <div className="flex items-center space-x-1 bg-zinc-100 p-1 rounded-xl border border-zinc-200 shrink-0">
+          <div className="flex items-center space-x-1 bg-zinc-100 p-1 rounded-xl border border-zinc-200 w-full sm:w-auto overflow-x-auto scrollbar-none shrink-0">
             <button
               type="button"
               onClick={() => {
                 setActiveTab("calendar");
                 setCalendarView("week");
               }}
-              className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`flex-1 sm:flex-none text-center whitespace-nowrap rounded-lg px-2.5 sm:px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "calendar" && calendarView === "week"
                   ? "bg-white text-zinc-900 shadow-xs"
                   : "text-zinc-600 hover:text-zinc-900"
@@ -689,7 +689,7 @@ export default function DemoScheduleReviewPage() {
                 setActiveTab("calendar");
                 setCalendarView("day");
               }}
-              className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`flex-1 sm:flex-none text-center whitespace-nowrap rounded-lg px-2.5 sm:px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "calendar" && calendarView === "day"
                   ? "bg-white text-zinc-900 shadow-xs"
                   : "text-zinc-600 hover:text-zinc-900"
@@ -703,7 +703,7 @@ export default function DemoScheduleReviewPage() {
                 setActiveTab("calendar");
                 setCalendarView("month");
               }}
-              className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`flex-1 sm:flex-none text-center whitespace-nowrap rounded-lg px-2.5 sm:px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "calendar" && calendarView === "month"
                   ? "bg-white text-zinc-900 shadow-xs"
                   : "text-zinc-600 hover:text-zinc-900"
@@ -714,22 +714,22 @@ export default function DemoScheduleReviewPage() {
             <button
               type="button"
               onClick={() => setActiveTab("schema")}
-              className={`rounded-lg px-3.5 py-1.5 text-xs font-bold transition ${
+              className={`flex-1 sm:flex-none text-center whitespace-nowrap rounded-lg px-2.5 sm:px-3.5 py-1.5 text-xs font-bold transition ${
                 activeTab === "schema"
                   ? "bg-white text-zinc-900 shadow-xs"
                   : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
-              Database Schema
+              Schema
             </button>
           </div>
         </div>
 
         {/* Search & Role Filter Bar */}
         {activeTab === "calendar" && calendarView !== "month" && (
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-1">
-            <div className="relative flex-1 max-w-sm">
-              <Search className="pointer-events-none absolute inset-y-0 left-0 h-4 w-4 my-auto ml-3.5 text-zinc-400" />
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 py-1">
+            <div className="relative w-full md:w-80">
+              <Search className="pointer-events-none absolute inset-y-0 left-0 h-4 w-4 my-auto ml-3 text-zinc-400" />
               <input
                 type="text"
                 value={searchEmployee}
@@ -737,7 +737,7 @@ export default function DemoScheduleReviewPage() {
                   setSearchEmployee(e.target.value);
                   setCurrentPage(1);
                 }}
-                placeholder="Search staff name or ID (e.g. 'NV001', 'An')..."
+                placeholder="Search staff name or ID..."
                 className="w-full rounded-xl border border-zinc-200 bg-white py-2 pl-9 pr-8 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-hidden focus:ring-1 focus:ring-zinc-900 shadow-2xs"
               />
               {searchEmployee && (
@@ -751,7 +751,7 @@ export default function DemoScheduleReviewPage() {
               )}
             </div>
 
-            <div className="flex items-center space-x-1.5 overflow-x-auto scrollbar-none">
+            <div className="flex items-center space-x-1.5 overflow-x-auto scrollbar-none py-1 -mx-2 px-2 sm:mx-0 sm:px-0 w-full md:w-auto">
               {rolesList.map((role) => {
                 const isSelected = selectedRole === role;
                 return (
@@ -762,7 +762,7 @@ export default function DemoScheduleReviewPage() {
                       setSelectedRole(role);
                       setCurrentPage(1);
                     }}
-                    className={`capitalize whitespace-nowrap rounded-xl px-3 py-1.5 text-xs font-semibold transition ${
+                    className={`capitalize whitespace-nowrap rounded-xl px-2.5 sm:px-3 py-1.5 text-xs font-semibold transition shrink-0 ${
                       isSelected
                         ? "bg-[#0B0F1A] text-white shadow-2xs"
                         : "bg-zinc-50 border border-zinc-200 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900"
@@ -779,15 +779,15 @@ export default function DemoScheduleReviewPage() {
         {/* ================= CALENDAR MATRIX VIEW (WEEK & DAY) ================= */}
         {activeTab === "calendar" && (calendarView === "week" || calendarView === "day") && (
           <div className="space-y-4">
-            <div className="rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
+            <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse text-left text-sm">
                   <thead>
                     <tr className="border-b border-zinc-200 bg-zinc-50/90 text-xs font-bold uppercase tracking-wider text-zinc-600">
-                      <th className="py-4 px-5 min-w-[240px] sm:min-w-[280px] sticky left-0 z-20 bg-zinc-50/95 backdrop-blur-xs border-r border-zinc-200">
-                        <div className="flex items-center space-x-2">
-                          <User className="h-4 w-4 text-[#FF5A36]" />
-                          <span>Staff Member ({filteredEmployees.length})</span>
+                      <th className="py-3 sm:py-4 px-3 sm:px-5 w-44 sm:w-56 md:w-64 lg:w-72 min-w-[160px] sm:min-w-[220px] md:min-w-[260px] sticky left-0 z-20 bg-zinc-50/95 backdrop-blur-xs border-r border-zinc-200">
+                        <div className="flex items-center space-x-1.5 sm:space-x-2">
+                          <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#FF5A36] shrink-0" />
+                          <span className="truncate text-xs">Staff ({filteredEmployees.length})</span>
                         </div>
                       </th>
 
@@ -798,10 +798,10 @@ export default function DemoScheduleReviewPage() {
                         return (
                           <th
                             key={dStr}
-                            className="py-4 px-4 min-w-[190px] sm:min-w-[220px] border-r border-zinc-100 last:border-r-0 text-center"
+                            className="py-2.5 sm:py-3.5 px-2.5 sm:px-4 min-w-[140px] sm:min-w-[180px] md:min-w-[210px] border-r border-zinc-100 last:border-r-0 text-center"
                           >
-                            <div className="font-extrabold text-sm text-zinc-900">{dayName}</div>
-                            <div className="text-[11px] font-mono text-zinc-400 font-normal mt-0.5">{dateDisplay}</div>
+                            <div className="font-extrabold text-xs sm:text-sm text-zinc-900">{dayName}</div>
+                            <div className="text-[10px] sm:text-[11px] font-mono text-zinc-400 font-normal mt-0.5">{dateDisplay}</div>
                           </th>
                         );
                       })}
@@ -812,25 +812,25 @@ export default function DemoScheduleReviewPage() {
                     {paginatedEmployees.length > 0 ? (
                       paginatedEmployees.map((emp) => (
                         <tr key={emp.id} className="hover:bg-zinc-50/40 transition-colors">
-                          <td className="py-3.5 px-5 align-top sticky left-0 z-10 bg-white border-r border-zinc-200 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.04)]">
-                            <div className="flex items-start space-x-3">
-                              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0B0F1A] text-white font-extrabold text-xs shadow-2xs">
+                          <td className="py-3 sm:py-4 px-2.5 sm:px-4 md:px-5 align-top sticky left-0 z-10 bg-white border-r border-zinc-200 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.04)] w-44 sm:w-56 md:w-64 lg:w-72 min-w-[160px] sm:min-w-[220px] md:min-w-[260px]">
+                            <div className="flex items-start space-x-2 sm:space-x-3">
+                              <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-[#0B0F1A] text-white font-extrabold text-[10px] sm:text-xs shadow-2xs">
                                 {emp.name.charAt(0)}
                               </div>
                               <div className="min-w-0 flex-1">
                                 <p className="font-bold text-xs sm:text-sm text-zinc-900 truncate">
                                   {emp.name}
                                 </p>
-                                <div className="flex items-center space-x-1.5 text-[11px] text-zinc-500 mt-0.5">
-                                  <span className="font-mono text-[10px] text-zinc-500 bg-zinc-100 px-1.5 py-0.5 rounded font-semibold">
+                                <div className="flex flex-wrap sm:flex-nowrap items-center gap-1 sm:space-x-1.5 text-[10px] sm:text-[11px] text-zinc-500 mt-0.5">
+                                  <span className="font-mono text-[9px] sm:text-[10px] text-zinc-500 bg-zinc-100 px-1.5 py-0.5 rounded font-semibold shrink-0">
                                     {emp.id}
                                   </span>
-                                  <span>•</span>
+                                  <span className="hidden sm:inline">•</span>
                                   <span className="truncate">{emp.role}</span>
                                 </div>
-                                <div className="mt-1.5 flex items-center space-x-2 text-[10px] text-zinc-400">
+                                <div className="mt-1 sm:mt-1.5 flex flex-wrap sm:flex-nowrap items-center gap-1 sm:space-x-2 text-[9px] sm:text-[10px] text-zinc-400">
                                   <span>{emp.shiftCount} shifts</span>
-                                  <span>•</span>
+                                  <span className="hidden sm:inline">•</span>
                                   <span>{emp.totalHours} hrs/wk</span>
                                 </div>
                               </div>
@@ -842,7 +842,7 @@ export default function DemoScheduleReviewPage() {
                             const shifts = shiftLookup[key] || [];
 
                             return (
-                              <td key={dStr} className="py-3 px-3 align-top border-r border-zinc-100 last:border-r-0">
+                              <td key={dStr} className="py-2.5 sm:py-3 px-2 sm:px-3 align-top border-r border-zinc-100 last:border-r-0 min-w-[140px] sm:min-w-[180px] md:min-w-[210px]">
                                 {shifts.length > 0 ? (
                                   <div className="space-y-1.5">
                                     {shifts.map((s, sIdx) => {
@@ -852,19 +852,19 @@ export default function DemoScheduleReviewPage() {
                                       return (
                                         <div
                                           key={sIdx}
-                                          className={`rounded-2xl border p-2.5 shadow-2xs transition hover:shadow-xs ${theme.bg} ${theme.borderLeft}`}
+                                          className={`rounded-xl sm:rounded-2xl border p-2 sm:p-2.5 shadow-2xs transition hover:shadow-xs ${theme.bg} ${theme.borderLeft}`}
                                         >
-                                          <div className="flex items-center justify-between">
-                                            <span className="font-bold text-xs truncate">
+                                          <div className="flex items-center justify-between gap-1">
+                                            <span className="font-bold text-[11px] sm:text-xs truncate">
                                               {s.shiftName}
                                             </span>
                                             <IconComponent className={`h-3.5 w-3.5 shrink-0 ${theme.iconColor}`} />
                                           </div>
-                                          <div className="flex items-center space-x-1 text-[11px] font-mono mt-1 opacity-90">
+                                          <div className="flex items-center space-x-1 text-[10px] sm:text-[11px] font-mono mt-1 opacity-90">
                                             <Clock className="h-3 w-3 shrink-0" />
                                             <span>{s.start} – {s.end}</span>
                                           </div>
-                                          <div className="flex items-center space-x-1 text-[10px] mt-1 text-zinc-500 truncate">
+                                          <div className="flex items-center space-x-1 text-[9px] sm:text-[10px] mt-0.5 sm:mt-1 text-zinc-500 truncate">
                                             <MapPin className="h-3 w-3 shrink-0 text-zinc-400" />
                                             <span className="truncate">{s.location}</span>
                                           </div>
@@ -873,7 +873,7 @@ export default function DemoScheduleReviewPage() {
                                     })}
                                   </div>
                                 ) : (
-                                  <div className="h-full min-h-[64px] flex items-center justify-center rounded-2xl border border-dashed border-zinc-200/70 bg-zinc-50/20 text-[11px] text-zinc-400">
+                                  <div className="h-full min-h-[58px] sm:min-h-[64px] flex items-center justify-center rounded-xl sm:rounded-2xl border border-dashed border-zinc-200/70 bg-zinc-50/20 text-[10px] sm:text-[11px] text-zinc-400">
                                     <span className="opacity-60">Off</span>
                                   </div>
                                 )}
@@ -895,30 +895,29 @@ export default function DemoScheduleReviewPage() {
             </div>
 
             {/* Shift Color Legend & Pagination Row */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 py-2 px-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-2 px-1">
               {/* Left: Shift Color Palette Legend */}
-              <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 font-medium">
-                {/* <span className="font-bold uppercase tracking-wider text-[10px] text-zinc-400">Shift Colors:</span> */}
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-500 font-medium">
                 <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#F59E0B] ring-2 ring-[#F59E0B]/30 shadow-2xs" />
-                  <span className="font-semibold text-zinc-800 text-xs">Morning Shift</span>
-                  <span className="text-[10px] font-mono text-zinc-400 font-medium">07:00–15:00</span>
+                  <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#F59E0B] ring-2 ring-[#F59E0B]/30 shadow-2xs" />
+                  <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Morning Shift</span>
+                  <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">07:00–15:00</span>
                 </div>
                 <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#FF5A36] ring-2 ring-[#FF5A36]/30 shadow-2xs" />
-                  <span className="font-semibold text-zinc-800 text-xs">Afternoon Shift</span>
-                  <span className="text-[10px] font-mono text-zinc-400 font-medium">14:30–22:30</span>
+                  <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#FF5A36] ring-2 ring-[#FF5A36]/30 shadow-2xs" />
+                  <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Afternoon Shift</span>
+                  <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">14:30–22:30</span>
                 </div>
                 <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
                   <span className="h-2.5 w-2.5 rounded-full bg-[#6366F1] ring-2 ring-[#6366F1]/30 shadow-2xs" />
-                  <span className="font-semibold text-zinc-800 text-xs">Night Shift</span>
-                  <span className="text-[10px] font-mono text-zinc-400 font-medium">22:00–06:00</span>
+                  <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Night Shift</span>
+                  <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">22:00–06:00</span>
                 </div>
               </div>
 
               {/* Right: Pagination Controls */}
               {totalPages > 1 && (
-                <div className="flex items-center space-x-1.5 self-end md:self-auto shrink-0">
+                <div className="flex items-center space-x-1 sm:space-x-1.5 self-center sm:self-auto shrink-0">
                   <button
                     type="button"
                     onClick={() => setCurrentPage(1)}
@@ -926,7 +925,7 @@ export default function DemoScheduleReviewPage() {
                     className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
                     title="First Page"
                   >
-                    <ChevronsLeft className="h-4 w-4" />
+                    <ChevronsLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </button>
                   <button
                     type="button"
@@ -935,10 +934,10 @@ export default function DemoScheduleReviewPage() {
                     className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
                     title="Previous Page"
                   >
-                    <ChevronLeft className="h-4 w-4" />
+                    <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </button>
 
-                  <span className="px-3.5 py-1 text-xs font-bold text-zinc-800">
+                  <span className="px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs font-bold text-zinc-800 whitespace-nowrap">
                     Page {currentPage} of {totalPages}
                   </span>
 
@@ -949,7 +948,7 @@ export default function DemoScheduleReviewPage() {
                     className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
                     title="Next Page"
                   >
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </button>
                   <button
                     type="button"
@@ -958,7 +957,7 @@ export default function DemoScheduleReviewPage() {
                     className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
                     title="Last Page"
                   >
-                    <ChevronsRight className="h-4 w-4" />
+                    <ChevronsRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </button>
                 </div>
               )}
@@ -968,22 +967,22 @@ export default function DemoScheduleReviewPage() {
 
         {/* ================= VIEW 3: FULL MONTH VIEW ================= */}
         {activeTab === "calendar" && calendarView === "month" && (
-          <div className="rounded-3xl border border-zinc-200/90 bg-white p-6 sm:p-7 shadow-xs space-y-4 animate-in fade-in duration-150">
-            <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+          <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white p-4 sm:p-6 lg:p-7 shadow-xs space-y-3 sm:space-y-4 animate-in fade-in duration-150">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-zinc-100">
               <div className="flex items-center space-x-2">
-                <CalendarDays className="h-5 w-5 text-[#FF5A36]" />
-                <h3 className="font-bold text-lg text-zinc-900">October 2026 Monthly Matrix</h3>
+                <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5 text-[#FF5A36] shrink-0" />
+                <h3 className="font-bold text-base sm:text-lg text-zinc-900">October 2026 Monthly Matrix</h3>
               </div>
-              <span className="text-xs text-zinc-500">
+              <span className="text-[11px] sm:text-xs text-zinc-500">
                 Click any active date to focus Day view
               </span>
             </div>
 
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-1 sm:gap-2">
               {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((dayName) => (
                 <div
                   key={dayName}
-                  className="text-center py-2 text-xs font-bold uppercase tracking-wider text-zinc-400 bg-zinc-50 rounded-xl"
+                  className="text-center py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 bg-zinc-50 rounded-lg sm:rounded-xl truncate"
                 >
                   {dayName}
                 </div>
@@ -997,7 +996,7 @@ export default function DemoScheduleReviewPage() {
                   return (
                     <div
                       key={idx}
-                      className="min-h-[110px] rounded-2xl border border-dashed border-zinc-100 bg-zinc-50/30 p-2"
+                      className="min-h-[70px] sm:min-h-[95px] md:min-h-[110px] rounded-xl sm:rounded-2xl border border-dashed border-zinc-100 bg-zinc-50/30 p-1 sm:p-2"
                     />
                   );
                 }
@@ -1011,48 +1010,48 @@ export default function DemoScheduleReviewPage() {
                         setCalendarView("day");
                       }
                     }}
-                    className={`min-h-[110px] rounded-2xl border p-2 flex flex-col justify-between transition ${
+                    className={`min-h-[70px] sm:min-h-[95px] md:min-h-[110px] rounded-xl sm:rounded-2xl border p-1.5 sm:p-2 flex flex-col justify-between transition ${
                       hasShifts
                         ? "border-zinc-200 bg-white hover:border-[#FF5A36]/60 hover:shadow-sm cursor-pointer"
                         : "border-zinc-100 bg-zinc-50/40 text-zinc-400"
                     }`}
                   >
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-1">
                       <span
-                        className={`h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                        className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 ${
                           hasShifts ? "bg-[#0B0F1A] text-white" : "text-zinc-500"
                         }`}
                       >
                         {cell.dayNum}
                       </span>
                       {hasShifts && (
-                        <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+                        <span className="text-[9px] sm:text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1 sm:px-1.5 py-0.5 rounded truncate">
                           {summary.totalStaff} staff
                         </span>
                       )}
                     </div>
 
                     {hasShifts ? (
-                      <div className="space-y-1 my-1">
+                      <div className="space-y-0.5 sm:space-y-1 my-0.5 sm:my-1 overflow-hidden">
                         {summary.shifts.slice(0, 2).map((s, sIdx) => {
                           const theme = getShiftBadgeTheme(s.name);
                           return (
                             <div
                               key={sIdx}
-                              className={`text-[10px] truncate px-1.5 py-0.5 rounded-md font-medium border ${theme.bg}`}
+                              className={`text-[9px] sm:text-[10px] truncate px-1 sm:px-1.5 py-0.5 rounded-md font-medium border ${theme.bg}`}
                             >
                               {s.name.split(" ")[0]} ({s.staffCount})
                             </div>
                           );
                         })}
                         {summary.shifts.length > 2 && (
-                          <span className="text-[9px] text-zinc-400 font-medium pl-1">
-                            +{summary.shifts.length - 2} more shifts
+                          <span className="text-[8px] sm:text-[9px] text-zinc-400 font-medium pl-0.5 sm:pl-1 block truncate">
+                            +{summary.shifts.length - 2} more
                           </span>
                         )}
                       </div>
                     ) : (
-                      <span className="text-[10px] text-zinc-300 italic">No shifts</span>
+                      <span className="text-[9px] sm:text-[10px] text-zinc-300 italic">No shifts</span>
                     )}
                   </div>
                 );
@@ -1063,22 +1062,22 @@ export default function DemoScheduleReviewPage() {
 
         {/* ================= DATABASE SCHEMA TAB ================= */}
         {activeTab === "schema" && (
-          <div className="rounded-3xl border border-zinc-200/90 bg-white p-6 sm:p-7 shadow-xs space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-base text-zinc-900 flex items-center space-x-2">
-                <Database className="h-4 w-4 text-[#FF5A36]" />
+          <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white p-4 sm:p-6 lg:p-7 shadow-xs space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <h3 className="font-bold text-sm sm:text-base text-zinc-900 flex items-center space-x-2">
+                <Database className="h-4 w-4 text-[#FF5A36] shrink-0" />
                 <span>Prisma ORM & SQL DDL</span>
               </h3>
               <button
                 type="button"
                 onClick={() => handleCopy(JSON.stringify(data, null, 2), "schema-json")}
-                className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-100"
+                className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-100 self-start sm:self-auto"
               >
                 {copiedType === "schema-json" ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
                 <span>Copy Data JSON</span>
               </button>
             </div>
-            <div className="rounded-2xl bg-[#09090B] p-5 overflow-x-auto text-xs font-mono text-zinc-200">
+            <div className="rounded-2xl bg-[#09090B] p-4 sm:p-5 overflow-x-auto text-xs font-mono text-zinc-200">
               <pre>{`-- SQL Shift Assignment Table Schema
 CREATE TABLE IF NOT EXISTS shift_assignments (
   id SERIAL PRIMARY KEY,
@@ -1094,11 +1093,11 @@ CREATE TABLE IF NOT EXISTS shift_assignments (
 
         {/* Modal: Add Shift */}
         {isAddShiftOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/40 backdrop-blur-xs">
-            <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-6 shadow-2xl space-y-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-zinc-950/40 backdrop-blur-xs">
+            <div className="w-full max-w-md rounded-2xl sm:rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between">
-                <h3 className="font-bold text-base text-zinc-900">Add Shift Assignment</h3>
-                <button type="button" onClick={() => setIsAddShiftOpen(false)} className="p-1 text-zinc-400">
+                <h3 className="font-bold text-sm sm:text-base text-zinc-900">Add Shift Assignment</h3>
+                <button type="button" onClick={() => setIsAddShiftOpen(false)} className="p-1 text-zinc-400 hover:text-zinc-700">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -1145,13 +1144,13 @@ CREATE TABLE IF NOT EXISTS shift_assignments (
                   <button
                     type="button"
                     onClick={() => setIsAddShiftOpen(false)}
-                    className="px-4 py-2 text-xs font-semibold text-zinc-600"
+                    className="px-3.5 sm:px-4 py-2 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 rounded-xl"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="rounded-xl bg-[#0B0F1A] px-4 py-2 text-xs font-semibold text-white"
+                    className="rounded-xl bg-[#0B0F1A] px-3.5 sm:px-4 py-2 text-xs font-semibold text-white hover:bg-zinc-800 transition"
                   >
                     Add to Calendar
                   </button>
@@ -1163,11 +1162,11 @@ CREATE TABLE IF NOT EXISTS shift_assignments (
 
         {/* Modal: Share */}
         {isShareOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/40 backdrop-blur-xs">
-            <div className="w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-6 shadow-2xl space-y-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-zinc-950/40 backdrop-blur-xs">
+            <div className="w-full max-w-md rounded-2xl sm:rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between">
-                <h3 className="font-bold text-base text-zinc-900">Share Schedule</h3>
-                <button type="button" onClick={() => setIsShareOpen(false)} className="p-1 text-zinc-400">
+                <h3 className="font-bold text-sm sm:text-base text-zinc-900">Share Schedule</h3>
+                <button type="button" onClick={() => setIsShareOpen(false)} className="p-1 text-zinc-400 hover:text-zinc-700">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -1177,12 +1176,12 @@ CREATE TABLE IF NOT EXISTS shift_assignments (
                   type="text"
                   readOnly
                   value={typeof window !== "undefined" ? window.location.href : ""}
-                  className="flex-1 rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs font-mono"
+                  className="flex-1 min-w-0 rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs font-mono truncate"
                 />
                 <button
                   type="button"
                   onClick={() => handleCopy(window.location.href, "share-link")}
-                  className="rounded-xl bg-[#0B0F1A] px-3.5 py-2.5 text-xs font-semibold text-white"
+                  className="rounded-xl bg-[#0B0F1A] px-3 sm:px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-zinc-800 transition shrink-0"
                 >
                   {copiedType === "share-link" ? "Copied!" : "Copy"}
                 </button>
@@ -1195,3 +1194,4 @@ CREATE TABLE IF NOT EXISTS shift_assignments (
     </main>
   );
 }
+
