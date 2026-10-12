@@ -46,43 +46,45 @@ export function DashboardSidebar({
       active: pathname === "/dashboard",
     },
     {
-      name: "AI Schedule Studio",
-      href: "/product",
+      name: "AI Studio",
+      href: "/dashboard/ai-studio",
       icon: Sparkles,
-      active: pathname === "/product",
+      active: pathname === "/dashboard/ai-studio",
       badge: "AI",
     },
+
     {
-      name: "Employee Roster",
+      name: "Employees",
       href: "/dashboard#roster",
       icon: Users,
       active: false,
     },
     {
-      name: "Shift Constraints",
+      name: "Constraints",
       href: "/dashboard#rules",
       icon: Sliders,
       active: false,
     },
     {
-      name: "Weekly Calendar",
+      name: "Calendar",
       href: "/dashboard#calendar",
       icon: Calendar,
       active: false,
     },
     {
-      name: "Reports & Analytics",
+      name: "Analytics",
       href: "/dashboard#reports",
       icon: BarChart3,
       active: false,
     },
     {
-      name: "Workspace Settings",
+      name: "Settings",
       href: "/dashboard#settings",
       icon: Settings,
       active: false,
     },
   ];
+
 
   const logoSrc =
     theme === "dark"
@@ -106,12 +108,13 @@ export function DashboardSidebar({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col border-r border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all duration-300 ease-in-out lg:static ${
+        className={`fixed top-0 bottom-0 left-0 z-40 flex flex-col h-full lg:h-full shrink-0 overflow-hidden border-r border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all duration-300 ease-in-out lg:static ${
           collapsed ? "w-20" : "w-64"
         } ${mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* Top Header / Brand Logo */}
-        <div className="flex h-16 items-center justify-between px-4 border-b border-slate-100 dark:border-slate-800">
+        <div className="flex h-16 shrink-0 items-center justify-between px-4 border-b border-slate-100 dark:border-slate-800">
+
           <Link
             href="/"
             className="flex items-center space-x-2 transition opacity-95 hover:opacity-100 focus:outline-hidden overflow-hidden"

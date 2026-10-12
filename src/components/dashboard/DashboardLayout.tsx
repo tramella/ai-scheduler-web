@@ -26,7 +26,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-[#F6F7FB] dark:bg-[#0B0F19]">
+      <main className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0B0F19]">
         <div className="flex flex-col items-center space-y-3">
           <div className="h-8 w-8 animate-spin rounded-full border-3 border-[#2F2C59] dark:border-indigo-500 border-t-transparent"></div>
           <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
@@ -38,8 +38,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen flex bg-[#F6F7FB] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 transition-colors">
-      {/* 1. Left Dedicated Sidebar */}
+    <div className="h-screen h-dvh flex overflow-hidden bg-white dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 transition-colors">
+      {/* 1. Left Dedicated Sidebar (Pinned, fits 100vh, doesn't scroll with page) */}
       <DashboardSidebar
         collapsed={collapsed}
         onToggleCollapse={() => setCollapsed(!collapsed)}
@@ -47,16 +47,17 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         onCloseMobile={() => setMobileOpen(false)}
       />
 
-      {/* 2. Main Content Canvas with Header (NO FOOTER) */}
-      <div className="flex-1 flex flex-col min-w-0 min-h-screen overflow-x-hidden">
-        {/* Top Header */}
+      {/* 2. Main Content Canvas with Header (NO FOOTER, Center-Only Scroll) */}
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden bg-white dark:bg-[#0B0F19]">
+        {/* Top Header (Pinned at top, doesn't scroll) */}
         <DashboardHeader onToggleSidebar={() => setMobileOpen(true)} />
 
-        {/* Page Inner Canvas */}
-        <div className="flex-1 p-4 sm:p-6 lg:p-8">
+        {/* Center Main Content (ONLY THIS SCROLLS VERTICALLY) */}
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 bg-white dark:bg-[#0B0F19]">
           {children}
-        </div>
+        </main>
       </div>
     </div>
   );
 }
+

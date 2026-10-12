@@ -57,8 +57,9 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 h-16 w-full border-b border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md transition-colors">
+      <header className="shrink-0 z-30 h-16 w-full border-b border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md transition-colors">
         <div className="flex h-full items-center justify-between px-4 sm:px-6">
+
           
           {/* Left: Mobile Toggle & Breadcrumb / Status */}
           <div className="flex items-center space-x-3">
@@ -230,8 +231,9 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                       className="w-full flex items-center space-x-2 px-2.5 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 transition cursor-pointer"
                     >
                       <User className="h-4 w-4 text-slate-400" />
-                      <span>Account Profile Details</span>
+                      <span>Profile</span>
                     </button>
+
 
                     <button
                       type="button"

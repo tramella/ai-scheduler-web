@@ -61,12 +61,13 @@ export default function DashboardPage() {
           {/* Quick Action Button */}
           <div className="flex items-center space-x-3">
             <Link
-              href="/product"
+              href="/dashboard/ai-studio"
               className="inline-flex items-center space-x-2 px-4 py-2.5 text-xs sm:text-sm font-semibold text-white bg-[#2F2C59] hover:bg-[#1E1B3A] dark:bg-indigo-600 dark:hover:bg-indigo-700 rounded-xl shadow-xs transition active:scale-[0.99] border border-[#2F2C59] dark:border-indigo-600 cursor-pointer"
             >
               <Sparkles className="h-4 w-4" />
-              <span>Launch AI Scheduler</span>
+              <span>AI Scheduler</span>
             </Link>
+
           </div>
         </div>
 
@@ -141,7 +142,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           
           <Link
-            href="/product"
+            href="/dashboard/ai-studio"
             className="group block rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs hover:border-[#2F2C59]/40 dark:hover:border-indigo-500/40 hover:shadow-sm transition"
           >
             <div className="flex items-start justify-between">
@@ -150,11 +151,12 @@ export default function DashboardPage() {
               </div>
               <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition" />
             </div>
-            <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">AI Shift Generator</h3>
+            <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">AI Generator</h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
               Upload staff rosters and enter custom rules in natural language to generate optimal shifts.
             </p>
           </Link>
+
 
           <div className="group block rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs transition">
             <div className="flex items-start justify-between">
@@ -165,7 +167,7 @@ export default function DashboardPage() {
                 Spreadsheet Ready
               </span>
             </div>
-            <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">Employee Roster (.xlsx)</h3>
+            <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">Employees</h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
               Manage employee roles, contracts, target working hours, and qualification certifications.
             </p>
@@ -180,11 +182,12 @@ export default function DashboardPage() {
                 Config
               </span>
             </div>
-            <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">Rules & Constraints</h3>
+            <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-white">Constraints</h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
               Define maximum consecutive workdays, rest intervals between shifts, and overtime caps.
             </p>
           </div>
+
 
         </div>
 
