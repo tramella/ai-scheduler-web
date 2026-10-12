@@ -7,7 +7,6 @@ import {
   ArrowRight,
   FileSpreadsheet,
   X,
-  ShieldCheck,
   Zap,
 } from "lucide-react";
 import { LoadingState } from "@/components/scheduling/LoadingState";
@@ -94,6 +93,7 @@ export default function ProductPage() {
         start,
         end,
         prompt: prompt.trim() || undefined,
+        provider: "gemini",
       });
 
       if (res.schedules && res.schedules.length > 0) {
@@ -162,13 +162,13 @@ export default function ProductPage() {
             <div className="text-center max-w-xl mx-auto space-y-2">
               <div className="inline-flex items-center space-x-2 rounded-full bg-slate-900/[0.05] px-3.5 py-1 text-xs font-semibold text-slate-800">
                 <Sparkles className="h-3.5 w-3.5 text-[#FF7A59]" />
-                <span>ORBIT Copilot</span>
+                <span>Google Gemini Engine • 1 Free Trial</span>
               </div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-[#2F2C59]">
                 Build your schedule
               </h1>
               <p className="text-xs sm:text-sm text-slate-600">
-                Attach an employee roster and state your shift constraints.
+                Attach an employee roster and state your shift rules (powered by Google Gemini).
               </p>
             </div>
 
@@ -238,7 +238,7 @@ export default function ProductPage() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="inline-flex items-center space-x-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
+                    className="inline-flex items-center space-x-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
                   >
                     <Paperclip className="h-3.5 w-3.5 text-slate-500" />
                     <span>{file ? "Change File" : "Attach Excel (.xlsx)"}</span>
@@ -248,7 +248,7 @@ export default function ProductPage() {
                     <button
                       type="button"
                       onClick={() => setUseSampleRoster(true)}
-                      className="inline-flex items-center space-x-1 rounded-xl border border-dashed border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 transition"
+                      className="inline-flex items-center space-x-1 rounded-xl border border-dashed border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 transition cursor-pointer"
                     >
                       <Zap className="h-3 w-3 text-[#FF7A59]" />
                       <span>Use Demo Data</span>
@@ -273,7 +273,7 @@ export default function ProductPage() {
                   className="inline-flex items-center justify-center rounded-xl bg-[#2F2C59] px-5 py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition border border-[#2F2C59] cursor-pointer shadow-xs"
                 >
                   <Sparkles className="mr-1.5 h-3.5 w-3.5 text-[#FF7A59]" />
-                  <span>Generate Schedule</span>
+                  <span>Generate with Gemini</span>
                   <ArrowRight className="ml-1.5 h-3.5 w-3.5 text-white" />
                 </button>
               </div>

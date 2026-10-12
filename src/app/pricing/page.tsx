@@ -7,7 +7,6 @@ import {
   Sparkles,
   ArrowRight,
   ShieldCheck,
-  HelpCircle,
 } from "lucide-react";
 
 export default function PricingPage() {
@@ -16,35 +15,36 @@ export default function PricingPage() {
   const plans = [
     {
       name: "Community",
-      badge: "Free",
-      description: "For small teams and independent managers testing AI scheduling.",
+      badge: "Free Trial",
+      description: "Test automated AI scheduling with Google Gemini.",
       priceMonthly: "$0",
       priceAnnual: "$0",
       period: "forever",
       subtext: "No credit card required",
-      ctaText: "Start Free",
+      ctaText: "Try 1 Free Schedule",
       ctaHref: "/product",
       popular: false,
       features: [
-        "5 schedule generations / day",
+        "1 Free schedule generation trial",
+        "Powered by Google Gemini AI",
         "Deterministic rule validation",
         "Excel (.xlsx) import & export",
-        "Natural language prompt builder",
         "Standard shift constraints check",
       ],
     },
     {
       name: "Pro",
       badge: "Most Popular",
-      description: "For growing stores requiring multi-location rosters and custom constraints.",
+      description: "For growing stores requiring OpenAI engine, unlimited runs, and custom rules.",
       priceMonthly: "$39",
       priceAnnual: "$29",
       period: "/month",
       subtext: "billed annually ($348/yr)",
-      ctaText: "Start Free Trial",
+      ctaText: "Upgrade to Pro",
       ctaHref: "/register",
       popular: true,
       features: [
+        "Unlock OpenAI (GPT-4o) + Gemini switcher",
         "Unlimited schedule generations",
         "Multi-location & branch support",
         "Custom labor rules & rest intervals",
@@ -65,9 +65,9 @@ export default function PricingPage() {
       ctaHref: "/contact",
       popular: false,
       features: [
-        "Bring Your Own Key (BYOK)",
-        "Direct HRIS integrations",
-        "Custom collective bargaining rules",
+        "Bring Your Own Key (BYOK) - OpenAI / Gemini / Custom",
+        "Direct HRIS integrations (BambooHR, Workday)",
+        "Custom collective bargaining / union rules",
         "SSO / SAML 2.0 access control",
         "99.9% uptime SLA",
         "Dedicated onboarding specialist",
@@ -76,7 +76,8 @@ export default function PricingPage() {
   ];
 
   const comparisonRows = [
-    { feature: "Daily Generations", community: "5 / day", pro: "Unlimited", enterprise: "Unlimited" },
+    { feature: "AI Engine", community: "Google Gemini", pro: "OpenAI (GPT-4o) + Gemini", enterprise: "BYOK / Custom LLM" },
+    { feature: "Schedule Generations", community: "1 Free Trial", pro: "Unlimited", enterprise: "Unlimited" },
     { feature: "Excel (.xlsx) Import & Export", community: "Yes", pro: "Yes (Up to 10MB)", enterprise: "Direct API + Unlimited" },
     { feature: "Rule Engine Validation", community: "Deterministic", pro: "Deterministic + Custom", enterprise: "Full Custom Labor Code" },
     { feature: "Multi-Location Support", community: "Single", pro: "Up to 10 branches", enterprise: "Unlimited" },
@@ -97,7 +98,7 @@ export default function PricingPage() {
             Simple plans for every team.
           </h1>
           <p className="text-base sm:text-lg text-slate-600 max-w-xl mx-auto">
-            Start free with our copilot or unlock multi-store rules with Pro.
+            Test 1 free schedule with Google Gemini, or upgrade to Pro for OpenAI and unlimited generations.
           </p>
 
           {/* Billing Cycle Toggle */}
@@ -266,7 +267,7 @@ export default function PricingPage() {
             Questions about pricing?
           </h3>
           <p className="text-xs text-slate-600 mb-4 max-w-sm mx-auto">
-            Learn more about custom rules, Excel formats, and billing in our FAQ.
+            Learn more about Gemini vs OpenAI engines, Excel formats, and billing in our FAQ.
           </p>
           <div className="flex items-center justify-center gap-2.5">
             <Link
