@@ -13,11 +13,12 @@ import {
   LogOut,
   CheckCircle2,
   Sparkles,
+  Users,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import { ProfileModal } from "./ProfileModal";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 interface DashboardHeaderProps {
   onToggleSidebar?: () => void;
@@ -25,6 +26,9 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const isAiStudio = pathname === "/dashboard/ai-studio";
+  const isEmployees = pathname === "/dashboard/employees";
   const { user, activeCompany, companies, switchCompany, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
@@ -57,8 +61,9 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-30 h-16 w-full border-b border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md transition-colors">
+      <header className="shrink-0 z-30 h-16 w-full border-b border-slate-200/90 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md transition-colors">
         <div className="flex h-full items-center justify-between px-4 sm:px-6">
+
           
           {/* Left: Mobile Toggle & Breadcrumb / Status */}
           <div className="flex items-center space-x-3">
@@ -78,9 +83,33 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                 Workspace
               </span>
               <span className="text-slate-300 dark:text-slate-700">/</span>
-              <h1 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                {activeCompany?.name || "Overview"}
-              </h1>
+              {isAiStudio ? (
+                <div key="breadcrumb-ai-studio" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Sparkles className="h-3.5 w-3.5 text-indigo-500 mr-1" />
+                    <span>AI Studio</span>
+                  </h1>
+                </div>
+              ) : isEmployees ? (
+                <div key="breadcrumb-employees" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Users className="h-3.5 w-3.5 text-[#2F5BFF] mr-1" />
+                    <span>Employees</span>
+                  </h1>
+                </div>
+              ) : (
+                <h1 key="breadcrumb-overview" className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                  {activeCompany?.name || "Overview"}
+                </h1>
+              )}
             </div>
 
             {/* AI Engine Status Badge */}
@@ -230,8 +259,9 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                       className="w-full flex items-center space-x-2 px-2.5 py-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60 transition cursor-pointer"
                     >
                       <User className="h-4 w-4 text-slate-400" />
-                      <span>Account Profile Details</span>
+                      <span>Profile</span>
                     </button>
+
 
                     <button
                       type="button"

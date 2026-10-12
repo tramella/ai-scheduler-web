@@ -20,6 +20,7 @@ export const PublicFooter: React.FC = () => {
                 width={140}
                 height={40}
                 className="h-8 w-auto object-contain"
+                style={{ width: "auto" }}
               />
             </Link>
           </div>
