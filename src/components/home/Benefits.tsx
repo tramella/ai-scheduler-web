@@ -27,7 +27,7 @@ export const Benefits: React.FC = () => {
                 href="/product"
                 className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 text-sm font-semibold text-[#2F2C59] bg-white hover:bg-slate-100 rounded-xl shadow-xs transition active:scale-[0.99]"
               >
-                <span>Launch Free Copilot</span>
+                <span>Generate Schedule Free</span>
                 <ArrowRight className="ml-2 h-4 w-4 text-[#2F2C59]" />
               </Link>
             </div>

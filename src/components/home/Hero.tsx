@@ -32,7 +32,7 @@ export const Hero: React.FC = () => {
               href="/product"
               className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-[#2F2C59] px-7 py-3 text-sm font-semibold text-white hover:bg-[#1E1B3A] transition shadow-xs group border border-[#2F2C59] active:scale-[0.99] cursor-pointer"
             >
-              <span>Launch Free Copilot</span>
+              <span>Try 1 Free Schedule</span>
               <ArrowRight className="ml-2 h-4 w-4 text-white group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <a

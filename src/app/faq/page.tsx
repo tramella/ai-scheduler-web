@@ -6,13 +6,12 @@ import {
   ChevronDown,
   HelpCircle,
   ArrowRight,
-  MessageSquare,
   Search,
-  Sparkles,
   ShieldCheck,
   FileSpreadsheet,
   Cpu,
   Layers,
+  Sparkles,
 } from "lucide-react";
 
 interface FAQItem {
@@ -41,49 +40,49 @@ export default function FAQPage() {
       id: "faq-1",
       category: "ai",
       categoryLabel: "AI & Rules",
-      question: "How does ORBIT ensure zero mathematical mistakes?",
+      question: "Which AI model powers the scheduling engine?",
       answer:
-        "ORBIT uses a two-tier hybrid architecture: AI interprets your natural-language shift rules, while a deterministic Node.js constraint engine audits every assignment to ensure zero overlapping shifts and full rule compliance.",
+        "The Free Community tier is powered by Google Gemini AI combined with our deterministic constraint engine. Upgrading to the Pro tier unlocks the ability to use and switch to OpenAI (GPT-4o).",
     },
     {
       id: "faq-2",
-      category: "excel",
-      categoryLabel: "Excel & Formats",
-      question: "What format does my employee Excel file need to be in?",
+      category: "pricing",
+      categoryLabel: "Plans & Access",
+      question: "How does the Free Trial work?",
       answer:
-        "ORBIT accepts standard .xlsx and .xls files under 2 MB with basic columns: Employee ID, Name, Roles/Skills, Availability, and Max Weekly Hours. Built-in sample data is also available with one click.",
+        "You can generate 1 free schedule trial using Google Gemini without providing a credit card. To run unlimited schedules, unlock multi-location support, and access OpenAI, you can upgrade to the Pro plan.",
     },
     {
       id: "faq-3",
       category: "ai",
       categoryLabel: "AI & Rules",
-      question: "Does the AI hallucinate staff or double-book shifts?",
+      question: "How does ORBIT ensure zero double-booking or rule mistakes?",
       answer:
-        "Never. Our deterministic validator enforces hard constraints: maximum 1 shift per day per employee, mandatory rest intervals between shifts, and strict verification against your uploaded roster IDs.",
+        "AI interprets your natural-language shift rules, and our deterministic Node.js constraint engine audits every single shift assignment mathematically to guarantee zero overlapping hours and 100% compliance.",
     },
     {
       id: "faq-4",
       category: "excel",
       categoryLabel: "Excel & Formats",
-      question: "Can I export the schedule back to Excel?",
+      question: "What format does my employee Excel file need to be in?",
       answer:
-        "Yes. You can export a color-coded, formatted .xlsx spreadsheet with dates, shift blocks, and staff assignments ready for printing or sharing.",
+        "ORBIT accepts standard .xlsx and .xls files under 2 MB with basic columns: Employee ID, Name, Roles/Skills, Availability, and Max Weekly Hours. Built-in demo data is also available with one click.",
     },
     {
       id: "faq-5",
+      category: "excel",
+      categoryLabel: "Excel & Formats",
+      question: "Can I export the schedule back to Excel?",
+      answer:
+        "Yes. You can export a color-coded, print-ready .xlsx spreadsheet with dates, shift blocks, and staff assignments ready for sharing.",
+    },
+    {
+      id: "faq-6",
       category: "security",
       categoryLabel: "Privacy & Security",
       question: "Is employee personal data used to train AI models?",
       answer:
-        "No. We enforce data minimization. Sensitive PII is stripped prior to processing, and roster computations are ephemeral and never used to train public AI models.",
-    },
-    {
-      id: "faq-6",
-      category: "pricing",
-      categoryLabel: "Plans & Access",
-      question: "Is ORBIT free to try?",
-      answer:
-        "Yes. The Community tier lets you test our AI scheduling copilot for free without a credit card. You can upload rosters, test shift constraints, and export schedules immediately.",
+        "No. Sensitive PII is stripped prior to processing, and roster computations are ephemeral and never used to train public AI models.",
     },
   ];
 
@@ -116,7 +115,7 @@ export default function FAQPage() {
             Frequently Asked Questions
           </h1>
           <p className="text-sm sm:text-base text-slate-600 max-w-lg mx-auto">
-            Answers about AI accuracy, Excel support, and constraint rules.
+            Answers about Gemini & OpenAI engines, Free trial limits, and Excel support.
           </p>
         </div>
 
