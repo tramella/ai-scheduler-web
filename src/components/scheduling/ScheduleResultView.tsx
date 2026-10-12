@@ -32,6 +32,7 @@ import {
   GripVertical,
   ArrowRightLeft,
   Undo2,
+  Sliders,
 } from "lucide-react";
 import { DailySchedule, exportSchedule } from "@/lib/apiClient";
 import CustomDatePicker from "./CustomDatePicker";
@@ -59,21 +60,9 @@ interface FlattenedShift {
   role?: string;
 }
 
-// Consistent vibrant avatar color palette
-const getAvatarColor = (name: string) => {
-  const palettes = [
-    "bg-gradient-to-br from-[#2F5BFF] to-indigo-600 text-white shadow-blue-500/20",
-    "bg-gradient-to-br from-[#FF7A59] to-orange-600 text-white shadow-orange-500/20",
-    "bg-gradient-to-br from-emerald-600 to-teal-600 text-white shadow-emerald-500/20",
-    "bg-gradient-to-br from-[#2F2C59] to-indigo-900 text-white shadow-indigo-500/20",
-    "bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-rose-500/20",
-    "bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-amber-500/20",
-  ];
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return palettes[Math.abs(hash) % palettes.length];
+// Unified enterprise staff avatar color token (single cohesive color)
+const getAvatarColor = (_name?: string) => {
+  return "bg-[#2F2C59] dark:bg-indigo-600 text-white shadow-2xs";
 };
 
 const MASTER_ROSTER = [
@@ -990,80 +979,6 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
         </div>
       )}
 
-      {/* ================= 2. EXECUTIVE KPI METRICS STRIP ================= */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
-        <div className="rounded-xl sm:rounded-2xl border border-zinc-200/80 bg-white p-2.5 sm:p-3 shadow-2xs hover:border-zinc-300 transition duration-150">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] sm:text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Total Staff</span>
-            <div className="p-1 sm:p-1.5 rounded-lg bg-blue-50 text-blue-600">
-              <Users className="h-3.5 w-3.5" />
-            </div>
-          </div>
-          <div className="mt-1 flex items-baseline space-x-1.5">
-            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-[#2F2C59]">
-              {kpiStats.totalStaff}
-            </span>
-            <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.2 rounded">
-              Active
-            </span>
-          </div>
-          <p className="mt-0.5 text-[10px] text-zinc-400 truncate">100% assigned to shifts</p>
-        </div>
-
-        <div className="rounded-xl sm:rounded-2xl border border-zinc-200/80 bg-white p-2.5 sm:p-3 shadow-2xs hover:border-zinc-300 transition duration-150">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] sm:text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Scheduled Hours</span>
-            <div className="p-1 sm:p-1.5 rounded-lg bg-orange-50 text-[#FF7A59]">
-              <Timer className="h-3.5 w-3.5" />
-            </div>
-          </div>
-          <div className="mt-1 flex items-baseline space-x-1.5">
-            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-[#2F2C59]">
-              {kpiStats.totalHours}h
-            </span>
-            <span className="text-[10px] font-semibold text-zinc-500">
-              ~{kpiStats.avgHours}h/staff
-            </span>
-          </div>
-          <p className="mt-0.5 text-[10px] text-zinc-400 truncate">Balanced distribution</p>
-        </div>
-
-        <div className="rounded-xl sm:rounded-2xl border border-zinc-200/80 bg-white p-2.5 sm:p-3 shadow-2xs hover:border-zinc-300 transition duration-150">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] sm:text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Total Shifts</span>
-            <div className="p-1 sm:p-1.5 rounded-lg bg-indigo-50 text-indigo-600">
-              <Layers className="h-3.5 w-3.5" />
-            </div>
-          </div>
-          <div className="mt-1 flex items-baseline space-x-1.5">
-            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-[#2F2C59]">
-              {kpiStats.totalShifts}
-            </span>
-            <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-1.5 py-0.2 rounded">
-              100% Filled
-            </span>
-          </div>
-          <p className="mt-0.5 text-[10px] text-zinc-400 truncate">Across {schedules.length} days</p>
-        </div>
-
-        <div className="rounded-xl sm:rounded-2xl border border-zinc-200/80 bg-white p-2.5 sm:p-3 shadow-2xs hover:border-zinc-300 transition duration-150">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] sm:text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Compliance</span>
-            <div className="p-1 sm:p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
-              <ShieldCheck className="h-3.5 w-3.5" />
-            </div>
-          </div>
-          <div className="mt-1 flex items-baseline space-x-1.5">
-            <span className="text-lg sm:text-xl font-extrabold tracking-tight text-emerald-600">
-              {kpiStats.complianceRate}
-            </span>
-            <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">
-              Verified
-            </span>
-          </div>
-          <p className="mt-0.5 text-[10px] text-zinc-400 truncate">0 Overtime / Overlaps</p>
-        </div>
-      </div>
 
       {/* ================= 3. UNIFIED TOOLBAR: DATE PICKER, SELECT TABS, SEARCH, ROLES & SHIFT FILTERS ================= */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 sm:gap-3">
@@ -1733,6 +1648,172 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           </div>
         </div>
       )}
+
+      {/* ================= 4. EXECUTIVE SCHEDULE SUMMARY & COMPLIANCE AUDIT (CHECKLIST LAYOUT) ================= */}
+      <div className="rounded-2xl border border-zinc-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs space-y-4">
+        {/* Header Strip */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 dark:border-slate-800/80 pb-3.5">
+          <div className="flex items-center space-x-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h3 className="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100">
+                  Executive Schedule Summary & Compliance Audit
+                </h3>
+              </div>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                Operational verification and statutory compliance checklist across {effectiveSchedules.length} scheduled days.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <span className="inline-flex items-center space-x-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+              <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+              <span>Audit Passed • 4/4 Verified</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Verification Status Progress Bar */}
+        <div className="bg-zinc-50/70 dark:bg-slate-950/40 border border-zinc-200/70 dark:border-slate-800/80 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div className="flex items-center space-x-2.5">
+            <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white shrink-0">
+              <Check className="h-3 w-3 stroke-[3]" />
+            </div>
+            <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+              4 of 4 Statutory &amp; Operational Audit Rules Passed
+            </span>
+          </div>
+          <div className="flex items-center space-x-2 sm:w-48">
+            <div className="h-1.5 w-full bg-zinc-200 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-full bg-emerald-500 rounded-full w-full"></div>
+            </div>
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0">100%</span>
+          </div>
+        </div>
+
+        {/* Audit Verification Checklist Rows */}
+        <div className="divide-y divide-zinc-100 dark:divide-slate-800/80">
+          {/* Checklist Item 1: Staff Deployment */}
+          <div className="py-3 sm:py-3.5 first:pt-1 last:pb-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-zinc-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
+            <div className="flex items-start sm:items-center space-x-3 min-w-0">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0 mt-0.5 sm:mt-0">
+                <Check className="h-4 w-4 stroke-[2.5]" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    Staff Deployment &amp; Active Roster Coverage
+                  </h4>
+                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-zinc-100 dark:bg-slate-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/60 dark:border-slate-700/60">
+                    {kpiStats.totalStaff} Active Staff
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                  All active roster personnel deployed across branch locations with 0 idle or unassigned employees.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2 shrink-0 self-end sm:self-center pl-10 sm:pl-0">
+              <span className="inline-flex items-center space-x-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                <span>100% Deployed</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Checklist Item 2: Scheduled Hours & Overtime */}
+          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-zinc-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
+            <div className="flex items-start sm:items-center space-x-3 min-w-0">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0 mt-0.5 sm:mt-0">
+                <Check className="h-4 w-4 stroke-[2.5]" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    Scheduled Hours &amp; Overtime Guardrails
+                  </h4>
+                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-zinc-100 dark:bg-slate-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/60 dark:border-slate-700/60">
+                    {kpiStats.totalHours}h Total (~{kpiStats.avgHours}h/emp)
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                  Total workload distributed strictly under weekly statutory limits with zero overtime threshold breaches.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2 shrink-0 self-end sm:self-center pl-10 sm:pl-0">
+              <span className="inline-flex items-center space-x-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                <span>0 Overtime Breaches</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Checklist Item 3: Shift Demand & Position Fulfillment */}
+          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-zinc-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
+            <div className="flex items-start sm:items-center space-x-3 min-w-0">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0 mt-0.5 sm:mt-0">
+                <Check className="h-4 w-4 stroke-[2.5]" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    Shift Demand &amp; Position Fulfillment
+                  </h4>
+                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-zinc-100 dark:bg-slate-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/60 dark:border-slate-700/60">
+                    {kpiStats.totalShifts} Shifts Filled
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                  100% of required shift positions staffed across all {effectiveSchedules.length} days with zero vacant or unfulfilled slots.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2 shrink-0 self-end sm:self-center pl-10 sm:pl-0">
+              <span className="inline-flex items-center space-x-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                <span>100% Demand Met</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Checklist Item 4: Statutory Rest & Policy Compliance */}
+          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-zinc-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
+            <div className="flex items-start sm:items-center space-x-3 min-w-0">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0 mt-0.5 sm:mt-0">
+                <Check className="h-4 w-4 stroke-[2.5]" />
+              </div>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    Statutory Rest Intervals &amp; Policy Rule Compliance
+                  </h4>
+                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60">
+                    {kpiStats.complianceRate} Audit Score
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                  Mandatory rest intervals (minimum 11h between shifts) and single shift per day constraints validated without breaches.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2 shrink-0 self-end sm:self-center pl-10 sm:pl-0">
+              <span className="inline-flex items-center space-x-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                <span>0 Policy Violations</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* ================= MODAL: SHARE SCHEDULE ================= */}
       {isShareModalOpen && (

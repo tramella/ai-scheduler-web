@@ -17,7 +17,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import { ProfileModal } from "./ProfileModal";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 interface DashboardHeaderProps {
   onToggleSidebar?: () => void;
@@ -25,6 +25,8 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const isAiStudio = pathname === "/dashboard/ai-studio";
   const { user, activeCompany, companies, switchCompany, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
@@ -79,9 +81,22 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                 Workspace
               </span>
               <span className="text-slate-300 dark:text-slate-700">/</span>
-              <h1 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                {activeCompany?.name || "Overview"}
-              </h1>
+              {isAiStudio ? (
+                <div className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Sparkles className="h-3.5 w-3.5 text-indigo-500 mr-1" />
+                    <span>AI Studio</span>
+                  </h1>
+                </div>
+              ) : (
+                <h1 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                  {activeCompany?.name || "Overview"}
+                </h1>
+              )}
             </div>
 
             {/* AI Engine Status Badge */}

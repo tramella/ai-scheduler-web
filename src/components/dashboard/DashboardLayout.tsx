@@ -10,12 +10,47 @@ interface DashboardLayoutProps {
   children: ReactNode;
 }
 
+const SIDEBAR_COLLAPSED_KEY = "orbit_sidebar_collapsed";
+
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "true";
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Restore collapsed preference from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(SIDEBAR_COLLAPSED_KEY);
+      if (saved !== null) {
+        setCollapsed(saved === "true");
+      }
+    } catch {
+      // Ignore storage errors in restricted environments
+    }
+  }, []);
+
+  const handleToggleCollapse = () => {
+    setCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem(SIDEBAR_COLLAPSED_KEY, String(next));
+      } catch {
+        // Ignore storage errors
+      }
+      return next;
+    });
+  };
 
   // Authentication protection
   useEffect(() => {
@@ -42,7 +77,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* 1. Left Dedicated Sidebar (Pinned, fits 100vh, doesn't scroll with page) */}
       <DashboardSidebar
         collapsed={collapsed}
-        onToggleCollapse={() => setCollapsed(!collapsed)}
+        onToggleCollapse={handleToggleCollapse}
         mobileOpen={mobileOpen}
         onCloseMobile={() => setMobileOpen(false)}
       />
