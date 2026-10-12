@@ -48,6 +48,7 @@ export const PublicHeader: React.FC = () => {
               width={125}
               height={34}
               className="h-7 sm:h-8 w-auto object-contain"
+              style={{ width: "auto" }}
               priority
             />
           </Link>

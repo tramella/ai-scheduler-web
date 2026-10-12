@@ -82,7 +82,7 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
               </span>
               <span className="text-slate-300 dark:text-slate-700">/</span>
               {isAiStudio ? (
-                <div className="flex items-center space-x-1.5">
+                <div key="breadcrumb-ai-studio" className="flex items-center space-x-1.5">
                   <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                     {activeCompany?.name || "Overview"}
                   </span>
@@ -93,7 +93,7 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                   </h1>
                 </div>
               ) : (
-                <h1 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                <h1 key="breadcrumb-overview" className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
                   {activeCompany?.name || "Overview"}
                 </h1>
               )}

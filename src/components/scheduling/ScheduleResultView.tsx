@@ -5,7 +5,6 @@ import {
   Download,
   RefreshCw,
   CheckCircle2,
-  MapPin,
   Clock,
   User,
   Share2,
@@ -921,68 +920,28 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
   return (
     <div className="space-y-3.5 sm:space-y-4">
-      {/* ================= 1. TOP ACTION CONTROLS & STATUS ================= */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 sm:gap-4">
-        <div className="min-w-0">
-          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200/80 shadow-2xs">
-            <span className="relative flex h-2 w-2 mr-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            AI Schedule Generated & Verified
+      {/* Status Strip */}
+      <div className="flex items-center justify-between">
+        <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200/80 shadow-2xs">
+          <span className="relative flex h-2 w-2 mr-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-        </div>
-
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-1.5 sm:gap-2 w-full lg:w-auto shrink-0">
-          <button
-            type="button"
-            onClick={() => setIsAddShiftOpen(true)}
-            className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
-          >
-            <Plus className="h-3.5 w-3.5 text-[#FF7A59]" />
-            <span>Add Shift</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsShareModalOpen(true)}
-            className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
-          >
-            <Share2 className="h-3.5 w-3.5 text-zinc-500" />
-            <span>Share</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={onRegenerate}
-            className="inline-flex items-center justify-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
-          >
-            <RefreshCw className="h-3.5 w-3.5 text-zinc-500" />
-            <span>Regenerate</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleExport}
-            disabled={isExporting}
-            className="col-span-2 sm:col-span-1 inline-flex items-center justify-center space-x-1.5 rounded-xl bg-[#2F2C59] px-3.5 py-1.5 sm:py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] shadow-xs group cursor-pointer"
-          >
-            <Download className="h-3.5 w-3.5 text-white group-hover:translate-y-0.5 transition-transform" />
-            <span>{isExporting ? "Exporting..." : "Export (.xlsx)"}</span>
-          </button>
-        </div>
+          AI Schedule Generated & Verified
+        </span>
       </div>
 
-      {exportError && (
-        <div className="rounded-xl bg-rose-50 p-2.5 text-xs font-medium text-rose-700 border border-rose-200">
-          {exportError}
+      {/* Active Floating Drag Notification (Appears ONLY while dragging a shift) */}
+      {draggedShift && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-slate-900/95 text-white text-xs font-semibold shadow-2xl backdrop-blur-md animate-in fade-in slide-in-from-bottom-2 border border-white/10">
+          <GripVertical className="h-3.5 w-3.5 text-indigo-400 animate-pulse" />
+          <span>Moving: <strong className="text-amber-300">{draggedShift.shiftName}</strong> ({draggedShift.employeeName}) &bull; Drop on empty cell or shift to swap</span>
         </div>
       )}
 
-
-      {/* ================= 3. UNIFIED TOOLBAR: DATE PICKER, SELECT TABS, SEARCH, ROLES & SHIFT FILTERS ================= */}
+      {/* ================= 1. PRIMARY TOOLBAR: DATE PICKER, VIEW SWITCHER & ACTIONS ================= */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5 sm:gap-3">
-        {/* Left Cluster: Custom Date Picker & View Switcher Tabs */}
+        {/* Left: Custom Date Picker & View Switcher Segmented Tabs */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
           <CustomDatePicker
             mode={viewMode === "day" ? "day" : viewMode === "month" ? "month" : "week"}
@@ -996,13 +955,13 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             }}
           />
 
-          <div className="flex items-center space-x-1 bg-zinc-100/90 p-1 rounded-xl border border-zinc-200/80">
+          <div className="flex items-center space-x-0.5 bg-zinc-100/90 p-1 rounded-xl border border-zinc-200/80">
             <button
               type="button"
               onClick={() => setViewMode("week")}
-              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition ${
+              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
                 viewMode === "week"
-                  ? "bg-white text-zinc-900 shadow-xs"
+                  ? "bg-white text-zinc-900 shadow-2xs"
                   : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
@@ -1011,9 +970,9 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={() => setViewMode("day")}
-              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition ${
+              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
                 viewMode === "day"
-                  ? "bg-white text-zinc-900 shadow-xs"
+                  ? "bg-white text-zinc-900 shadow-2xs"
                   : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
@@ -1022,9 +981,9 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={() => setViewMode("month")}
-              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition ${
+              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
                 viewMode === "month"
-                  ? "bg-white text-zinc-900 shadow-xs"
+                  ? "bg-white text-zinc-900 shadow-2xs"
                   : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
@@ -1033,9 +992,9 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={() => setViewMode("table")}
-              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition ${
+              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
                 viewMode === "table"
-                  ? "bg-white text-zinc-900 shadow-xs"
+                  ? "bg-white text-zinc-900 shadow-2xs"
                   : "text-zinc-600 hover:text-zinc-900"
               }`}
             >
@@ -1044,11 +1003,60 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           </div>
         </div>
 
-        {/* Right Cluster: Search + Roles Filter + Shift Filter */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 justify-start lg:justify-end">
+        {/* Right: Clean Actions Cluster */}
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() => setIsAddShiftOpen(true)}
+            className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
+          >
+            <Plus className="h-3.5 w-3.5 text-[#FF7A59]" />
+            <span>Add Shift</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsShareModalOpen(true)}
+            className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
+          >
+            <Share2 className="h-3.5 w-3.5 text-zinc-500" />
+            <span>Share</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onRegenerate}
+            className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
+          >
+            <RefreshCw className="h-3.5 w-3.5 text-zinc-500" />
+            <span>Regenerate</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleExport}
+            disabled={isExporting}
+            className="inline-flex items-center space-x-1.5 rounded-xl bg-[#2F2C59] px-3.5 py-1.5 sm:py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] shadow-xs group cursor-pointer"
+          >
+            <Download className="h-3.5 w-3.5 text-white group-hover:translate-y-0.5 transition-transform" />
+            <span>{isExporting ? "Exporting..." : "Export"}</span>
+          </button>
+        </div>
+      </div>
+
+      {exportError && (
+        <div className="rounded-xl bg-rose-50 p-2.5 text-xs font-medium text-rose-700 border border-rose-200">
+          {exportError}
+        </div>
+      )}
+
+      {/* ================= 2. SECONDARY TOOLBAR: SEARCH, FILTERS & INLINE SHIFT LEGEND ================= */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2.5 px-3 py-2 rounded-xl bg-zinc-50/80 border border-zinc-200/70">
+        {/* Left: Filters Cluster */}
+        <div className="flex flex-wrap items-center gap-2">
           {/* Search Input */}
-          <div className="relative min-w-[140px] sm:w-44 lg:w-48">
-            <Search className="pointer-events-none absolute inset-y-0 left-0 h-3.5 w-3.5 my-auto ml-3 text-zinc-400" />
+          <div className="relative min-w-[130px] sm:w-40 lg:w-44">
+            <Search className="pointer-events-none absolute inset-y-0 left-0 h-3.5 w-3.5 my-auto ml-2.5 text-zinc-400" />
             <input
               type="text"
               value={searchEmployee}
@@ -1056,8 +1064,8 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setSearchEmployee(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Search staff..."
-              className="w-full rounded-xl border border-zinc-200 bg-zinc-50/80 hover:bg-white py-1.5 pl-8 pr-7 text-xs text-zinc-900 placeholder-zinc-400 focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition shadow-2xs"
+              placeholder="Filter staff..."
+              className="w-full rounded-lg border border-zinc-200 bg-white py-1 pl-7 pr-6 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition"
             />
             {searchEmployee && (
               <button
@@ -1065,12 +1073,12 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 onClick={() => setSearchEmployee("")}
                 className="absolute inset-y-0 right-0 flex items-center pr-2 text-zinc-400 hover:text-zinc-600"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-3 w-3" />
               </button>
             )}
           </div>
 
-          {/* Role Filter Dropdown */}
+          {/* Role Filter */}
           <div className="relative">
             <select
               value={selectedRole}
@@ -1078,7 +1086,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setSelectedRole(e.target.value);
                 setCurrentPage(1);
               }}
-              className="appearance-none rounded-xl border border-zinc-200 bg-zinc-50/80 hover:bg-white py-1.5 pl-3 pr-8 text-xs font-semibold text-zinc-700 hover:border-zinc-300 focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition shadow-2xs cursor-pointer"
+              className="appearance-none rounded-lg border border-zinc-200 bg-white py-1 pl-2.5 pr-7 text-xs font-semibold text-zinc-700 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition cursor-pointer"
             >
               {rolesWithCount.map((r) => (
                 <option key={r.role} value={r.role}>
@@ -1086,10 +1094,10 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
+            <ChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-3 w-3 text-zinc-400" />
           </div>
 
-          {/* Shift Filter Dropdown (NEW!) */}
+          {/* Shift Filter */}
           <div className="relative">
             <select
               value={selectedShift}
@@ -1097,7 +1105,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setSelectedShift(e.target.value);
                 setCurrentPage(1);
               }}
-              className="appearance-none rounded-xl border border-zinc-200 bg-zinc-50/80 hover:bg-white py-1.5 pl-3 pr-8 text-xs font-semibold text-zinc-700 hover:border-zinc-300 focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition shadow-2xs cursor-pointer"
+              className="appearance-none rounded-lg border border-zinc-200 bg-white py-1 pl-2.5 pr-7 text-xs font-semibold text-zinc-700 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition cursor-pointer"
             >
               {shiftTypesList.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -1105,10 +1113,10 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
+            <ChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-3 w-3 text-zinc-400" />
           </div>
 
-          {/* Reset Filters Button */}
+          {/* Reset Filters */}
           {(selectedRole !== "all" || selectedShift !== "all" || searchEmployee !== "") && (
             <button
               type="button"
@@ -1118,35 +1126,34 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setSearchEmployee("");
                 setCurrentPage(1);
               }}
-              className="inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition border border-transparent hover:border-zinc-200 cursor-pointer"
-              title="Reset all filters"
+              className="inline-flex items-center space-x-1 px-2 py-1 rounded-lg text-xs font-semibold text-zinc-500 hover:text-zinc-900 hover:bg-zinc-200/60 transition cursor-pointer"
             >
-              <X className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Reset</span>
+              <X className="h-3 w-3" />
+              <span>Reset</span>
             </button>
           )}
         </div>
+
+        {/* Right: Inline Clean Shift Legend */}
+        <div className="flex items-center space-x-3 text-[11px] text-zinc-500 font-medium shrink-0 self-end md:self-auto">
+          <div className="flex items-center space-x-1.5">
+            <span className="h-2 w-2 rounded-full bg-[#2F5BFF]" />
+            <span>Morning</span>
+          </div>
+          <div className="flex items-center space-x-1.5">
+            <span className="h-2 w-2 rounded-full bg-[#FF7A59]" />
+            <span>Afternoon</span>
+          </div>
+          <div className="flex items-center space-x-1.5">
+            <span className="h-2 w-2 rounded-full bg-[#2F2C59]" />
+            <span>Night</span>
+          </div>
+        </div>
       </div>
 
-      {/* ================= 5. VIEW 1 & 2: CALENDAR MATRIX (WEEK & DAY) ================= */}
+      {/* ================= 3. VIEW 1 & 2: CALENDAR MATRIX (WEEK & DAY) ================= */}
       {(viewMode === "week" || viewMode === "day") && (
         <div className="space-y-4">
-          {/* Interactive Drag & Drop Control Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-2xl bg-zinc-50/90 border border-zinc-200/80 text-xs shadow-2xs">
-            <div className="flex items-center space-x-2 text-zinc-600 font-medium">
-              <div className="p-1 rounded-lg bg-zinc-200/70 text-[#2F2C59]">
-                <GripVertical className="h-3.5 w-3.5" />
-              </div>
-              <span className="leading-snug">
-                <strong className="text-zinc-900 font-bold">Interactive Drag &amp; Drop:</strong> Grab any shift block to reassign staff or move dates. Drop directly onto another shift card to swap assignments.
-              </span>
-            </div>
-            {draggedShift && (
-              <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-xl bg-indigo-100 text-indigo-900 font-bold text-[11px] animate-pulse shrink-0 border border-indigo-200">
-                <span>Dragging: {draggedShift.shiftName} ({draggedShift.employeeName})</span>
-              </div>
-            )}
-          </div>
 
           <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
@@ -1347,10 +1354,6 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                             <Clock className="h-2.5 w-2.5 shrink-0 text-zinc-400" />
                                             <span className="truncate">{shift.start}–{shift.end}</span>
                                           </div>
-                                          <div className="flex items-center space-x-1 text-[8px] sm:text-[9px] mt-0.5 text-zinc-500 truncate pl-3">
-                                            <MapPin className="h-2.5 w-2.5 shrink-0 text-zinc-400" />
-                                            <span className="truncate">{shift.locationName.split(" (")[0]}</span>
-                                          </div>
                                         </div>
                                       );
                                     })}
@@ -1391,74 +1394,68 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             </div>
           </div>
 
-          {/* ================= 6. SHIFT COLOR LEGEND & EMPLOYEE PAGINATION ROW ================= */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-2 px-1">
-            {/* Left: Shift Color Palette Legend */}
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-500 font-medium">
-              <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#F59E0B] ring-2 ring-[#F59E0B]/30 shadow-2xs" />
-                <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Morning Shift</span>
-                <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">07:00–15:00</span>
-              </div>
-              <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#FF7A59] ring-2 ring-[#FF7A59]/30 shadow-2xs" />
-                <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Afternoon Shift</span>
-                <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">14:30–22:30</span>
-              </div>
-              <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-xl border border-zinc-200/80 shadow-2xs">
-                <span className="h-2 sm:h-2.5 w-2 sm:w-2.5 rounded-full bg-[#6366F1] ring-2 ring-[#6366F1]/30 shadow-2xs" />
-                <span className="font-semibold text-zinc-800 text-[11px] sm:text-xs">Night Shift</span>
-                <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400 font-medium hidden xs:inline">22:00–06:00</span>
-              </div>
-            </div>
-
-            {/* Right: Clean Employee Pagination Controls */}
-            {totalPages > 1 && (
-              <div className="flex items-center space-x-1 sm:space-x-1.5 self-center sm:self-auto shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage(1)}
-                  disabled={currentPage === 1}
-                  className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
-                  title="First Page"
-                >
-                  <ChevronsLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
-                  title="Previous Page"
-                >
-                  <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                </button>
-
-                <span className="px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs font-bold text-zinc-800 whitespace-nowrap">
-                  Page {currentPage} of {totalPages}
+          {/* ================= 6. EMPLOYEE ROSTER PAGINATION FOOTER ================= */}
+          {filteredEmployees.length > 0 && (
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-1.5 px-1 text-xs text-zinc-500">
+              <div className="text-[11px] sm:text-xs font-medium">
+                Showing{" "}
+                <span className="font-bold text-zinc-800">
+                  {(currentPage - 1) * pageSize + 1}
                 </span>
-
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage >= totalPages}
-                  className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
-                  title="Next Page"
-                >
-                  <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrentPage(totalPages)}
-                  disabled={currentPage >= totalPages}
-                  className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs"
-                  title="Last Page"
-                >
-                  <ChevronsRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                </button>
+                –
+                <span className="font-bold text-zinc-800">
+                  {Math.min(currentPage * pageSize, filteredEmployees.length)}
+                </span>{" "}
+                of <span className="font-bold text-zinc-800">{filteredEmployees.length}</span> staff members
               </div>
-            )}
-          </div>
+
+              {totalPages > 1 && (
+                <div className="flex items-center space-x-1 sm:space-x-1.5 self-center sm:self-auto shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage(1)}
+                    disabled={currentPage === 1}
+                    className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs cursor-pointer"
+                    title="First Page"
+                  >
+                    <ChevronsLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs cursor-pointer"
+                    title="Previous Page"
+                  >
+                    <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  </button>
+
+                  <span className="px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs font-bold text-zinc-800 whitespace-nowrap">
+                    Page {currentPage} of {totalPages}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                    disabled={currentPage >= totalPages}
+                    className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs cursor-pointer"
+                    title="Next Page"
+                  >
+                    <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCurrentPage(totalPages)}
+                    disabled={currentPage >= totalPages}
+                    className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs cursor-pointer"
+                    title="Last Page"
+                  >
+                    <ChevronsRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
 

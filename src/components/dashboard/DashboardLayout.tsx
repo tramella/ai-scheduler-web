@@ -16,16 +16,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
 
-  const [collapsed, setCollapsed] = useState(() => {
-    if (typeof window !== "undefined") {
-      try {
-        return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "true";
-      } catch {
-        return false;
-      }
-    }
-    return false;
-  });
+  const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // Restore collapsed preference from localStorage

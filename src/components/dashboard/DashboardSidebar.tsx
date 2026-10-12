@@ -126,6 +126,7 @@ export function DashboardSidebar({
                 width={32}
                 height={32}
                 className="h-8 w-8 object-contain"
+                style={{ width: "auto", height: "auto" }}
                 priority
               />
             ) : (
@@ -135,6 +136,7 @@ export function DashboardSidebar({
                 width={125}
                 height={32}
                 className="h-7 w-auto object-contain"
+                style={{ width: "auto" }}
                 priority
               />
             )}

@@ -645,7 +645,7 @@ export default function AiStudioPage() {
 
   return (
     <DashboardLayout>
-      <div className="h-full flex flex-col space-y-4">
+      <div className="w-full space-y-4">
         
         {/* Toast Alert */}
         {toastMessage && (
@@ -655,8 +655,8 @@ export default function AiStudioPage() {
           </div>
         )}
 
-        {/* Modern Tab Bar Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200/80 dark:border-slate-800/80 gap-3 shrink-0">
+        {/* Tab Bar Header (Normal flow) */}
+        <div className="pb-3 border-b border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between gap-3">
           {/* Tab Switcher: Generator (1 word) vs Calendar (1 word) */}
           <div className="inline-flex p-1 bg-slate-100/90 dark:bg-slate-800/70 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
             <button
@@ -725,7 +725,7 @@ export default function AiStudioPage() {
 
         {/* TAB 1: STREAMLINED AI GENERATOR (REDESIGNED 2-COLUMN STUDIO WORKSPACE) */}
         {activeTab === "generator" && (
-          <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-2.5">
+          <div className="w-full">
             <div className="max-w-6xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4.5 items-start">
                 
@@ -1016,89 +1016,37 @@ export default function AiStudioPage() {
                 {/* RIGHT COLUMN: OPERATIONAL INTELLIGENCE & POLICY GUARDRAILS (5 cols) */}
                 <div className="lg:col-span-5 space-y-4">
                   
-                  {/* Card 3: Operational Readiness Baseline */}
-                  <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs space-y-3.5">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 text-xs font-bold text-slate-900 dark:text-white">
+                  {/* Card 3: Operational Readiness (Minimalist & Compact) */}
+                  <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-4.5 shadow-2xs space-y-3">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
                       <div className="flex items-center space-x-2">
-                        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
                         <span>Operational Readiness</span>
                       </div>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60">
-                        Pre-flight Checked
+                      <span className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/70 px-2 py-0.5 rounded-full border border-emerald-200/60 dark:border-emerald-800/60">
+                        Ready
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2.5">
-                      {/* Metric 1 */}
-                      <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                            Staff Pool
-                          </span>
-                          <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                            <Users className="h-3 w-3" />
-                          </div>
-                        </div>
-                        <div className="mt-1 text-sm font-extrabold text-slate-900 dark:text-white">
-                          {currentLocation.staffNum} Staff
-                        </div>
-                        <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
-                          Active & available
-                        </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800">
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500">Staff Pool</div>
+                        <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">{currentLocation.staffNum} Available</div>
                       </div>
 
-                      {/* Metric 2 */}
-                      <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                            Shift Slots
-                          </span>
-                          <div className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
-                            <Clock className="h-3 w-3" />
-                          </div>
-                        </div>
-                        <div className="mt-1 text-sm font-extrabold text-slate-900 dark:text-white">
-                          3 Shifts/Day
-                        </div>
-                        <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
-                          Open • Peak • Close
-                        </p>
+                      <div className="p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800">
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500">Daily Shifts</div>
+                        <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">3 Shifts / Day</div>
                       </div>
 
-                      {/* Metric 3 */}
-                      <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                            Compliance
-                          </span>
-                          <div className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
-                            <ShieldCheck className="h-3 w-3" />
-                          </div>
-                        </div>
-                        <div className="mt-1 text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
-                          Pre-validated
-                        </div>
-                        <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
-                          0 leave collisions
-                        </p>
+                      <div className="p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800">
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500">Leave Collisions</div>
+                        <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">0 Conflicts</div>
                       </div>
 
-                      {/* Metric 4 */}
-                      <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/50">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                            Solver Engine
-                          </span>
-                          <div className="p-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
-                            <Cpu className="h-3 w-3" />
-                          </div>
-                        </div>
-                        <div className="mt-1 text-sm font-extrabold text-slate-900 dark:text-white">
-                          OR-Tools v2.4
-                        </div>
-                        <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
-                          Deterministic logic
-                        </p>
+                      <div className="p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800">
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500">Solver Engine</div>
+                        <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5">OR-Tools v2.4</div>
                       </div>
                     </div>
                   </div>
@@ -1178,17 +1126,15 @@ export default function AiStudioPage() {
 
         {/* TAB 2: SCHEDULE RESULT / CALENDAR (OPTIMIZED WIDESCREEN CANVAS) */}
         {activeTab === "result" && (
-          <div className="flex-1 min-h-0 overflow-y-auto px-2 sm:px-4 lg:px-6 py-2.5">
-            <div className="w-full max-w-[1750px] mx-auto space-y-3.5">
-              <ScheduleResultView
-                schedules={schedules}
-                startDate={startDate}
-                endDate={endDate}
-                onRegenerate={handleGenerate}
-                onReset={() => setActiveTab("generator")}
-                onScheduleChange={setSchedules}
-              />
-            </div>
+          <div className="w-full max-w-[1750px] mx-auto space-y-3.5">
+            <ScheduleResultView
+              schedules={schedules}
+              startDate={startDate}
+              endDate={endDate}
+              onRegenerate={handleGenerate}
+              onReset={() => setActiveTab("generator")}
+              onScheduleChange={setSchedules}
+            />
           </div>
         )}
 
