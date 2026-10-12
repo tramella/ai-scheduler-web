@@ -55,9 +55,9 @@ export function DashboardSidebar({
 
     {
       name: "Employees",
-      href: "/dashboard#roster",
+      href: "/dashboard/employees",
       icon: Users,
-      active: false,
+      active: pathname === "/dashboard/employees",
     },
     {
       name: "Constraints",

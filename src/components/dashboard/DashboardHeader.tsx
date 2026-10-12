@@ -13,6 +13,7 @@ import {
   LogOut,
   CheckCircle2,
   Sparkles,
+  Users,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -27,6 +28,7 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isAiStudio = pathname === "/dashboard/ai-studio";
+  const isEmployees = pathname === "/dashboard/employees";
   const { user, activeCompany, companies, switchCompany, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
@@ -90,6 +92,17 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                   <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
                     <Sparkles className="h-3.5 w-3.5 text-indigo-500 mr-1" />
                     <span>AI Studio</span>
+                  </h1>
+                </div>
+              ) : isEmployees ? (
+                <div key="breadcrumb-employees" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Users className="h-3.5 w-3.5 text-[#2F5BFF] mr-1" />
+                    <span>Employees</span>
                   </h1>
                 </div>
               ) : (
