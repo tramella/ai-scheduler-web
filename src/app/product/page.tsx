@@ -123,13 +123,13 @@ export default function ProductPage() {
 
   const quickPromptChips = [
     { label: "Fair Workload Balance", prompt: "Distribute shift hours and weekend slots evenly across all team members." },
-    { label: "Morning Priority", prompt: "Prioritize morning shifts for qualified cashiers with a 35 hours/week cap." },
+    { label: "Morning Rush Priority", prompt: "Prioritize morning shifts for qualified cashiers with a 35 hours/week cap." },
     { label: "Min 2 Staff Per Shift", prompt: "Ensure at least 2 staff members per shift and respect all unavailability dates." },
     { label: "12h Mandatory Rest", prompt: "Prevent consecutive late-to-early shifts and enforce mandatory 12-hour rest." },
   ];
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-start py-8 sm:py-14 px-4 sm:px-6 lg:px-8 bg-slate-50/50">
+    <main className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-start py-8 sm:py-14 px-4 sm:px-6 lg:px-8 bg-slate-50/60">
       <div className="w-full max-w-4xl mx-auto space-y-6">
         
         {/* Error Notification */}
@@ -159,8 +159,8 @@ export default function ProductPage() {
           <div className="space-y-6">
             
             {/* Header */}
-            <div className="text-center max-w-xl mx-auto space-y-2">
-              <div className="inline-flex items-center space-x-2 rounded-full bg-slate-900/[0.05] px-3.5 py-1 text-xs font-semibold text-slate-800">
+            <div className="text-center max-w-xl mx-auto space-y-2.5">
+              <div className="inline-flex items-center space-x-2 rounded-full bg-slate-100 border border-slate-200/80 px-4 py-1 text-xs font-semibold text-slate-800 shadow-2xs">
                 <Sparkles className="h-3.5 w-3.5 text-[#FF7A59]" />
                 <span>Google Gemini Engine • 1 Free Trial</span>
               </div>
@@ -180,14 +180,14 @@ export default function ProductPage() {
               className={`relative rounded-3xl border transition-all duration-150 bg-white shadow-sm ${
                 isDragging
                   ? "border-[#2F2C59] ring-2 ring-[#2F2C59]/10"
-                  : "border-slate-200/90 focus-within:border-[#2F2C59] focus-within:ring-2 focus-within:ring-[#2F2C59]/10"
+                  : "border-slate-200/90 focus-within:border-[#2F5BFF] focus-within:ring-2 focus-within:ring-[#2F5BFF]/20"
               }`}
             >
               {/* Attached file badge */}
               {(file || useSampleRoster) && (
                 <div className="px-4 pt-3.5 pb-1 flex items-center gap-2">
-                  <div className="inline-flex items-center space-x-2 rounded-xl bg-slate-100 border border-slate-200 px-3 py-1 text-xs text-slate-800">
-                    <FileSpreadsheet className="h-3.5 w-3.5 text-slate-600 shrink-0" />
+                  <div className="inline-flex items-center space-x-2 rounded-full bg-indigo-50 border border-indigo-200/70 px-3 py-1 text-xs text-[#2F2C59]">
+                    <FileSpreadsheet className="h-3.5 w-3.5 text-[#2F5BFF] shrink-0" />
                     <span className="font-semibold truncate max-w-[200px] sm:max-w-xs">
                       {file ? file.name : "Sample Roster (8 Staff)"}
                     </span>
@@ -197,7 +197,7 @@ export default function ProductPage() {
                         setFile(null);
                         setUseSampleRoster(false);
                       }}
-                      className="ml-1 text-slate-400 hover:text-slate-800 p-0.5 rounded transition"
+                      className="ml-1 text-slate-400 hover:text-slate-800 p-0.5 rounded-full transition cursor-pointer"
                       title="Remove"
                     >
                       <X className="h-3 w-3" />
@@ -227,7 +227,7 @@ export default function ProductPage() {
                   onChange={(e) => setPrompt(e.target.value)}
                   onKeyDown={handleKeyDown}
                   rows={3}
-                  placeholder="Describe your shift rules and constraints..."
+                  placeholder="Describe your shift rules and constraints in plain language..."
                   className="w-full resize-none bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-hidden leading-relaxed"
                 />
               </div>
@@ -238,7 +238,7 @@ export default function ProductPage() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="inline-flex items-center space-x-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
+                    className="inline-flex items-center space-x-1.5 rounded-full border border-slate-200/80 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition cursor-pointer shadow-2xs"
                   >
                     <Paperclip className="h-3.5 w-3.5 text-slate-500" />
                     <span>{file ? "Change File" : "Attach Excel (.xlsx)"}</span>
@@ -248,7 +248,7 @@ export default function ProductPage() {
                     <button
                       type="button"
                       onClick={() => setUseSampleRoster(true)}
-                      className="inline-flex items-center space-x-1 rounded-xl border border-dashed border-slate-300 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 transition cursor-pointer"
+                      className="inline-flex items-center space-x-1 rounded-full border border-dashed border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 transition cursor-pointer"
                     >
                       <Zap className="h-3 w-3 text-[#FF7A59]" />
                       <span>Use Demo Data</span>
@@ -270,7 +270,7 @@ export default function ProductPage() {
                   type="button"
                   onClick={() => handleGenerate()}
                   disabled={loading}
-                  className="inline-flex items-center justify-center rounded-xl bg-[#2F2C59] px-5 py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition border border-[#2F2C59] cursor-pointer shadow-xs"
+                  className="inline-flex items-center justify-center rounded-full bg-[#2F2C59] px-6 py-2.5 text-xs font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition border border-[#2F2C59] cursor-pointer shadow-xs active:scale-[0.98]"
                 >
                   <Sparkles className="mr-1.5 h-3.5 w-3.5 text-[#FF7A59]" />
                   <span>Generate with Gemini</span>
@@ -282,16 +282,16 @@ export default function ProductPage() {
             {/* Quick Prompt Suggestions */}
             <div className="space-y-2">
               <span className="text-xs font-semibold text-slate-500">Quick Templates:</span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {quickPromptChips.map((chip, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setPrompt(chip.prompt)}
-                    className="flex items-center justify-between rounded-xl border border-slate-200 bg-white hover:bg-slate-50 p-2.5 text-xs text-left text-slate-700 shadow-2xs transition active:scale-[0.99] cursor-pointer"
+                    className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-white hover:border-[#2F5BFF]/50 hover:bg-indigo-50/20 p-3 text-xs text-left text-slate-700 shadow-2xs transition active:scale-[0.99] cursor-pointer group"
                   >
-                    <span className="font-medium text-slate-800">{chip.label}</span>
-                    <span className="text-[11px] text-slate-500">Apply</span>
+                    <span className="font-semibold text-slate-800 group-hover:text-[#2F2C59]">{chip.label}</span>
+                    <span className="text-[11px] font-semibold text-[#2F5BFF]">Apply</span>
                   </button>
                 ))}
               </div>

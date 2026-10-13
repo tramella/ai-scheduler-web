@@ -248,7 +248,7 @@ export default function LoginPage() {
                 >
                   Email
                 </label>
-                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F2C59] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F2C59]/10 transition">
+                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F5BFF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F5BFF]/20 transition">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                     <Mail className="h-4 w-4" />
                   </div>
@@ -285,7 +285,7 @@ export default function LoginPage() {
                     Forgot?
                   </button>
                 </div>
-                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F2C59] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F2C59]/10 transition">
+                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F5BFF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F5BFF]/20 transition">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                     <Lock className="h-4 w-4" />
                   </div>
@@ -312,7 +312,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center rounded-xl bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] mt-2 cursor-pointer shadow-xs"
+                className="w-full inline-flex items-center justify-center rounded-full bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.98] border border-[#2F2C59] mt-2 cursor-pointer shadow-xs"
               >
                 <span>{loading ? "Signing in..." : "Continue"}</span>
                 <ArrowRight className="ml-2 h-4 w-4 text-white" />

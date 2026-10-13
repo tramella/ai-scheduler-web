@@ -58,7 +58,7 @@ export default function FAQPage() {
       categoryLabel: "AI & Rules",
       question: "How does ORBIT ensure zero double-booking or rule mistakes?",
       answer:
-        "AI interprets your natural-language shift rules, and our deterministic Node.js constraint engine audits every single shift assignment mathematically to guarantee zero overlapping hours and 100% compliance.",
+        "AI interprets your natural-language shift rules, and our deterministic constraint engine audits every single shift assignment mathematically to guarantee zero overlapping hours and 100% compliance.",
     },
     {
       id: "faq-4",
@@ -102,20 +102,20 @@ export default function FAQPage() {
   };
 
   return (
-    <main className="min-h-[calc(100vh-4rem)] py-12 sm:py-20 bg-slate-50/50">
+    <main className="min-h-[calc(100vh-4rem)] py-12 sm:py-20 bg-slate-50/60">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center mb-10 space-y-2.5">
-          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-900/[0.05] px-3.5 py-1 text-xs font-semibold text-slate-800">
-            <HelpCircle className="h-3.5 w-3.5 text-[#FF7A59]" />
+          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-100 border border-slate-200/80 px-4 py-1 text-xs font-semibold text-slate-800 shadow-2xs">
+            <HelpCircle className="h-3.5 w-3.5 text-[#2F5BFF]" />
             <span>Knowledge Base</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-[#2F2C59]">
             Frequently Asked Questions
           </h1>
           <p className="text-sm sm:text-base text-slate-600 max-w-lg mx-auto">
-            Answers about Gemini & OpenAI engines, Free trial limits, and Excel support.
+            Answers about Gemini & OpenAI engines, free trial limits, and Excel support.
           </p>
         </div>
 
@@ -130,8 +130,8 @@ export default function FAQPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search questions..."
-              className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 placeholder:text-slate-400 shadow-xs focus:border-[#2F2C59] focus:outline-hidden focus:ring-2 focus:ring-[#2F2C59]/10 transition"
+              placeholder="Search questions or keywords..."
+              className="w-full rounded-full border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 shadow-xs focus:border-[#2F5BFF] focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/30 transition"
             />
           </div>
 
@@ -147,10 +147,10 @@ export default function FAQPage() {
                     setSelectedCategory(cat.id);
                     setOpenIndex(null);
                   }}
-                  className={`inline-flex items-center whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium transition-all cursor-pointer ${
+                  className={`inline-flex items-center whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                     isActive
-                      ? "bg-[#2F2C59] text-white shadow-xs font-semibold"
-                      : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+                      ? "bg-[#2F2C59] text-white shadow-xs"
+                      : "bg-white border border-slate-200/80 text-slate-600 hover:bg-slate-50"
                   }`}
                 >
                   <span>{cat.label}</span>
@@ -168,7 +168,7 @@ export default function FAQPage() {
             return (
               <div
                 key={faq.id}
-                className="rounded-2xl border border-slate-200/90 bg-white overflow-hidden shadow-xs"
+                className="rounded-2xl border border-slate-200/80 bg-white overflow-hidden shadow-xs hover:border-slate-300 transition-all"
               >
                 <button
                   type="button"
@@ -179,7 +179,7 @@ export default function FAQPage() {
                     {faq.question}
                   </h3>
                   <div
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-700 transition-transform ${
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition-transform ${
                       isOpen ? "rotate-180 bg-[#2F2C59] text-white" : ""
                     }`}
                   >
@@ -198,7 +198,7 @@ export default function FAQPage() {
         </div>
 
         {/* Bottom Contact Card */}
-        <div className="mt-12 rounded-3xl border border-slate-200/90 bg-white p-7 text-center shadow-xs">
+        <div className="mt-12 rounded-3xl border border-slate-200/80 bg-white p-7 text-center shadow-xs">
           <h3 className="text-base font-bold text-slate-900 mb-1">
             Have custom requirements?
           </h3>
@@ -208,9 +208,9 @@ export default function FAQPage() {
           <div className="flex items-center justify-center gap-2.5">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-xl bg-[#2F2C59] px-5 py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] transition border border-[#2F2C59] shadow-xs"
+              className="inline-flex items-center justify-center rounded-full bg-[#2F2C59] px-6 py-2.5 text-xs font-semibold text-white hover:bg-[#1E1B3A] transition border border-[#2F2C59] shadow-xs active:scale-95"
             >
-              <span>Contact Us</span>
+              <span>Contact Specialists</span>
               <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
             </Link>
           </div>
