@@ -1,14 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import {
-  CheckCircle2,
-  Users,
-  UserCheck,
-  Clock,
-  Briefcase,
-  X,
-} from "lucide-react";
+import { CheckCircle2, X } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import {
   EmployeeProfile,
@@ -21,7 +14,6 @@ import {
   EditEmployeeModal,
 } from "@/components/dashboard/employee";
 import { Pagination } from "@/components/ui/Pagination";
-import { KpiCard } from "@/components/ui/KpiCard";
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<EmployeeProfile[]>(INITIAL_EMPLOYEES);
@@ -206,79 +198,7 @@ export default function EmployeesPage() {
           onAddEmployee={() => setIsAddModalOpen(true)}
         />
 
-        {/* 2. Four KPI Blocks */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
-          <KpiCard
-            label="Total staff"
-            value={metrics.total}
-            chip="100% enrolled"
-            chipVariant="neutral"
-            note={`${metrics.total} total staff records`}
-            icon={Users}
-            iconVariant="blue"
-          >
-            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-              <div className="h-full bg-[#2F5BFF] w-full rounded-full" />
-            </div>
-          </KpiCard>
-
-          <KpiCard
-            label="Active on duty"
-            value={metrics.active}
-            chip={`${Math.round((metrics.active / metrics.total) * 100)}% active`}
-            chipVariant="success"
-            note={`${metrics.active} available for shift roster`}
-            icon={UserCheck}
-            iconVariant="emerald"
-          >
-            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-emerald-500 rounded-full"
-                style={{ width: `${(metrics.active / metrics.total) * 100}%` }}
-              />
-            </div>
-          </KpiCard>
-
-          <KpiCard
-            label="On leave / away"
-            value={metrics.onLeave}
-            chip={metrics.onLeave > 0 ? "Temporary leave" : "None away"}
-            chipVariant="warning"
-            note={`${metrics.onLeave} personnel currently away`}
-            icon={Clock}
-            iconVariant="orange"
-          >
-            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[#FF7A59] rounded-full"
-                style={{ width: `${(metrics.onLeave / metrics.total) * 100}%` }}
-              />
-            </div>
-          </KpiCard>
-
-          <KpiCard
-            label="Employment mix"
-            value={`${metrics.fullTime} FT`}
-            chip={`${metrics.partTime} PT`}
-            chipVariant="info"
-            note={`${metrics.fullTime} full-time, ${metrics.partTime} part-time`}
-            icon={Briefcase}
-            iconVariant="indigo"
-          >
-            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex">
-              <div
-                className="h-full bg-[#2F2C59] dark:bg-indigo-400"
-                style={{ width: `${(metrics.fullTime / metrics.total) * 100}%` }}
-              />
-              <div
-                className="h-full bg-indigo-300 dark:bg-indigo-600"
-                style={{ width: `${(metrics.partTime / metrics.total) * 100}%` }}
-              />
-            </div>
-          </KpiCard>
-        </div>
-
-        {/* 3. Toolbar & Filters */}
+        {/* 2. Toolbar & Filters */}
         <EmployeeToolbar
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}

@@ -231,13 +231,22 @@ export function DashboardSidebar({
         {/* User Profile Block at bottom (Full Name Display) */}
         <div className="p-3 border-t border-slate-200/70 dark:border-slate-800/70 shrink-0">
           {!collapsed ? (
-            <div className="p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800 shadow-[0_1px_2px_rgba(15,23,42,0.04)] flex items-center space-x-2.5">
+            <Link
+              href="/dashboard/profile"
+              onClick={onCloseMobile}
+              className={`p-3 rounded-2xl border shadow-[0_1px_2px_rgba(15,23,42,0.04)] flex items-center space-x-2.5 transition group cursor-pointer ${
+                pathname.startsWith("/dashboard/profile")
+                  ? "bg-indigo-50/50 dark:bg-indigo-950/40 border-indigo-300 dark:border-indigo-800"
+                  : "bg-white dark:bg-slate-900 border-slate-200/70 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+              }`}
+              title="View account profile"
+            >
               <div className="h-8 w-8 rounded-full bg-[#2F2C59] dark:bg-indigo-600 text-white font-semibold text-xs flex items-center justify-center shrink-0 shadow-xs">
                 {user?.full_name?.charAt(0).toUpperCase() || "U"}
               </div>
               <div className="min-w-0 flex-1 text-left">
                 <div
-                  className="text-xs font-semibold text-slate-900 dark:text-white truncate"
+                  className="text-xs font-semibold text-slate-900 dark:text-white truncate group-hover:text-[#2F5BFF] transition-colors"
                   title={user?.full_name || undefined}
                 >
                   {user?.full_name || "User Account"}
@@ -249,16 +258,24 @@ export function DashboardSidebar({
                   {user?.email || "Authenticated"}
                 </div>
               </div>
-            </div>
+            </Link>
           ) : (
-            <div className="flex justify-center">
+            <Link
+              href="/dashboard/profile"
+              onClick={onCloseMobile}
+              className="flex justify-center"
+              title={user?.full_name || "Account Profile"}
+            >
               <div
-                className="h-8 w-8 rounded-full bg-[#2F2C59] dark:bg-indigo-600 text-white font-semibold text-xs flex items-center justify-center shrink-0 shadow-xs cursor-pointer"
-                title={user?.full_name || "User Account"}
+                className={`h-8 w-8 rounded-full text-white font-semibold text-xs flex items-center justify-center shrink-0 shadow-xs cursor-pointer transition ${
+                  pathname.startsWith("/dashboard/profile")
+                    ? "bg-indigo-600 ring-2 ring-indigo-400 ring-offset-2 dark:ring-offset-slate-900"
+                    : "bg-[#2F2C59] dark:bg-indigo-600 hover:opacity-90"
+                }`}
               >
                 {user?.full_name?.charAt(0).toUpperCase() || "U"}
               </div>
-            </div>
+            </Link>
           )}
         </div>
 

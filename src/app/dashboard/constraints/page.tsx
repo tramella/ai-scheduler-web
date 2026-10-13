@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { CheckCircle2, X, ShieldAlert, SlidersHorizontal, Zap, ShieldCheck } from "lucide-react";
+import { CheckCircle2, X } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import {
   ConstraintRule,
@@ -14,7 +14,6 @@ import {
   EditConstraintModal,
 } from "@/components/dashboard/constraints";
 import { Pagination } from "@/components/ui/Pagination";
-import { KpiCard } from "@/components/ui/KpiCard";
 
 export default function ConstraintsPage() {
   const [constraints, setEmployees] = useState<ConstraintRule[]>(INITIAL_CONSTRAINTS);
@@ -162,50 +161,7 @@ export default function ConstraintsPage() {
           onAddConstraint={() => setIsAddModalOpen(true)}
         />
 
-        {/* 2. Four KPI Blocks */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
-          <KpiCard
-            label="Hard constraints"
-            value={metrics.hardCount}
-            chip="Strict"
-            chipVariant="warning"
-            note="Zero-tolerance solver rules"
-            icon={ShieldAlert}
-            iconVariant="orange"
-          />
-
-          <KpiCard
-            label="Soft preferences"
-            value={metrics.softCount}
-            chip="Weighted"
-            chipVariant="info"
-            note="Optimized for team fairness"
-            icon={SlidersHorizontal}
-            iconVariant="blue"
-          />
-
-          <KpiCard
-            label="Active rules"
-            value={metrics.totalActive}
-            chip="Enforced"
-            chipVariant="success"
-            note={`${constraints.length} total registered`}
-            icon={Zap}
-            iconVariant="indigo"
-          />
-
-          <KpiCard
-            label="Statutory compliance"
-            value="100%"
-            chip="Passed"
-            chipVariant="success"
-            note="Vietnam labor law verified"
-            icon={ShieldCheck}
-            iconVariant="emerald"
-          />
-        </div>
-
-        {/* 3. Toolbar & Filters */}
+        {/* 2. Toolbar & Filters */}
         <ConstraintToolbar
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}

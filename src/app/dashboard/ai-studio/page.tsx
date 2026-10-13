@@ -745,175 +745,169 @@ export default function AiStudioPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             {/* LEFT COLUMN: HERO GENERATOR & SCOPE (7 cols) */}
             <div className="lg:col-span-7 space-y-5">
-              {/* Hero Feature Card: AI Operational Directive & Solver */}
+              {/* Operational Directive Prompt & Solver Card */}
               <section
                 aria-label="AI Schedule Solver"
-                className="relative overflow-hidden rounded-3xl bg-[#2F2C59] p-6 text-white shadow-sm"
+                className="rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)] p-6 space-y-4"
               >
-                {/* Decorative background circles */}
-                <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-white/[0.04]" />
-                <div className="pointer-events-none absolute -bottom-20 -left-10 h-44 w-44 rounded-full bg-white/[0.04]" />
-
-                <div className="relative space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-white/10 text-white">
-                        <Sparkles className="h-4 w-4 text-indigo-200" />
-                      </span>
-                      <div>
-                        <h2 className="text-base font-semibold leading-tight text-white">
-                          Operational directive prompt
-                        </h2>
-                        <p className="text-xs text-white/60">
-                          Natural language guidelines for fairness and shift coverage
-                        </p>
-                      </div>
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+                      <Sparkles className="h-5 w-5" />
                     </div>
-                    <span className="text-xs tabular-nums text-white/50">
-                      {promptDirective.length}/500 chars
+                    <div>
+                      <h2 className="text-base font-semibold leading-tight text-slate-900 dark:text-white">
+                        Operational directive prompt
+                      </h2>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                        Natural language guidelines for fairness and shift coverage
+                      </p>
+                    </div>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2.5 py-1 text-[11px] font-medium tabular-nums">
+                    {promptDirective.length}/500 chars
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  <textarea
+                    rows={3}
+                    maxLength={500}
+                    value={promptDirective}
+                    onChange={(e) => setPromptDirective(e.target.value)}
+                    onKeyDown={(e) => {
+                      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                        e.preventDefault();
+                        handleGenerate();
+                      }
+                    }}
+                    placeholder="Enter natural language instructions (e.g. Ensure 1 supervisor on duty, balance weekend shifts)..."
+                    className="w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/50 p-3.5 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:bg-white dark:focus:bg-slate-900 focus:border-[#2F5BFF] focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/20 transition resize-none leading-relaxed"
+                  />
+
+                  <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 px-0.5">
+                    <span className="flex items-center gap-1.5">
+                      <span>Shortcut:</span>
+                      <kbd className="rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 font-mono text-[10px] text-slate-600 dark:text-slate-300">
+                        Ctrl
+                      </kbd>
+                      <span>+</span>
+                      <kbd className="rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-1.5 py-0.5 font-mono text-[10px] text-slate-600 dark:text-slate-300">
+                        Enter
+                      </kbd>
+                      <span>to run solver</span>
                     </span>
+                    <span className="hidden sm:inline">Deterministic OR-Tools engine</span>
                   </div>
+                </div>
 
-                  <div className="space-y-2">
-                    <textarea
-                      rows={3}
-                      maxLength={500}
-                      value={promptDirective}
-                      onChange={(e) => setPromptDirective(e.target.value)}
-                      onKeyDown={(e) => {
-                        if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-                          e.preventDefault();
-                          handleGenerate();
-                        }
-                      }}
-                      placeholder="Enter natural language instructions (e.g. Ensure 1 supervisor on duty, balance weekend shifts)..."
-                      className="w-full rounded-2xl border border-white/15 bg-white/[0.08] p-3 text-xs text-white placeholder-white/40 focus:border-white/30 focus:outline-hidden focus:ring-2 focus:ring-white/20 transition resize-none"
-                    />
+                {/* Directive presets */}
+                <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                  <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 mr-1">Presets:</span>
+                  {promptPresets.map((chip, idx) => {
+                    const isSelected = promptDirective === chip;
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          setPromptDirective(chip);
+                          showToast(`Applied preset directive: "${chip}"`);
+                        }}
+                        className={`text-xs px-3 py-1 rounded-full transition cursor-pointer border flex items-center gap-1 ${
+                          isSelected
+                            ? "bg-[#2F2C59] dark:bg-indigo-600 text-white border-transparent font-semibold shadow-xs"
+                            : "bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200/80 dark:border-slate-700 font-medium"
+                        }`}
+                      >
+                        {isSelected && <Check className="h-3 w-3 text-white" />}
+                        <span>{chip}</span>
+                      </button>
+                    );
+                  })}
+                </div>
 
-                    <div className="flex items-center justify-between text-[11px] text-white/60">
-                      <span className="flex items-center gap-1.5">
-                        <span>Shortcut:</span>
-                        <kbd className="rounded-md bg-white/10 border border-white/15 px-1.5 py-0.5 font-mono text-[10px] text-white/80">
-                          Ctrl
-                        </kbd>
-                        <span>+</span>
-                        <kbd className="rounded-md bg-white/10 border border-white/15 px-1.5 py-0.5 font-mono text-[10px] text-white/80">
-                          Enter
-                        </kbd>
-                        <span>to run solver</span>
+                {/* Solving Progress Visualizer */}
+                {solvingStatus === "SOLVING" && (
+                  <div className="rounded-2xl border border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/50 dark:bg-indigo-950/30 p-4 space-y-2.5 animate-in fade-in duration-200">
+                    <div className="flex items-center justify-between text-xs font-semibold text-slate-900 dark:text-white">
+                      <div className="flex items-center gap-2">
+                        <div className="h-3.5 w-3.5 rounded-full border-2 border-indigo-600 dark:border-indigo-400 border-t-transparent animate-spin" />
+                        <span>AI optimization engine running</span>
+                      </div>
+                      <span className="text-slate-500 dark:text-slate-400 tabular-nums">
+                        {solvingPhase === 1 ? "Phase 1/3 (35%)" : solvingPhase === 2 ? "Phase 2/3 (75%)" : "Phase 3/3 (100%)"}
                       </span>
-                      <span>Deterministic OR-Tools engine</span>
                     </div>
-                  </div>
 
-                  {/* Directive presets */}
-                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                    <span className="text-[11px] text-white/60 mr-1">Presets:</span>
-                    {promptPresets.map((chip, idx) => {
-                      const isSelected = promptDirective === chip;
-                      return (
-                        <button
-                          key={idx}
-                          type="button"
-                          onClick={() => {
-                            setPromptDirective(chip);
-                            showToast(`Applied preset directive: "${chip}"`);
-                          }}
-                          className={`text-xs px-3 py-1 rounded-full transition cursor-pointer border flex items-center gap-1 ${
-                            isSelected
-                              ? "bg-white text-[#2F2C59] border-white font-semibold"
-                              : "bg-white/[0.08] hover:bg-white/[0.16] text-white/90 border-white/10"
-                          }`}
-                        >
-                          {isSelected && <Check className="h-3 w-3 text-[#2F2C59]" />}
-                          <span>{chip}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
+                    <div className="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                      <div
+                        className="h-full bg-indigo-600 dark:bg-indigo-500 transition-all duration-300 ease-out rounded-full"
+                        style={{
+                          width: solvingPhase === 1 ? "35%" : solvingPhase === 2 ? "75%" : "100%",
+                        }}
+                      />
+                    </div>
 
-                  {/* Solving Progress Visualizer */}
-                  {solvingStatus === "SOLVING" && (
-                    <div className="rounded-2xl border border-white/15 bg-white/[0.08] p-4 space-y-2.5 animate-in fade-in duration-200">
-                      <div className="flex items-center justify-between text-xs font-semibold text-white">
-                        <div className="flex items-center gap-2">
-                          <div className="h-3.5 w-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                          <span>AI optimization engine running</span>
-                        </div>
-                        <span className="text-white/80 tabular-nums">
-                          {solvingPhase === 1 ? "Phase 1/3 (35%)" : solvingPhase === 2 ? "Phase 2/3 (75%)" : "Phase 3/3 (100%)"}
+                    <div className="space-y-1.5 pt-1 text-xs text-slate-600 dark:text-slate-300">
+                      <div className="flex items-center gap-2">
+                        {solvingPhase > 1 ? (
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                        ) : (
+                          <div className="h-3.5 w-3.5 rounded-full border border-indigo-600 dark:border-indigo-400 border-t-transparent animate-spin shrink-0" />
+                        )}
+                        <span className={solvingPhase > 1 ? "text-slate-500 dark:text-slate-400" : "font-semibold text-slate-900 dark:text-white"}>
+                          Ingesting {currentLocation.staffNum} staff constraints and availability
                         </span>
                       </div>
 
-                      <div className="h-1.5 w-full rounded-full bg-white/15 overflow-hidden">
-                        <div
-                          className="h-full bg-white transition-all duration-300 ease-out rounded-full"
-                          style={{
-                            width: solvingPhase === 1 ? "35%" : solvingPhase === 2 ? "75%" : "100%",
-                          }}
-                        />
+                      <div className="flex items-center gap-2">
+                        {solvingPhase > 2 ? (
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                        ) : solvingPhase === 2 ? (
+                          <div className="h-3.5 w-3.5 rounded-full border border-indigo-600 dark:border-indigo-400 border-t-transparent animate-spin shrink-0" />
+                        ) : (
+                          <div className="h-3.5 w-3.5 rounded-full border border-slate-300 dark:border-slate-700 shrink-0" />
+                        )}
+                        <span className={solvingPhase > 2 ? "text-slate-500 dark:text-slate-400" : solvingPhase === 2 ? "font-semibold text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500"}>
+                          Evaluating {enabledPolicies.length} active constraint policies and fairness matrix
+                        </span>
                       </div>
 
-                      <div className="space-y-1.5 pt-1 text-xs text-white/80">
-                        <div className="flex items-center gap-2">
-                          {solvingPhase > 1 ? (
-                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                          ) : (
-                            <div className="h-3.5 w-3.5 rounded-full border border-white/60 border-t-transparent animate-spin shrink-0" />
-                          )}
-                          <span className={solvingPhase > 1 ? "text-white/70" : "font-semibold text-white"}>
-                            Ingesting {currentLocation.staffNum} staff constraints and availability
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          {solvingPhase > 2 ? (
-                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                          ) : solvingPhase === 2 ? (
-                            <div className="h-3.5 w-3.5 rounded-full border border-white/60 border-t-transparent animate-spin shrink-0" />
-                          ) : (
-                            <div className="h-3.5 w-3.5 rounded-full border border-white/20 shrink-0" />
-                          )}
-                          <span className={solvingPhase > 2 ? "text-white/70" : solvingPhase === 2 ? "font-semibold text-white" : "text-white/40"}>
-                            Evaluating {enabledPolicies.length} active constraint policies and fairness matrix
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          {solvingPhase >= 3 ? (
-                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                          ) : (
-                            <div className="h-3.5 w-3.5 rounded-full border border-white/20 shrink-0" />
-                          )}
-                          <span className={solvingPhase >= 3 ? "font-semibold text-emerald-300" : "text-white/40"}>
-                            Zero conflicts verified. Rendering interactive calendar canvas
-                          </span>
-                        </div>
+                      <div className="flex items-center gap-2">
+                        {solvingPhase >= 3 ? (
+                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                        ) : (
+                          <div className="h-3.5 w-3.5 rounded-full border border-slate-300 dark:border-slate-700 shrink-0" />
+                        )}
+                        <span className={solvingPhase >= 3 ? "font-semibold text-emerald-600 dark:text-emerald-400" : "text-slate-400 dark:text-slate-500"}>
+                          Zero conflicts verified. Rendering interactive calendar canvas
+                        </span>
                       </div>
                     </div>
-                  )}
-
-                  {/* Primary White CTA Button */}
-                  <div className="pt-2">
-                    <button
-                      type="button"
-                      disabled={solvingStatus === "SOLVING"}
-                      onClick={handleGenerate}
-                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-white hover:bg-slate-100 text-[#2F2C59] py-3 px-6 font-semibold text-xs shadow-sm transition active:scale-[0.99] disabled:opacity-50 cursor-pointer"
-                    >
-                      {solvingStatus === "SOLVING" ? (
-                        <>
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#2F2C59] border-t-transparent" />
-                          <span>Solving schedule...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Sparkles className="h-4 w-4" />
-                          <span>Generate schedule with AI</span>
-                        </>
-                      )}
-                    </button>
                   </div>
+                )}
+
+                {/* Primary CTA Button */}
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    disabled={solvingStatus === "SOLVING"}
+                    onClick={handleGenerate}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#2F2C59] hover:bg-[#1E1B3A] dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white py-3 px-6 font-semibold text-xs shadow-sm transition active:scale-[0.99] disabled:opacity-50 cursor-pointer"
+                  >
+                    {solvingStatus === "SOLVING" ? (
+                      <>
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        <span>Solving schedule...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4" />
+                        <span>Generate schedule with AI</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </section>
 

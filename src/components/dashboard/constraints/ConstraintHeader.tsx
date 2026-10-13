@@ -20,7 +20,7 @@ export function ConstraintHeader({
 }: ConstraintHeaderProps) {
   return (
     <PageHeader
-      eyebrow={`Engine governance • ${hardCount} hard / ${softCount} soft active`}
+      eyebrow={`Engine governance • ${totalActive} active rules (${hardCount} hard, ${softCount} soft)`}
       title="Scheduling constraints"
       description="Regulatory compliance thresholds and operational fairness rules for the solver"
       actions={

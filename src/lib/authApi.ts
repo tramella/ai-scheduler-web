@@ -73,22 +73,25 @@ export interface ResetPasswordPayload {
  * Handle API JSON response safely
  */
 async function handleResponse<T>(res: Response): Promise<T> {
-  let data: any = {};
+  let data: Record<string, unknown> = {};
   try {
-    data = await res.json();
+    data = (await res.json()) as Record<string, unknown>;
   } catch {
     data = { error: `Server error (${res.status}): ${res.statusText}` };
   }
 
   if (!res.ok) {
-    const errorMsg = data.error || data.message || `Request failed with status ${res.status}`;
-    const error: any = new Error(errorMsg);
+    const errorMsg =
+      (typeof data.error === "string" ? data.error : null) ||
+      (typeof data.message === "string" ? data.message : null) ||
+      `Request failed with status ${res.status}`;
+    const error = new Error(errorMsg) as Error & { status?: number; data?: Record<string, unknown> };
     error.status = res.status;
     error.data = data;
     throw error;
   }
 
-  return data as T;
+  return data as unknown as T;
 }
 
 /**

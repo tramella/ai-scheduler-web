@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import {
   Globe,
-  User,
   Building2,
   Clock,
   Sparkles,
@@ -24,7 +23,6 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
 import { PillButton } from "@/components/ui/PillButton";
 import { StatusChip } from "@/components/ui/StatusChip";
-import { ChangePasswordForm } from "@/components/dashboard/ChangePasswordForm";
 
 function calculateShiftHours(start: string, end: string): string {
   const [sH, sM] = (start || "00:00").split(":").map(Number);
@@ -35,13 +33,13 @@ function calculateShiftHours(start: string, end: string): string {
 }
 
 export default function SettingsPage() {
-  const { user, activeCompany } = useAuth();
+  const { activeCompany } = useAuth();
   const { theme, setTheme } = useTheme();
   const { lang, setLang } = useLanguage();
 
   // Active section tab
   const [activeTab, setActiveTab] = useState<
-    "general" | "account" | "store" | "shifts" | "ai" | "notifications"
+    "general" | "store" | "shifts" | "ai" | "notifications"
   >("general");
 
   // Store profile
@@ -100,7 +98,7 @@ export default function SettingsPage() {
 
   return (
     <DashboardLayout>
-      <div className="mx-auto max-w-5xl space-y-6">
+      <div className="mx-auto max-w-7xl space-y-6">
         
         {/* ================= TOAST FEEDBACK ================= */}
         {toastMessage && (
@@ -140,17 +138,6 @@ export default function SettingsPage() {
               }`}
             >
               {lang === "vi" ? "Chung" : "General"}
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("account")}
-              className={`rounded-full px-4 py-1.5 transition cursor-pointer ${
-                activeTab === "account"
-                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              {lang === "vi" ? "Tài khoản & Mật khẩu" : "Account & Password"}
             </button>
             <button
               type="button"
@@ -304,57 +291,7 @@ export default function SettingsPage() {
           </Card>
         )}
 
-        {/* Tab 1: Account & Change Password */}
-        {activeTab === "account" && (
-          <div className="space-y-6">
-            <Card padding="lg" className="space-y-5">
-              <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-blue-50 text-[#2F5BFF] dark:bg-blue-950/50">
-                  <User className="h-4 w-4" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
-                    {lang === "vi" ? "Thông tin tài khoản" : "Account details"}
-                  </h2>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {lang === "vi" ? "Thông tin đăng nhập và vai trò quản trị" : "Authenticated user details and credentials"}
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-2xl bg-slate-50/60 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800">
-                  <span className="text-slate-400 block mb-0.5">{lang === "vi" ? "Họ và tên" : "Full name"}</span>
-                  <span className="font-semibold text-slate-900 dark:text-white">{user?.full_name || "N/A"}</span>
-                </div>
-                <div className="p-3 rounded-2xl bg-slate-50/60 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800">
-                  <span className="text-slate-400 block mb-0.5">{lang === "vi" ? "Email đăng nhập" : "Work email"}</span>
-                  <span className="font-semibold text-slate-900 dark:text-white truncate block">{user?.email || "N/A"}</span>
-                </div>
-              </div>
-            </Card>
-
-            <Card padding="lg" className="space-y-5">
-              <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-indigo-50 text-[#2F2C59] dark:bg-indigo-950/50 dark:text-indigo-300">
-                  <Lock className="h-4 w-4" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
-                    {lang === "vi" ? "Đổi mật khẩu" : "Change password"}
-                  </h2>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {lang === "vi" ? "Cập nhật mật khẩu để bảo vệ an toàn cho tài khoản" : "Update your password to keep your account secure"}
-                  </p>
-                </div>
-              </div>
-
-              <ChangePasswordForm />
-            </Card>
-          </div>
-        )}
-
-        {/* Tab 2: Store Profile */}
+        {/* Tab: Store Profile */}
         {activeTab === "store" && (
           <Card padding="lg" className="space-y-6">
             <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">

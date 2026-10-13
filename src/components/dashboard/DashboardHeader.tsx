@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
-import { ProfileModal } from "./ProfileModal";
 import { useRouter, usePathname } from "next/navigation";
 
 interface DashboardHeaderProps {
@@ -40,6 +39,7 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
   const isCalendar = pathname.startsWith("/dashboard/calendar");
   const isAnalytics = pathname.startsWith("/dashboard/analytics");
   const isSettings = pathname.startsWith("/dashboard/settings");
+  const isProfile = pathname.startsWith("/dashboard/profile");
   const { user, activeCompany, companies, switchCompany, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
@@ -50,7 +50,6 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
 
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [companyDropdownOpen, setCompanyDropdownOpen] = useState(false);
-  const [profileModalOpen, setProfileModalOpen] = useState(false);
 
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const companyMenuRef = useRef<HTMLDivElement>(null);
@@ -162,6 +161,17 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                   <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
                     <Settings className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400 mr-1" />
                     <span>Settings</span>
+                  </h1>
+                </div>
+              ) : isProfile ? (
+                <div key="breadcrumb-profile" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <User className="h-3.5 w-3.5 text-[#2F5BFF] mr-1" />
+                    <span>Profile</span>
                   </h1>
                 </div>
               ) : (
@@ -327,17 +337,14 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
 
                   {/* Menu Links */}
                   <div className="space-y-0.5 pt-0.5">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setProfileDropdownOpen(false);
-                        setProfileModalOpen(true);
-                      }}
+                    <Link
+                      href="/dashboard/profile"
+                      onClick={() => setProfileDropdownOpen(false)}
                       className="w-full flex items-center space-x-2 px-3 py-2 rounded-2xl text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer"
                     >
                       <User className="h-4 w-4 text-slate-400" />
                       <span>Profile</span>
-                    </button>
+                    </Link>
 
                     <Link
                       href="/"
@@ -390,12 +397,6 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
 
         </div>
       </header>
-
-      {/* Profile Detail Modal */}
-      <ProfileModal
-        isOpen={profileModalOpen}
-        onClose={() => setProfileModalOpen(false)}
-      />
     </>
   );
 }

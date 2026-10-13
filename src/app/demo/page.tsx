@@ -542,7 +542,7 @@ export default function DemoScheduleReviewPage() {
       updated.schedules.push(dayTarget);
     }
 
-    let loc = dayTarget.locations[0];
+    const loc = dayTarget.locations[0];
     let sTarget = loc.shifts.find((s: any) => s.id === newShift);
     if (!sTarget) {
       sTarget = {
