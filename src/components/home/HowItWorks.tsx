@@ -6,7 +6,6 @@ import {
   Download,
   ArrowRight,
   Sparkles,
-  CheckCircle2,
 } from "lucide-react";
 
 interface Step {
@@ -30,7 +29,7 @@ export const HowItWorks: React.FC = () => {
       step: "02",
       stage: "Directives",
       title: "Define Rules",
-      detail: "Write requirements in plain English — rest hours, station minimums, and overtime caps.",
+      detail: "Write requirements in plain language — rest hours, station minimums, and overtime caps.",
       icon: Sliders,
     },
     {
@@ -55,7 +54,7 @@ export const HowItWorks: React.FC = () => {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-18 space-y-2.5">
-          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-900/[0.05] px-3.5 py-1 text-xs font-semibold text-slate-800">
+          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-100 border border-slate-200/80 px-3.5 py-1 text-xs font-semibold text-slate-800 shadow-2xs">
             <Sparkles className="h-3.5 w-3.5 text-[#FF7A59]" />
             <span>Operational Roadmap</span>
           </div>
@@ -71,7 +70,7 @@ export const HowItWorks: React.FC = () => {
         <div className="relative max-w-6xl mx-auto">
           
           {/* Desktop Horizontal Connecting Track */}
-          <div className="hidden lg:block absolute top-[28px] left-[6%] right-[6%] h-0.5 bg-gradient-to-r from-slate-200 via-slate-300 to-slate-200 z-0"></div>
+          <div className="hidden lg:block absolute top-[28px] left-[6%] right-[6%] h-0.5 bg-gradient-to-r from-slate-200 via-indigo-100 to-slate-200 z-0" />
 
           {/* 4 Connected Milestone Nodes */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
@@ -105,14 +104,14 @@ export const HowItWorks: React.FC = () => {
                   </div>
 
                   {/* Milestone Card */}
-                  <div className="flex-1 flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-6 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
+                  <div className="flex-1 flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-white p-6 shadow-xs hover:border-indigo-200 hover:shadow-md transition-all">
                     <div className="space-y-3">
                       {/* Icon + Stage Tag */}
                       <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                        <div className="h-9 w-9 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <div className="h-9 w-9 rounded-2xl bg-indigo-50 text-[#2F2C59] flex items-center justify-center group-hover:scale-105 transition-transform">
                           <Icon className="h-4.5 w-4.5" />
                         </div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-50 border border-slate-200/70 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100/80 border border-slate-200/70 px-2.5 py-0.5 rounded-full">
                           {s.stage}
                         </span>
                       </div>
@@ -130,7 +129,7 @@ export const HowItWorks: React.FC = () => {
 
                     {/* Progress Indicator Arrow at Bottom for desktop */}
                     {!isLast && (
-                      <div className="hidden lg:flex justify-end pt-4 mt-2 text-slate-300 group-hover:text-slate-500 transition-colors">
+                      <div className="hidden lg:flex justify-end pt-4 mt-2 text-slate-300 group-hover:text-[#2F5BFF] transition-colors">
                         <ArrowRight className="h-4 w-4" />
                       </div>
                     )}

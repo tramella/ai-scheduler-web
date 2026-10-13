@@ -273,19 +273,36 @@ export const InteractivePlayground: React.FC = () => {
   ];
 
   const [activeScenario, setActiveScenario] = useState<Scenario>(scenarios[0]);
+  const [simulatingConflict, setSimulatingConflict] = useState<boolean>(false);
+  const [selectedShift, setSelectedShift] = useState<{ name: string; shift: ShiftData } | null>(null);
 
-  const getShiftCard = (shift: ShiftData) => {
+  const triggerConflictSimulation = () => {
+    setSimulatingConflict(true);
+    setTimeout(() => {
+      setSimulatingConflict(false);
+    }, 3800);
+  };
+
+  const getShiftCard = (shift: ShiftData, staffName: string) => {
     if (shift.type === "off") {
       return (
-        <div className="flex h-12 w-full items-center justify-center rounded-xl bg-slate-50/70 border border-dashed border-slate-200/80 text-slate-400 font-mono text-xs">
+        <button
+          type="button"
+          onClick={() => setSelectedShift({ name: staffName, shift })}
+          className="flex h-12 w-full items-center justify-center rounded-xl bg-slate-50/70 border border-dashed border-slate-200/80 text-slate-400 font-mono text-xs hover:border-slate-300 transition cursor-pointer"
+        >
           <span>—</span>
-        </div>
+        </button>
       );
     }
 
     if (shift.type === "morning") {
       return (
-        <div className="flex h-12 w-full flex-col justify-center rounded-xl bg-blue-50/70 border border-blue-200/80 border-l-[3.5px] border-l-[#2F5BFF] px-2.5 py-1 shadow-2xs">
+        <button
+          type="button"
+          onClick={() => setSelectedShift({ name: staffName, shift })}
+          className="flex h-12 w-full flex-col justify-center rounded-xl bg-blue-50/70 border border-blue-200/80 border-l-[3.5px] border-l-[#2F5BFF] px-2.5 py-1 shadow-2xs hover:shadow-xs hover:bg-blue-50 transition cursor-pointer text-left"
+        >
           <div className="flex items-center space-x-1">
             <Sun className="h-3 w-3 text-[#2F5BFF] shrink-0" />
             <span className="font-mono text-[11px] font-bold text-slate-900 leading-tight">
@@ -295,13 +312,17 @@ export const InteractivePlayground: React.FC = () => {
           <span className="text-[10px] font-medium text-slate-600 truncate mt-0.5">
             {shift.station}
           </span>
-        </div>
+        </button>
       );
     }
 
     if (shift.type === "afternoon") {
       return (
-        <div className="flex h-12 w-full flex-col justify-center rounded-xl bg-orange-50/70 border border-orange-200/80 border-l-[3.5px] border-l-[#FF7A59] px-2.5 py-1 shadow-2xs">
+        <button
+          type="button"
+          onClick={() => setSelectedShift({ name: staffName, shift })}
+          className="flex h-12 w-full flex-col justify-center rounded-xl bg-orange-50/70 border border-orange-200/80 border-l-[3.5px] border-l-[#FF7A59] px-2.5 py-1 shadow-2xs hover:shadow-xs hover:bg-orange-50 transition cursor-pointer text-left"
+        >
           <div className="flex items-center space-x-1">
             <Sunset className="h-3 w-3 text-[#FF7A59] shrink-0" />
             <span className="font-mono text-[11px] font-bold text-slate-900 leading-tight">
@@ -311,12 +332,16 @@ export const InteractivePlayground: React.FC = () => {
           <span className="text-[10px] font-medium text-slate-600 truncate mt-0.5">
             {shift.station}
           </span>
-        </div>
+        </button>
       );
     }
 
     return (
-      <div className="flex h-12 w-full flex-col justify-center rounded-xl bg-indigo-50/70 border border-indigo-200/80 border-l-[3.5px] border-l-[#2F2C59] px-2.5 py-1 shadow-2xs">
+      <button
+        type="button"
+        onClick={() => setSelectedShift({ name: staffName, shift })}
+        className="flex h-12 w-full flex-col justify-center rounded-xl bg-indigo-50/70 border border-indigo-200/80 border-l-[3.5px] border-l-[#2F2C59] px-2.5 py-1 shadow-2xs hover:shadow-xs hover:bg-indigo-50 transition cursor-pointer text-left"
+      >
         <div className="flex items-center space-x-1">
           <Moon className="h-3 w-3 text-[#2F2C59] shrink-0" />
           <span className="font-mono text-[11px] font-bold text-slate-900 leading-tight">
@@ -326,7 +351,7 @@ export const InteractivePlayground: React.FC = () => {
         <span className="text-[10px] font-medium text-slate-600 truncate mt-0.5">
           {shift.station}
         </span>
-      </div>
+      </button>
     );
   };
 
@@ -357,39 +382,87 @@ export const InteractivePlayground: React.FC = () => {
               </h2>
             </div>
 
-            {/* Scenario Pills Selector */}
-            <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200/80 shrink-0">
-              {scenarios.map((sc) => {
-                const isSelected = activeScenario.id === sc.id;
-                return (
-                  <button
-                    key={sc.id}
-                    type="button"
-                    onClick={() => setActiveScenario(sc)}
-                    className={`px-3 py-1.5 text-xs font-semibold rounded-xl transition-all cursor-pointer ${
-                      isSelected
-                        ? "bg-white text-slate-950 shadow-xs font-bold"
-                        : "text-slate-600 hover:text-slate-950"
-                    }`}
-                  >
-                    <span>{sc.title}</span>
-                  </button>
-                );
-              })}
+            {/* Scenario Pills Selector + Simulation Trigger */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-1 p-1 rounded-full bg-slate-100 border border-slate-200/80 shrink-0">
+                {scenarios.map((sc) => {
+                  const isSelected = activeScenario.id === sc.id;
+                  return (
+                    <button
+                      key={sc.id}
+                      type="button"
+                      onClick={() => {
+                        setActiveScenario(sc);
+                        setSelectedShift(null);
+                      }}
+                      className={`px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all cursor-pointer ${
+                        isSelected
+                          ? "bg-[#2F2C59] text-white shadow-xs font-bold"
+                          : "text-slate-600 hover:text-slate-950"
+                      }`}
+                    >
+                      <span>{sc.title}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Simulation test button */}
+              <button
+                type="button"
+                onClick={triggerConflictSimulation}
+                disabled={simulatingConflict}
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-semibold transition active:scale-[0.98] cursor-pointer disabled:opacity-50"
+              >
+                <ShieldCheck className="h-3.5 w-3.5 text-amber-600" />
+                <span>{simulatingConflict ? "Testing Guard..." : "Test Conflict Guard"}</span>
+              </button>
             </div>
           </div>
 
           {/* Active Directive Notice */}
-          <div className="mt-4 rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-700 flex items-center justify-between">
+          <div className="mt-4 rounded-xl border border-slate-200/80 bg-slate-50/70 px-3.5 py-2 text-xs text-slate-700 flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center space-x-2 truncate">
               <span className="font-semibold text-slate-900">Constraint:</span>
               <span className="truncate">&ldquo;{activeScenario.prompt}&rdquo;</span>
             </div>
-            <span className="hidden sm:inline-flex items-center text-[#2F5BFF] font-semibold text-[11px] font-mono shrink-0 ml-2">
+            <span className="inline-flex items-center text-[#2F5BFF] font-semibold text-[11px] font-mono shrink-0">
               <Check className="h-3.5 w-3.5 mr-1 stroke-[3]" />
               Audited in {activeScenario.stats.solverSpeed}
             </span>
           </div>
+
+          {/* Interactive Simulation Banner (When Active) */}
+          {simulatingConflict && (
+            <div className="mt-3 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 animate-in fade-in slide-in-from-top-1 duration-200 flex items-start space-x-2.5">
+              <span className="flex h-5 w-5 rounded-full bg-amber-200 text-amber-800 font-bold items-center justify-center shrink-0 text-xs">!</span>
+              <div>
+                <p className="font-bold text-amber-950">
+                  Simulation in Progress: Testing Non-Compliant &quot;Clopening&quot; Shift Assignment
+                </p>
+                <p className="text-[11px] text-amber-800 mt-0.5">
+                  Attempted: Back-to-back night closing + morning open (<span className="font-mono font-bold">5h rest &lt; 14h mandatory limit</span>). 
+                  <strong> Deterministic Kernel intercepted and auto-corrected assignment.</strong>
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Clicked Shift Inspector Pill */}
+          {selectedShift && (
+            <div className="mt-3 p-2.5 rounded-xl bg-indigo-50/80 border border-indigo-200/70 text-xs text-indigo-900 flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <span className="font-bold">{selectedShift.name}:</span>
+                <span className="font-mono bg-white px-2 py-0.5 rounded border border-indigo-200 text-slate-800">
+                  {selectedShift.shift.day} · {selectedShift.shift.time}
+                </span>
+                <span className="text-indigo-700">Station: <strong>{selectedShift.shift.station}</strong></span>
+              </div>
+              <span className="text-[11px] font-semibold text-emerald-600 flex items-center">
+                <Check className="h-3 w-3 mr-1 stroke-[3]" /> Verified 100% Compliant
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Schedule Matrix Table - No Vertical Scrollbar */}
@@ -430,7 +503,7 @@ export const InteractivePlayground: React.FC = () => {
                   {/* Shift Columns: Mon, Tue, Wed, Sat, Sun */}
                   {row.shifts.map((shift, sIdx) => (
                     <td key={sIdx} className="py-2.5 px-1.5 text-center">
-                      {getShiftCard(shift)}
+                      {getShiftCard(shift, row.name)}
                     </td>
                   ))}
 

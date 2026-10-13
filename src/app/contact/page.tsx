@@ -67,8 +67,8 @@ export default function ContactPage() {
         
         {/* Top Header Badge & Intro */}
         <div className="max-w-3xl mb-12 sm:mb-16">
-          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-900/[0.05] px-3.5 py-1 text-xs font-semibold text-slate-800 mb-4">
-            <LifeBuoy className="h-3.5 w-3.5 text-slate-700" />
+          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-100 border border-slate-200/80 px-4 py-1 text-xs font-semibold text-slate-800 mb-4 shadow-2xs">
+            <LifeBuoy className="h-3.5 w-3.5 text-[#2F5BFF]" />
             <span>Support & Operations</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[#2F2C59] leading-tight">
@@ -91,10 +91,10 @@ export default function ContactPage() {
               </h2>
 
               {/* Support Email Card */}
-              <div className="group rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
+              <div className="group rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3.5">
-                    <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800 group-hover:scale-105 transition-transform">
+                    <div className="h-10 w-10 rounded-2xl bg-indigo-50 text-[#2F2C59] flex items-center justify-center group-hover:scale-105 transition-transform">
                       <Mail className="h-5 w-5" />
                     </div>
                     <div>
@@ -107,34 +107,34 @@ export default function ContactPage() {
                   <button
                     type="button"
                     onClick={() => handleCopyEmail("support@orbit-scheduling.com")}
-                    className="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition"
+                    className="p-1.5 text-slate-400 hover:text-slate-900 rounded-full hover:bg-slate-100 transition cursor-pointer"
                     title="Copy email"
                   >
                     {copiedEmail === "support@orbit-scheduling.com" ? (
-                      <Check className="h-4 w-4 text-slate-900" />
+                      <Check className="h-4 w-4 text-emerald-600" />
                     ) : (
                       <Copy className="h-4 w-4" />
                     )}
                   </button>
                 </div>
-                <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <div className="mt-3.5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs">
                   <a
                     href="mailto:support@orbit-scheduling.com"
-                    className="font-semibold text-slate-900 hover:underline"
+                    className="font-semibold text-slate-900 hover:text-[#2F5BFF] transition"
                   >
                     support@orbit-scheduling.com
                   </a>
-                  <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 font-medium text-slate-600">
-                    <Clock className="h-3 w-3 mr-1 text-slate-500" /> &lt; 2h response
+                  <span className="inline-flex items-center rounded-full bg-emerald-50 border border-emerald-200/70 px-2.5 py-0.5 font-medium text-emerald-700">
+                    <Clock className="h-3 w-3 mr-1 text-emerald-600" /> &lt; 2h response
                   </span>
                 </div>
               </div>
 
               {/* Enterprise / Sales Card */}
-              <div className="group rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
+              <div className="group rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3.5">
-                    <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800 group-hover:scale-105 transition-transform">
+                    <div className="h-10 w-10 rounded-2xl bg-indigo-50 text-[#2F2C59] flex items-center justify-center group-hover:scale-105 transition-transform">
                       <Building2 className="h-5 w-5" />
                     </div>
                     <div>
@@ -147,24 +147,24 @@ export default function ContactPage() {
                   <button
                     type="button"
                     onClick={() => handleCopyEmail("sales@orbit-scheduling.com")}
-                    className="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition"
+                    className="p-1.5 text-slate-400 hover:text-slate-900 rounded-full hover:bg-slate-100 transition cursor-pointer"
                     title="Copy email"
                   >
                     {copiedEmail === "sales@orbit-scheduling.com" ? (
-                      <Check className="h-4 w-4 text-slate-900" />
+                      <Check className="h-4 w-4 text-emerald-600" />
                     ) : (
                       <Copy className="h-4 w-4" />
                     )}
                   </button>
                 </div>
-                <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <div className="mt-3.5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs">
                   <a
                     href="mailto:sales@orbit-scheduling.com"
-                    className="font-semibold text-slate-900 hover:underline"
+                    className="font-semibold text-slate-900 hover:text-[#2F5BFF] transition"
                   >
                     sales@orbit-scheduling.com
                   </a>
-                  <span className="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 font-medium text-slate-600">
+                  <span className="inline-flex items-center rounded-full bg-indigo-50 border border-indigo-200/70 px-2.5 py-0.5 font-medium text-[#2F2C59]">
                     Dedicated engineer
                   </span>
                 </div>
@@ -173,11 +173,11 @@ export default function ContactPage() {
               {/* Knowledge Base / FAQ Link */}
               <Link
                 href="/faq"
-                className="group block rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all"
+                className="group block rounded-3xl border border-slate-200/80 bg-white p-5 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3.5">
-                    <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800 group-hover:scale-105 transition-transform">
+                    <div className="h-10 w-10 rounded-2xl bg-indigo-50 text-[#2F2C59] flex items-center justify-center group-hover:scale-105 transition-transform">
                       <HelpCircle className="h-5 w-5" />
                     </div>
                     <div>
@@ -187,14 +187,14 @@ export default function ContactPage() {
                       <p className="text-xs text-slate-500 mt-0.5">Instant answers on templates and solver logic</p>
                     </div>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-900 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-[#2F5BFF] group-hover:translate-x-0.5 transition-all" />
                 </div>
               </Link>
             </div>
 
             {/* Reassurance Banner */}
-            <div className="rounded-2xl bg-white border border-slate-200/90 p-4.5 flex items-start space-x-3.5 shadow-xs">
-              <ShieldCheck className="h-5 w-5 text-slate-800 shrink-0 mt-0.5" />
+            <div className="rounded-3xl bg-indigo-50/50 border border-indigo-200/70 p-5 flex items-start space-x-3.5 shadow-2xs">
+              <ShieldCheck className="h-5 w-5 text-[#2F5BFF] shrink-0 mt-0.5" />
               <div className="text-xs text-slate-600 leading-relaxed">
                 <strong className="text-slate-900 font-bold block mb-0.5">Human Roster Specialists on Standby</strong>
                 Every inquiry is reviewed directly by scheduling specialists and product engineers. No automated runaround.
@@ -205,15 +205,15 @@ export default function ContactPage() {
 
           {/* Right Column: Clean Executive Contact Form (Span 7) */}
           <div className="lg:col-span-7">
-            <div className="rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-9 shadow-sm">
+            <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-9 shadow-sm">
               
               {submitted ? (
                 <div className="py-12 text-center space-y-5">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-900 border border-slate-200">
-                    <CheckCircle2 className="h-8 w-8 text-slate-900" />
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200/80">
+                    <CheckCircle2 className="h-8 w-8" />
                   </div>
                   <div className="space-y-1">
-                    <span className="inline-block font-mono text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
+                    <span className="inline-block font-mono text-xs font-bold px-3.5 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
                       Ticket #{ticketId}
                     </span>
                     <h3 className="text-2xl font-black text-[#2F2C59]">Message Received</h3>
@@ -225,7 +225,7 @@ export default function ContactPage() {
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="inline-flex items-center justify-center rounded-xl bg-[#2F2C59] px-6 py-2.5 text-xs font-semibold text-white hover:bg-[#1E1B3A] transition shadow-xs border border-[#2F2C59]"
+                      className="inline-flex items-center justify-center rounded-full bg-[#2F2C59] px-6 py-2.5 text-xs font-semibold text-white hover:bg-[#1E1B3A] transition shadow-xs border border-[#2F2C59] cursor-pointer"
                     >
                       Send Another Inquiry
                     </button>
@@ -247,9 +247,9 @@ export default function ContactPage() {
                             key={cat.id}
                             type="button"
                             onClick={() => setInquiryType(cat.id)}
-                            className={`px-3 py-2 text-xs font-medium rounded-xl text-center transition-all cursor-pointer ${
+                            className={`px-3 py-2 text-xs font-semibold rounded-full text-center transition-all cursor-pointer ${
                               isSelected
-                                ? "bg-[#2F2C59] text-white shadow-xs font-semibold"
+                                ? "bg-[#2F2C59] text-white shadow-xs"
                                 : "bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200/80"
                             }`}
                           >
@@ -273,7 +273,7 @@ export default function ContactPage() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Alex Morgan"
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F2C59] focus:ring-4 focus:ring-[#2F2C59]/10 transition-all outline-hidden"
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F5BFF] focus:ring-2 focus:ring-[#2F5BFF]/30 transition-all outline-hidden"
                       />
                     </div>
 
@@ -288,7 +288,7 @@ export default function ContactPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="alex@company.com"
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F2C59] focus:ring-4 focus:ring-[#2F2C59]/10 transition-all outline-hidden"
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F5BFF] focus:ring-2 focus:ring-[#2F5BFF]/30 transition-all outline-hidden"
                       />
                     </div>
                   </div>
@@ -304,7 +304,7 @@ export default function ContactPage() {
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       placeholder="e.g. Apex Health Clinic / Blue Bottle San Francisco"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F2C59] focus:ring-4 focus:ring-[#2F2C59]/10 transition-all outline-hidden"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F5BFF] focus:ring-2 focus:ring-[#2F5BFF]/30 transition-all outline-hidden"
                     />
                   </div>
 
@@ -320,7 +320,7 @@ export default function ContactPage() {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Tell us about your team size, custom shift constraints, or any questions you have..."
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-4 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F2C59] focus:ring-4 focus:ring-[#2F2C59]/10 transition-all outline-hidden"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-4 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-[#2F5BFF] focus:ring-2 focus:ring-[#2F5BFF]/30 transition-all outline-hidden"
                     />
                   </div>
 
@@ -332,7 +332,7 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="inline-flex items-center justify-center space-x-2 rounded-xl bg-[#2F2C59] px-7 py-3 text-sm font-semibold text-white shadow-xs hover:bg-[#1E1B3A] disabled:opacity-50 transition-all active:scale-[0.99] border border-[#2F2C59] cursor-pointer"
+                      className="inline-flex items-center justify-center space-x-2 rounded-full bg-[#2F2C59] px-7 py-3 text-sm font-semibold text-white shadow-xs hover:bg-[#1E1B3A] disabled:opacity-50 transition-all active:scale-[0.98] border border-[#2F2C59] cursor-pointer"
                     >
                       <Send className="h-4 w-4 text-white" />
                       <span>{loading ? "Transmitting..." : "Send Message"}</span>

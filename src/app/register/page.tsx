@@ -200,13 +200,13 @@ export default function RegisterPage() {
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                   Account Type
                 </label>
-                <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl border border-slate-200/80">
+                <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-full border border-slate-200/80">
                   <button
                     type="button"
                     onClick={() => setAccountType("BUSINESS")}
-                    className={`py-2 px-3 text-xs font-semibold rounded-lg transition text-center ${
+                    className={`py-1.5 px-3 text-xs font-semibold rounded-full transition text-center cursor-pointer ${
                       accountType === "BUSINESS"
-                        ? "bg-white text-[#2F2C59] shadow-xs border border-slate-200"
+                        ? "bg-[#2F2C59] text-white shadow-xs font-bold"
                         : "text-slate-600 hover:text-slate-900"
                     }`}
                   >
@@ -215,9 +215,9 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={() => setAccountType("PERSONAL")}
-                    className={`py-2 px-3 text-xs font-semibold rounded-lg transition text-center ${
+                    className={`py-1.5 px-3 text-xs font-semibold rounded-full transition text-center cursor-pointer ${
                       accountType === "PERSONAL"
-                        ? "bg-white text-[#2F2C59] shadow-xs border border-slate-200"
+                        ? "bg-[#2F2C59] text-white shadow-xs font-bold"
                         : "text-slate-600 hover:text-slate-900"
                     }`}
                   >
@@ -235,7 +235,7 @@ export default function RegisterPage() {
                   >
                     Company / Organization Name
                   </label>
-                  <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F2C59] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F2C59]/10 transition">
+                  <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F5BFF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F5BFF]/20 transition">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                       <Building2 className="h-4 w-4" />
                     </div>
@@ -260,7 +260,7 @@ export default function RegisterPage() {
                 >
                   Full Name
                 </label>
-                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F2C59] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F2C59]/10 transition">
+                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F5BFF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F5BFF]/20 transition">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                     <User className="h-4 w-4" />
                   </div>
@@ -285,7 +285,7 @@ export default function RegisterPage() {
                 >
                   Work Email
                 </label>
-                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F2C59] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F2C59]/10 transition">
+                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F5BFF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F5BFF]/20 transition">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                     <Mail className="h-4 w-4" />
                   </div>
@@ -310,7 +310,7 @@ export default function RegisterPage() {
                 >
                   Password
                 </label>
-                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F2C59] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F2C59]/10 transition">
+                <div className="relative rounded-xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F5BFF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F5BFF]/20 transition">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                     <Lock className="h-4 w-4" />
                   </div>
@@ -339,7 +339,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center rounded-xl bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] mt-3 cursor-pointer shadow-xs"
+                className="w-full inline-flex items-center justify-center rounded-full bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.98] border border-[#2F2C59] mt-3 cursor-pointer shadow-xs"
               >
                 <span>{loading ? "Creating workspace..." : "Continue to Verification"}</span>
                 <ArrowRight className="ml-2 h-4 w-4 text-white" />
@@ -357,7 +357,7 @@ export default function RegisterPage() {
                 >
                   6-Digit Verification Code
                 </label>
-                <div className="relative rounded-2xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F2C59] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F2C59]/10 transition">
+                <div className="relative rounded-2xl border border-slate-200 bg-slate-50/50 focus-within:border-[#2F5BFF] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#2F5BFF]/20 transition">
                   <input
                     id="verify-otp"
                     type="text"
@@ -407,7 +407,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={loading || otpCode.length !== 6}
-                className="w-full inline-flex items-center justify-center rounded-xl bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] cursor-pointer shadow-xs"
+                className="w-full inline-flex items-center justify-center rounded-full bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.98] border border-[#2F2C59] cursor-pointer shadow-xs"
               >
                 <span>{loading ? "Activating..." : "Activate & Open Dashboard"}</span>
                 <ArrowRight className="ml-2 h-4 w-4 text-white" />
