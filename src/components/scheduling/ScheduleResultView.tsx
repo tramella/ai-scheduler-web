@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import { DailySchedule, exportSchedule } from "@/lib/apiClient";
 import CustomDatePicker from "./CustomDatePicker";
+import { Pagination } from "@/components/ui/Pagination";
 
 interface ScheduleResultViewProps {
   schedules: DailySchedule[];
@@ -536,43 +537,43 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
     if (s.includes("morning") || s.includes("sáng") || s.includes("opening")) {
       return {
         hex: "#2F5BFF",
-        bg: "bg-blue-500/10 border-blue-500/30 text-blue-950",
+        bg: "bg-blue-500/10 border-blue-500/30 text-blue-950 dark:bg-blue-500/15 dark:border-blue-400/30 dark:text-blue-100",
         borderLeft: "border-l-[3.5px] border-l-[#2F5BFF]",
         icon: Sun,
-        iconColor: "text-[#2F5BFF]",
-        badgeColor: "bg-blue-100 text-blue-900",
+        iconColor: "text-[#2F5BFF] dark:text-blue-300",
+        badgeColor: "bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-blue-200",
         dotColor: "bg-[#2F5BFF]",
       };
     }
     if (s.includes("afternoon") || s.includes("chiều") || s.includes("peak")) {
       return {
         hex: "#FF7A59",
-        bg: "bg-[#FF7A59]/10 border-[#FF7A59]/35 text-[#7C1C07]",
+        bg: "bg-[#FF7A59]/10 border-[#FF7A59]/35 text-[#7C1C07] dark:bg-[#FF7A59]/15 dark:border-[#FF7A59]/30 dark:text-orange-100",
         borderLeft: "border-l-[3.5px] border-l-[#FF7A59]",
         icon: Sunset,
-        iconColor: "text-[#FF7A59]",
-        badgeColor: "bg-[#FF7A59]/20 text-[#7C1C07]",
+        iconColor: "text-[#FF7A59] dark:text-orange-300",
+        badgeColor: "bg-[#FF7A59]/20 text-[#7C1C07] dark:bg-orange-900/50 dark:text-orange-200",
         dotColor: "bg-[#FF7A59]",
       };
     }
     if (s.includes("night") || s.includes("đêm") || s.includes("closing")) {
       return {
         hex: "#2F2C59",
-        bg: "bg-indigo-500/10 border-indigo-500/30 text-indigo-950",
-        borderLeft: "border-l-[3.5px] border-l-[#2F2C59]",
+        bg: "bg-indigo-500/10 border-indigo-500/30 text-indigo-950 dark:bg-indigo-500/20 dark:border-indigo-400/30 dark:text-indigo-100",
+        borderLeft: "border-l-[3.5px] border-l-[#2F2C59] dark:border-l-indigo-400",
         icon: Moon,
-        iconColor: "text-[#2F2C59]",
-        badgeColor: "bg-indigo-100 text-indigo-900",
-        dotColor: "bg-[#2F2C59]",
+        iconColor: "text-[#2F2C59] dark:text-indigo-300",
+        badgeColor: "bg-indigo-100 dark:bg-indigo-900/50 text-indigo-900 dark:text-indigo-200",
+        dotColor: "bg-[#2F2C59] dark:bg-indigo-400",
       };
     }
     return {
       hex: "#10B981",
-      bg: "bg-emerald-500/10 border-emerald-500/30 text-emerald-950",
+      bg: "bg-emerald-500/10 border-emerald-500/30 text-emerald-950 dark:bg-emerald-500/15 dark:border-emerald-400/30 dark:text-emerald-100",
       borderLeft: "border-l-[3.5px] border-l-[#10B981]",
       icon: Clock,
-      iconColor: "text-[#10B981]",
-      badgeColor: "bg-emerald-100 text-emerald-900",
+      iconColor: "text-[#10B981] dark:text-emerald-300",
+      badgeColor: "bg-emerald-100 dark:bg-emerald-900/50 text-emerald-900 dark:text-emerald-200",
       dotColor: "bg-[#10B981]",
     };
   };
@@ -922,7 +923,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
     <div className="space-y-3.5 sm:space-y-4">
       {/* Status Strip */}
       <div className="flex items-center justify-between">
-        <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 border border-emerald-200/80 shadow-2xs">
+        <span className="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-900/60 shadow-2xs">
           <span className="relative flex h-2 w-2 mr-1.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -955,14 +956,14 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             }}
           />
 
-          <div className="flex items-center space-x-0.5 bg-zinc-100/90 p-1 rounded-xl border border-zinc-200/80">
+          <div className="flex items-center space-x-0.5 bg-slate-100 dark:bg-slate-800/70 p-1 rounded-full border border-slate-200/80 dark:border-slate-700/60">
             <button
               type="button"
               onClick={() => setViewMode("week")}
-              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
                 viewMode === "week"
-                  ? "bg-white text-zinc-900 shadow-2xs"
-                  : "text-zinc-600 hover:text-zinc-900"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               Week
@@ -970,10 +971,10 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={() => setViewMode("day")}
-              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
                 viewMode === "day"
-                  ? "bg-white text-zinc-900 shadow-2xs"
-                  : "text-zinc-600 hover:text-zinc-900"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               Day
@@ -981,10 +982,10 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={() => setViewMode("month")}
-              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
                 viewMode === "month"
-                  ? "bg-white text-zinc-900 shadow-2xs"
-                  : "text-zinc-600 hover:text-zinc-900"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               Month
@@ -992,13 +993,13 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={() => setViewMode("table")}
-              className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-bold transition cursor-pointer ${
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold transition cursor-pointer ${
                 viewMode === "table"
-                  ? "bg-white text-zinc-900 shadow-2xs"
-                  : "text-zinc-600 hover:text-zinc-900"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              Table View
+              Table view
             </button>
           </div>
         </div>
@@ -1008,27 +1009,27 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           <button
             type="button"
             onClick={() => setIsAddShiftOpen(true)}
-            className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
+            className="inline-flex items-center space-x-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-1.5 sm:py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-xs transition active:scale-[0.99] cursor-pointer"
           >
             <Plus className="h-3.5 w-3.5 text-[#FF7A59]" />
-            <span>Add Shift</span>
+            <span>Add shift</span>
           </button>
 
           <button
             type="button"
             onClick={() => setIsShareModalOpen(true)}
-            className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
+            className="inline-flex items-center space-x-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-1.5 sm:py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-xs transition active:scale-[0.99] cursor-pointer"
           >
-            <Share2 className="h-3.5 w-3.5 text-zinc-500" />
+            <Share2 className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
             <span>Share</span>
           </button>
 
           <button
             type="button"
             onClick={onRegenerate}
-            className="inline-flex items-center space-x-1.5 rounded-xl border border-zinc-200 bg-white px-3 py-1.5 sm:py-2 text-xs font-semibold text-zinc-800 hover:bg-zinc-50 shadow-2xs transition active:scale-[0.99] cursor-pointer"
+            className="inline-flex items-center space-x-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-1.5 sm:py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 shadow-xs transition active:scale-[0.99] cursor-pointer"
           >
-            <RefreshCw className="h-3.5 w-3.5 text-zinc-500" />
+            <RefreshCw className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
             <span>Regenerate</span>
           </button>
 
@@ -1036,7 +1037,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             type="button"
             onClick={handleExport}
             disabled={isExporting}
-            className="inline-flex items-center space-x-1.5 rounded-xl bg-[#2F2C59] px-3.5 py-1.5 sm:py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] shadow-xs group cursor-pointer"
+            className="inline-flex items-center space-x-1.5 rounded-full bg-[#2F2C59] dark:bg-indigo-600 px-4 py-1.5 sm:py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] dark:hover:bg-indigo-700 disabled:opacity-50 transition active:scale-[0.99] shadow-xs group cursor-pointer"
           >
             <Download className="h-3.5 w-3.5 text-white group-hover:translate-y-0.5 transition-transform" />
             <span>{isExporting ? "Exporting..." : "Export"}</span>
@@ -1045,18 +1046,18 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
       </div>
 
       {exportError && (
-        <div className="rounded-xl bg-rose-50 p-2.5 text-xs font-medium text-rose-700 border border-rose-200">
+        <div className="rounded-2xl bg-rose-50 dark:bg-rose-950/40 p-3 text-xs font-medium text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900/60">
           {exportError}
         </div>
       )}
 
       {/* ================= 2. SECONDARY TOOLBAR: SEARCH, FILTERS & INLINE SHIFT LEGEND ================= */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2.5 px-3 py-2 rounded-xl bg-zinc-50/80 border border-zinc-200/70">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2.5 px-3.5 py-2.5 rounded-2xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
         {/* Left: Filters Cluster */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Search Input */}
-          <div className="relative min-w-[130px] sm:w-40 lg:w-44">
-            <Search className="pointer-events-none absolute inset-y-0 left-0 h-3.5 w-3.5 my-auto ml-2.5 text-zinc-400" />
+          <div className="relative min-w-[130px] sm:w-44 lg:w-48">
+            <Search className="pointer-events-none absolute inset-y-0 left-0 h-3.5 w-3.5 my-auto ml-3 text-slate-400" />
             <input
               type="text"
               value={searchEmployee}
@@ -1065,13 +1066,13 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setCurrentPage(1);
               }}
               placeholder="Filter staff..."
-              className="w-full rounded-lg border border-zinc-200 bg-white py-1 pl-7 pr-6 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition"
+              className="w-full rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 py-1.5 pl-8 pr-6 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/50 transition"
             />
             {searchEmployee && (
               <button
                 type="button"
                 onClick={() => setSearchEmployee("")}
-                className="absolute inset-y-0 right-0 flex items-center pr-2 text-zinc-400 hover:text-zinc-600"
+                className="absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -1086,15 +1087,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setSelectedRole(e.target.value);
                 setCurrentPage(1);
               }}
-              className="appearance-none rounded-lg border border-zinc-200 bg-white py-1 pl-2.5 pr-7 text-xs font-semibold text-zinc-700 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition cursor-pointer"
+              className="appearance-none rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 py-1.5 pl-3.5 pr-8 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/50 transition cursor-pointer"
             >
               {rolesWithCount.map((r) => (
                 <option key={r.role} value={r.role}>
-                  {r.role === "all" ? "All Roles" : r.label} ({r.count})
+                  {r.role === "all" ? "All roles" : r.label} ({r.count})
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-3 w-3 text-zinc-400" />
+            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-400" />
           </div>
 
           {/* Shift Filter */}
@@ -1105,7 +1106,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setSelectedShift(e.target.value);
                 setCurrentPage(1);
               }}
-              className="appearance-none rounded-lg border border-zinc-200 bg-white py-1 pl-2.5 pr-7 text-xs font-semibold text-zinc-700 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition cursor-pointer"
+              className="appearance-none rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 py-1.5 pl-3.5 pr-8 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/50 transition cursor-pointer"
             >
               {shiftTypesList.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -1113,7 +1114,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 </option>
               ))}
             </select>
-            <ChevronDown className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-3 w-3 text-zinc-400" />
+            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-400" />
           </div>
 
           {/* Reset Filters */}
@@ -1126,7 +1127,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 setSearchEmployee("");
                 setCurrentPage(1);
               }}
-              className="inline-flex items-center space-x-1 px-2 py-1 rounded-lg text-xs font-semibold text-zinc-500 hover:text-zinc-900 hover:bg-zinc-200/60 transition cursor-pointer"
+              className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-200/60 dark:hover:text-white dark:hover:bg-slate-700 transition cursor-pointer"
             >
               <X className="h-3 w-3" />
               <span>Reset</span>
@@ -1135,7 +1136,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
         </div>
 
         {/* Right: Inline Clean Shift Legend */}
-        <div className="flex items-center space-x-3 text-[11px] text-zinc-500 font-medium shrink-0 self-end md:self-auto">
+        <div className="flex items-center space-x-3 text-xs text-slate-500 dark:text-slate-400 font-medium shrink-0 self-end md:self-auto">
           <div className="flex items-center space-x-1.5">
             <span className="h-2 w-2 rounded-full bg-[#2F5BFF]" />
             <span>Morning</span>
@@ -1145,7 +1146,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <span>Afternoon</span>
           </div>
           <div className="flex items-center space-x-1.5">
-            <span className="h-2 w-2 rounded-full bg-[#2F2C59]" />
+            <span className="h-2 w-2 rounded-full bg-[#2F2C59] dark:bg-indigo-400" />
             <span>Night</span>
           </div>
         </div>
@@ -1155,15 +1156,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
       {(viewMode === "week" || viewMode === "day") && (
         <div className="space-y-4">
 
-          <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
+          <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
             <div className="overflow-x-auto">
               <table className="w-full border-collapse text-left text-sm">
                 <thead>
-                  <tr className="border-b border-zinc-200/90 bg-zinc-50/90 text-xs font-bold uppercase tracking-wider text-zinc-600">
-                    <th className="py-2.5 px-2.5 sm:px-3 w-36 sm:w-44 md:w-48 lg:w-52 min-w-[140px] sm:min-w-[170px] md:min-w-[190px] sticky left-0 z-20 bg-zinc-50/95 backdrop-blur-xs border-r border-zinc-200">
+                  <tr className="border-b border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 text-xs font-medium text-slate-500 dark:text-slate-400">
+                    <th className="py-3 px-3.5 w-36 sm:w-44 md:w-48 lg:w-52 min-w-[140px] sm:min-w-[170px] md:min-w-[190px] sticky left-0 z-20 bg-slate-50/95 dark:bg-slate-900 backdrop-blur-xs border-r border-slate-200/80 dark:border-slate-800">
                       <div className="flex items-center space-x-1.5">
                         <User className="h-3.5 w-3.5 text-[#FF7A59] shrink-0" />
-                        <span className="truncate text-xs font-bold text-zinc-700">Staff ({filteredEmployees.length})</span>
+                        <span className="truncate text-xs font-medium text-slate-700 dark:text-slate-300">Staff ({filteredEmployees.length})</span>
                       </div>
                     </th>
 
@@ -1177,30 +1178,30 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                       return (
                         <th
                           key={dateStr}
-                          className="py-2 px-1.5 sm:px-2 min-w-[115px] sm:min-w-[125px] md:min-w-[135px] lg:min-w-[145px] xl:min-w-[155px] border-r border-zinc-100 last:border-r-0 text-center"
+                          className="py-2.5 px-2 min-w-[115px] sm:min-w-[125px] md:min-w-[135px] lg:min-w-[145px] xl:min-w-[155px] border-r border-slate-100 dark:border-slate-800 last:border-r-0 text-center"
                         >
                           <div className="flex items-center justify-center space-x-1">
-                            <span className="font-extrabold text-xs text-zinc-900">{dayOfWeek}</span>
-                            <span className="text-[9px] font-bold text-zinc-500 bg-zinc-200/70 px-1 py-0.2 rounded whitespace-nowrap">
+                            <span className="font-extrabold text-xs text-slate-900 dark:text-white">{dayOfWeek}</span>
+                            <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 bg-slate-200/70 dark:bg-slate-700 px-1 py-0.2 rounded whitespace-nowrap">
                               {totalDayShifts}
                             </span>
                           </div>
-                          <div className="text-[10px] font-mono text-zinc-400 font-medium">{dayNum}</div>
+                          <div className="text-[10px] font-mono text-slate-400 font-medium">{dayNum}</div>
                         </th>
                       );
                     })}
                   </tr>
                 </thead>
 
-                <tbody className="divide-y divide-zinc-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {paginatedEmployees.length > 0 ? (
                     paginatedEmployees.map((emp) => {
                       const avatarClass = getAvatarColor(emp.name);
                       const initial = emp.name.charAt(0);
 
                       return (
-                        <tr key={emp.id} className="hover:bg-zinc-50/50 transition-colors">
-                          <td className="py-2 px-2 sm:px-2.5 align-top sticky left-0 z-10 bg-white border-r border-zinc-200 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.04)] w-36 sm:w-44 md:w-48 lg:w-52 min-w-[140px] sm:min-w-[170px] md:min-w-[190px]">
+                        <tr key={emp.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800 transition-colors">
+                          <td className="py-2 px-2 sm:px-2.5 align-top sticky left-0 z-10 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.04)] w-36 sm:w-44 md:w-48 lg:w-52 min-w-[140px] sm:min-w-[170px] md:min-w-[190px]">
                             <div className="flex items-start space-x-1.5 sm:space-x-2">
                               <div
                                 className={`flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg sm:rounded-xl font-extrabold text-[10px] shadow-2xs ${avatarClass}`}
@@ -1208,20 +1209,20 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                 {initial}
                               </div>
                               <div className="min-w-0 flex-1">
-                                <p className="font-bold text-xs text-zinc-900 truncate leading-tight">
+                                <p className="font-bold text-xs text-slate-900 dark:text-white truncate leading-tight">
                                   {emp.name}
                                 </p>
-                                <div className="flex items-center space-x-1 text-[10px] text-zinc-500 mt-0.5 truncate">
-                                  <span className="font-mono text-[9px] text-zinc-600 bg-zinc-100 px-1 py-0.2 rounded font-bold shrink-0">
+                                <div className="flex items-center space-x-1 text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">
+                                  <span className="font-mono text-[9px] text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-1 py-0.2 rounded font-bold shrink-0">
                                     {emp.id}
                                   </span>
                                   <span className="truncate">{emp.role}</span>
                                 </div>
-                                <div className="mt-1 flex items-center space-x-1.5 text-[9px] text-zinc-400">
-                                  <span className="bg-zinc-50 border border-zinc-200 px-1 py-0.2 rounded shrink-0 font-medium">
+                                <div className="mt-1 flex items-center space-x-1.5 text-[9px] text-slate-400">
+                                  <span className="bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 px-1 py-0.2 rounded shrink-0 font-medium">
                                     {emp.shiftCount} shifts
                                   </span>
-                                  <span className="text-zinc-600 font-semibold truncate">{emp.totalHours}h</span>
+                                  <span className="text-slate-600 dark:text-slate-300 font-semibold truncate">{emp.totalHours}h</span>
                                 </div>
                               </div>
                             </div>
@@ -1266,9 +1267,9 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                   setDragOverCellKey(null);
                                   setDragOverCardId(null);
                                 }}
-                                className={`py-1.5 sm:py-2 px-1 sm:px-1.5 align-top border-r border-zinc-100 last:border-r-0 min-w-[115px] sm:min-w-[125px] md:min-w-[135px] lg:min-w-[145px] xl:min-w-[155px] transition-colors ${
+                                className={`py-1.5 sm:py-2 px-1 sm:px-1.5 align-top border-r border-slate-100 dark:border-slate-800 last:border-r-0 min-w-[115px] sm:min-w-[125px] md:min-w-[135px] lg:min-w-[145px] xl:min-w-[155px] transition-colors ${
                                   isCellDragOver && !dragOverCardId
-                                    ? "bg-indigo-50/70 ring-2 ring-indigo-400 ring-inset"
+                                    ? "bg-indigo-50/70 dark:bg-indigo-950/40 ring-2 ring-indigo-400 ring-inset"
                                     : ""
                                 }`}
                               >
@@ -1328,8 +1329,8 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                             isBeingDragged
                                               ? "opacity-30 ring-2 ring-indigo-500 scale-95 shadow-inner"
                                               : isCardSwapTarget
-                                              ? "ring-2 ring-amber-500 bg-amber-50/95 scale-[1.02] shadow-md border-amber-400"
-                                              : `hover:shadow-xs hover:border-zinc-300 ${theme.bg} ${theme.borderLeft}`
+                                              ? "ring-2 ring-amber-500 bg-amber-50/95 dark:bg-amber-950/50 scale-[1.02] shadow-md border-amber-400"
+                                              : `hover:shadow-xs hover:border-slate-300 ${theme.bg} ${theme.borderLeft}`
                                           }`}
                                           title="Drag to reschedule or reassign. Drop on another shift to swap."
                                         >
@@ -1343,15 +1344,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
                                           <div className="flex items-center justify-between gap-1">
                                             <div className="flex items-center space-x-1 min-w-0">
-                                              <GripVertical className="h-2.5 w-2.5 text-zinc-400 group-hover/card:text-zinc-600 shrink-0 transition-colors" />
-                                              <span className="font-extrabold text-[10px] sm:text-[11px] text-zinc-900 truncate">
+                                              <GripVertical className="h-2.5 w-2.5 text-slate-400 group-hover/card:text-slate-600 shrink-0 transition-colors" />
+                                              <span className="font-extrabold text-[10px] sm:text-[11px] text-slate-900 dark:text-white truncate">
                                                 {shift.shiftName.split(" (")[0] || shift.shiftName}
                                               </span>
                                             </div>
                                             <IconComponent className={`h-3 w-3 shrink-0 ${theme.iconColor}`} />
                                           </div>
-                                          <div className="flex items-center space-x-1 text-[9px] sm:text-[10px] font-mono mt-0.5 text-zinc-700 font-semibold pl-3 truncate">
-                                            <Clock className="h-2.5 w-2.5 shrink-0 text-zinc-400" />
+                                          <div className="flex items-center space-x-1 text-[9px] sm:text-[10px] font-mono mt-0.5 text-slate-700 dark:text-slate-200 font-semibold pl-3 truncate">
+                                            <Clock className="h-2.5 w-2.5 shrink-0 text-slate-400" />
                                             <span className="truncate">{shift.start}–{shift.end}</span>
                                           </div>
                                         </div>
@@ -1362,12 +1363,12 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                   <div
                                     className={`h-full min-h-[46px] sm:min-h-[52px] flex flex-col items-center justify-center rounded-xl border transition duration-150 ${
                                       isCellDragOver
-                                        ? "border-indigo-400 bg-indigo-50/90 text-indigo-700 shadow-xs scale-[1.01]"
-                                        : "border-dashed border-zinc-200/80 bg-zinc-50/30 text-zinc-400 hover:border-zinc-300"
+                                        ? "border-indigo-400 bg-indigo-50/90 text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-300 shadow-xs scale-[1.01]"
+                                        : "border-dashed border-slate-200/80 bg-slate-50/30 dark:border-slate-800 dark:bg-slate-800/20 text-slate-400 hover:border-slate-300 dark:hover:border-slate-700"
                                     }`}
                                   >
                                     {isCellDragOver ? (
-                                      <div className="flex items-center space-x-1 text-[10px] font-bold text-indigo-700 animate-pulse">
+                                      <div className="flex items-center space-x-1 text-[10px] font-bold text-indigo-700 dark:text-indigo-300 animate-pulse">
                                         <Plus className="h-3 w-3" />
                                         <span>Drop</span>
                                       </div>
@@ -1384,7 +1385,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                     })
                   ) : (
                     <tr>
-                      <td colSpan={activeTimelineDates.length + 1} className="py-14 text-center text-xs text-zinc-400">
+                      <td colSpan={activeTimelineDates.length + 1} className="py-14 text-center text-xs text-slate-400">
                         No employees found matching &ldquo;{searchEmployee}&rdquo;.
                       </td>
                     </tr>
@@ -1395,79 +1396,26 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           </div>
 
           {/* ================= 6. EMPLOYEE ROSTER PAGINATION FOOTER ================= */}
-          {filteredEmployees.length > 0 && (
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-1.5 px-1 text-xs text-zinc-500">
-              <div className="text-[11px] sm:text-xs font-medium">
-                Showing{" "}
-                <span className="font-bold text-zinc-800">
-                  {(currentPage - 1) * pageSize + 1}
-                </span>
-                –
-                <span className="font-bold text-zinc-800">
-                  {Math.min(currentPage * pageSize, filteredEmployees.length)}
-                </span>{" "}
-                of <span className="font-bold text-zinc-800">{filteredEmployees.length}</span> staff members
-              </div>
-
-              {totalPages > 1 && (
-                <div className="flex items-center space-x-1 sm:space-x-1.5 self-center sm:self-auto shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => setCurrentPage(1)}
-                    disabled={currentPage === 1}
-                    className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs cursor-pointer"
-                    title="First Page"
-                  >
-                    <ChevronsLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                    disabled={currentPage === 1}
-                    className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs cursor-pointer"
-                    title="Previous Page"
-                  >
-                    <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  </button>
-
-                  <span className="px-2.5 sm:px-3.5 py-1 text-[11px] sm:text-xs font-bold text-zinc-800 whitespace-nowrap">
-                    Page {currentPage} of {totalPages}
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                    disabled={currentPage >= totalPages}
-                    className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs cursor-pointer"
-                    title="Next Page"
-                  >
-                    <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCurrentPage(totalPages)}
-                    disabled={currentPage >= totalPages}
-                    className="p-1.5 rounded-lg border border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-100 disabled:opacity-30 disabled:pointer-events-none transition shadow-2xs cursor-pointer"
-                    title="Last Page"
-                  >
-                    <ChevronsRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredEmployees.length}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={() => {}}
+          />
         </div>
       )}
 
       {/* ================= 7. VIEW 3: FULL MONTH CALENDAR OVERVIEW ================= */}
       {viewMode === "month" && (
-        <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white p-4 sm:p-6 lg:p-7 shadow-xs space-y-3 sm:space-y-4 animate-in fade-in duration-150">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-zinc-100">
+        <div className="rounded-2xl sm:rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-6 lg:p-7 shadow-xs space-y-3 sm:space-y-4 animate-in fade-in duration-150">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
             <div className="flex items-center space-x-2">
               <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5 text-[#FF7A59] shrink-0" />
-              <h3 className="font-bold text-base sm:text-lg text-zinc-900">Shift Horizon Month Overview</h3>
+              <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white">Shift Horizon Month Overview</h3>
             </div>
-            <span className="text-[11px] sm:text-xs text-zinc-500 font-medium">
+            <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium">
               Click any active date card to focus single day schedule
             </span>
           </div>
@@ -1476,7 +1424,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((dayName) => (
               <div
                 key={dayName}
-                className="text-center py-1.5 sm:py-2 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-zinc-400 bg-zinc-50 rounded-lg sm:rounded-xl border border-zinc-100 truncate"
+                className="text-center py-2 text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-800 truncate"
               >
                 {dayName}
               </div>
@@ -1490,7 +1438,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 return (
                   <div
                     key={idx}
-                    className="min-h-[70px] sm:min-h-[95px] md:min-h-[110px] rounded-xl sm:rounded-2xl border border-dashed border-zinc-100 bg-zinc-50/20 p-1 sm:p-2"
+                    className="min-h-[70px] sm:min-h-[95px] md:min-h-[110px] rounded-xl sm:rounded-2xl border border-dashed border-slate-100 dark:border-slate-800 bg-slate-50/20 dark:bg-slate-800/30 p-1 sm:p-2"
                   />
                 );
               }
@@ -1506,20 +1454,20 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                   }}
                   className={`min-h-[70px] sm:min-h-[95px] md:min-h-[110px] rounded-xl sm:rounded-2xl border p-1.5 sm:p-2.5 flex flex-col justify-between transition ${
                     hasShifts
-                      ? "border-zinc-200 bg-white hover:border-[#FF7A59]/60 hover:shadow-xs cursor-pointer"
-                      : "border-zinc-100 bg-zinc-50/40 text-zinc-400"
+                      ? "border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 hover:border-[#FF7A59]/60 hover:shadow-xs cursor-pointer"
+                      : "border-slate-100 bg-slate-50/40 dark:border-slate-800 dark:bg-slate-800/30 text-slate-400"
                   }`}
                 >
                   <div className="flex items-center justify-between gap-1">
                     <span
                       className={`h-5 w-5 sm:h-6 sm:w-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 ${
-                        hasShifts ? "bg-[#2F2C59] text-white" : "text-zinc-500"
+                        hasShifts ? "bg-[#2F2C59] text-white" : "text-slate-500"
                       }`}
                     >
                       {cell.dayNum}
                     </span>
                     {hasShifts && (
-                      <span className="text-[9px] sm:text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1 sm:px-1.5 py-0.5 rounded-md border border-emerald-200/60 truncate">
+                      <span className="text-[9px] sm:text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-1 sm:px-1.5 py-0.5 rounded-md border border-emerald-200/60 dark:border-emerald-900/60 truncate">
                         {summary.totalStaff} staff
                       </span>
                     )}
@@ -1539,13 +1487,13 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                         );
                       })}
                       {summary.shifts.length > 2 && (
-                        <span className="text-[8px] sm:text-[9px] text-zinc-400 font-medium pl-0.5 sm:pl-1 block truncate">
+                        <span className="text-[8px] sm:text-[9px] text-slate-400 font-medium pl-0.5 sm:pl-1 block truncate">
                           +{summary.shifts.length - 2} more
                         </span>
                       )}
                     </div>
                   ) : (
-                    <span className="text-[9px] sm:text-[10px] text-zinc-300 italic">No shifts</span>
+                    <span className="text-[9px] sm:text-[10px] text-slate-300 italic">No shifts</span>
                   )}
                 </div>
               );
@@ -1556,19 +1504,19 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= 8. VIEW 4: TABLE VIEW ================= */}
       {viewMode === "table" && (
-        <div className="rounded-2xl sm:rounded-3xl border border-zinc-200/90 bg-white overflow-hidden shadow-xs">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-zinc-200 bg-zinc-50/80 text-xs font-bold uppercase tracking-wider text-zinc-600">
+        <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="md:overflow-x-auto">
+            <table className="w-full text-left text-sm block md:table">
+              <thead className="hidden md:table-header-group">
+                <tr className="border-b border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 text-xs font-medium text-slate-500 dark:text-slate-400">
                   <th className="py-3 sm:py-3.5 px-3 sm:px-6">Date</th>
                   <th className="py-3 sm:py-3.5 px-3 sm:px-6">Location</th>
-                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Shift Details</th>
-                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Working Hours</th>
-                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Assigned Staff</th>
+                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Shift details</th>
+                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Working hours</th>
+                  <th className="py-3 sm:py-3.5 px-3 sm:px-6">Assigned staff</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100">
+              <tbody className="block md:table-row-group divide-y divide-slate-100 dark:divide-slate-800">
                 {schedules.flatMap((day) =>
                   day.locations.flatMap((loc) =>
                     loc.shifts
@@ -1604,15 +1552,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                         return (
                           <tr
                             key={`${day.date}_${loc.id}_${shift.id}_${sIdx}`}
-                            className="hover:bg-zinc-50/50 transition-colors"
+                            className="block md:table-row p-4 md:p-0 space-y-1.5 md:space-y-0 hover:bg-slate-50/50 dark:hover:bg-slate-800 transition-colors"
                           >
-                            <td className="py-3 sm:py-3.5 px-3 sm:px-6 font-bold text-zinc-900 whitespace-nowrap text-xs sm:text-sm">
+                            <td className="block md:table-cell md:py-3.5 md:px-6 font-semibold tabular-nums text-slate-900 dark:text-white whitespace-nowrap text-xs sm:text-sm">
                               {day.date}
                             </td>
-                            <td className="py-3 sm:py-3.5 px-3 sm:px-6">
-                              <span className="font-semibold text-zinc-800 text-xs sm:text-sm">{loc.name}</span>
+                            <td className="block md:table-cell md:py-3.5 md:px-6">
+                              <span className="font-semibold text-slate-800 dark:text-slate-100 text-xs sm:text-sm">{loc.name}</span>
                             </td>
-                            <td className="py-3 sm:py-3.5 px-3 sm:px-6">
+                            <td className="block md:table-cell md:py-3.5 md:px-6">
                               <span
                                 className={`inline-flex items-center space-x-1.5 rounded-lg px-2 sm:px-2.5 py-1 text-xs font-bold border ${theme.bg} ${theme.borderLeft}`}
                               >
@@ -1620,15 +1568,15 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                                 <span className="truncate">{shift.name}</span>
                               </span>
                             </td>
-                            <td className="py-3 sm:py-3.5 px-3 sm:px-6 font-mono text-xs font-bold text-zinc-600 whitespace-nowrap">
+                            <td className="block md:table-cell md:py-3.5 md:px-6 tabular-nums text-xs font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
                               {shift.start} – {shift.end}
                             </td>
-                            <td className="py-3 sm:py-3.5 px-3 sm:px-6">
+                            <td className="block md:table-cell pt-1 md:py-3.5 md:px-6">
                               <div className="flex flex-wrap gap-1 sm:gap-1.5">
                                 {displayedEmps.map((emp, eIdx) => (
                                   <span
                                     key={eIdx}
-                                    className="inline-flex items-center rounded-lg bg-zinc-50 border border-zinc-200 px-2 sm:px-2.5 py-1 text-xs font-medium text-zinc-800"
+                                    className="inline-flex items-center rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 px-2 sm:px-2.5 py-1 text-xs font-medium text-slate-800 dark:text-slate-100"
                                   >
                                     {emp.name}
                                   </span>
@@ -1647,20 +1595,20 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
       )}
 
       {/* ================= 4. EXECUTIVE SCHEDULE SUMMARY & COMPLIANCE AUDIT (CHECKLIST LAYOUT) ================= */}
-      <div className="rounded-2xl border border-zinc-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs space-y-4">
+      <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs space-y-4">
         {/* Header Strip */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 dark:border-slate-800/80 pb-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800/80 pb-3.5">
           <div className="flex items-center space-x-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
               <ShieldCheck className="h-5 w-5" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h3 className="font-bold text-sm sm:text-base text-zinc-900 dark:text-zinc-100">
+                <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-slate-100">
                   Executive Schedule Summary & Compliance Audit
                 </h3>
               </div>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Operational verification and statutory compliance checklist across {effectiveSchedules.length} scheduled days.
               </p>
             </div>
@@ -1675,17 +1623,17 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
         </div>
 
         {/* Verification Status Progress Bar */}
-        <div className="bg-zinc-50/70 dark:bg-slate-950/40 border border-zinc-200/70 dark:border-slate-800/80 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div className="bg-slate-50/70 dark:bg-slate-950/40 border border-slate-200/70 dark:border-slate-800/80 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div className="flex items-center space-x-2.5">
             <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white shrink-0">
               <Check className="h-3 w-3 stroke-[3]" />
             </div>
-            <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+            <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
               4 of 4 Statutory &amp; Operational Audit Rules Passed
             </span>
           </div>
           <div className="flex items-center space-x-2 sm:w-48">
-            <div className="h-1.5 w-full bg-zinc-200 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
               <div className="h-full bg-emerald-500 rounded-full w-full"></div>
             </div>
             <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0">100%</span>
@@ -1693,23 +1641,23 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
         </div>
 
         {/* Audit Verification Checklist Rows */}
-        <div className="divide-y divide-zinc-100 dark:divide-slate-800/80">
+        <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
           {/* Checklist Item 1: Staff Deployment */}
-          <div className="py-3 sm:py-3.5 first:pt-1 last:pb-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-zinc-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
+          <div className="py-3 sm:py-3.5 first:pt-1 last:pb-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
             <div className="flex items-start sm:items-center space-x-3 min-w-0">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0 mt-0.5 sm:mt-0">
                 <Check className="h-4 w-4 stroke-[2.5]" />
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
                     Staff Deployment &amp; Active Roster Coverage
                   </h4>
-                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-zinc-100 dark:bg-slate-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/60 dark:border-slate-700/60">
+                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60">
                     {kpiStats.totalStaff} Active Staff
                   </span>
                 </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   All active roster personnel deployed across branch locations with 0 idle or unassigned employees.
                 </p>
               </div>
@@ -1724,21 +1672,21 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           </div>
 
           {/* Checklist Item 2: Scheduled Hours & Overtime */}
-          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-zinc-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
+          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
             <div className="flex items-start sm:items-center space-x-3 min-w-0">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0 mt-0.5 sm:mt-0">
                 <Check className="h-4 w-4 stroke-[2.5]" />
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
                     Scheduled Hours &amp; Overtime Guardrails
                   </h4>
-                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-zinc-100 dark:bg-slate-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/60 dark:border-slate-700/60">
+                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60">
                     {kpiStats.totalHours}h Total (~{kpiStats.avgHours}h/emp)
                   </span>
                 </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Total workload distributed strictly under weekly statutory limits with zero overtime threshold breaches.
                 </p>
               </div>
@@ -1753,21 +1701,21 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           </div>
 
           {/* Checklist Item 3: Shift Demand & Position Fulfillment */}
-          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-zinc-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
+          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
             <div className="flex items-start sm:items-center space-x-3 min-w-0">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0 mt-0.5 sm:mt-0">
                 <Check className="h-4 w-4 stroke-[2.5]" />
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
                     Shift Demand &amp; Position Fulfillment
                   </h4>
-                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-zinc-100 dark:bg-slate-800 text-zinc-700 dark:text-zinc-300 border border-zinc-200/60 dark:border-slate-700/60">
+                  <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60">
                     {kpiStats.totalShifts} Shifts Filled
                   </span>
                 </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   100% of required shift positions staffed across all {effectiveSchedules.length} days with zero vacant or unfulfilled slots.
                 </p>
               </div>
@@ -1782,21 +1730,21 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
           </div>
 
           {/* Checklist Item 4: Statutory Rest & Policy Compliance */}
-          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-zinc-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
+          <div className="py-3 sm:py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 px-2 sm:px-2.5 -mx-2 sm:-mx-2.5 rounded-xl transition">
             <div className="flex items-start sm:items-center space-x-3 min-w-0">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0 mt-0.5 sm:mt-0">
                 <Check className="h-4 w-4 stroke-[2.5]" />
               </div>
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">
                     Statutory Rest Intervals &amp; Policy Rule Compliance
                   </h4>
                   <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-mono font-bold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60">
                     {kpiStats.complianceRate} Audit Score
                   </span>
                 </div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Mandatory rest intervals (minimum 11h between shifts) and single shift per day constraints validated without breaches.
                 </p>
               </div>
@@ -1814,42 +1762,42 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= MODAL: SHARE SCHEDULE ================= */}
       {isShareModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-zinc-950/40 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="w-full max-w-md rounded-2xl sm:rounded-3xl border border-zinc-200 bg-white p-5 sm:p-7 shadow-2xl space-y-4 sm:space-y-5 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/40 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-md rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-7 shadow-2xl space-y-4 sm:space-y-5 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2F2C59] text-white shrink-0">
-                  <Share2 className="h-4 w-4 text-[#FF7A59]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-50 dark:bg-orange-950/50 text-[#FF7A59] shrink-0">
+                  <Share2 className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm sm:text-base text-zinc-900">Share Schedule</h3>
-                  <p className="text-xs text-zinc-500">Send schedule to team or export</p>
+                  <h3 className="font-semibold text-base text-slate-900 dark:text-white">Share schedule</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Send schedule to team or export</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsShareModalOpen(false)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100"
+                className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
             <div className="space-y-2 sm:space-y-3">
-              <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                Shareable Web Link
+              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400">
+                Shareable link
               </label>
               <div className="flex items-center space-x-2">
                 <input
                   type="text"
                   readOnly
                   value={typeof window !== "undefined" ? window.location.href : ""}
-                  className="flex-1 min-w-0 rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs text-zinc-700 font-mono focus:outline-hidden truncate"
+                  className="flex-1 min-w-0 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3.5 py-2 text-xs text-slate-700 dark:text-slate-200 focus:outline-hidden truncate"
                 />
                 <button
                   type="button"
                   onClick={handleCopyShareLink}
-                  className="inline-flex items-center space-x-1 rounded-xl bg-[#2F2C59] px-3 sm:px-3.5 py-2.5 text-xs font-semibold text-white hover:bg-[#1E1B3A] border border-[#2F2C59] transition shrink-0"
+                  className="inline-flex items-center space-x-1.5 rounded-full bg-[#2F2C59] dark:bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] dark:hover:bg-indigo-700 transition shrink-0 cursor-pointer shadow-xs"
                 >
                   {copiedLink ? (
                     <Check className="h-3.5 w-3.5 text-emerald-400" />
@@ -1861,14 +1809,14 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
               </div>
             </div>
 
-            <div className="pt-2 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-500">
-              <span className="flex items-center text-emerald-600 font-semibold truncate mr-2">
-                <CheckCircle2 className="h-3.5 w-3.5 mr-1 shrink-0" /> Ready for live distribution
+            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+              <span className="flex items-center text-emerald-600 dark:text-emerald-400 font-medium truncate mr-2">
+                <CheckCircle2 className="h-3.5 w-3.5 mr-1.5 shrink-0" /> Ready for live distribution
               </span>
               <button
                 type="button"
                 onClick={() => setIsShareModalOpen(false)}
-                className="text-xs font-bold text-zinc-800 hover:underline shrink-0"
+                className="rounded-full bg-slate-100 dark:bg-slate-800 px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer"
               >
                 Done
               </button>
@@ -1879,22 +1827,22 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= MODAL: ADD SHIFT / SCHEDULE ================= */}
       {isAddShiftOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-zinc-950/40 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="w-full max-w-md rounded-2xl sm:rounded-3xl border border-zinc-200 bg-white p-5 sm:p-7 shadow-2xl space-y-4 sm:space-y-5 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-md rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 shadow-2xl space-y-4 sm:space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center space-x-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2F2C59] text-white shrink-0">
-                  <Plus className="h-4 w-4 text-[#FF7A59]" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-50 dark:bg-orange-950/50 text-[#FF7A59] shrink-0">
+                  <Plus className="h-4 w-4" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm sm:text-base text-zinc-900">Add Shift Assignment</h3>
-                  <p className="text-xs text-zinc-500">Manually schedule an employee</p>
+                  <h3 className="font-semibold text-base text-slate-900 dark:text-white">Add shift assignment</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Manually schedule an employee</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsAddShiftOpen(false)}
-                className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100"
+                className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -1903,21 +1851,21 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             {addShiftSuccess ? (
               <div className="py-6 text-center space-y-2">
                 <CheckCircle2 className="mx-auto h-8 w-8 text-emerald-600" />
-                <h4 className="font-bold text-zinc-900">Shift Assigned Successfully!</h4>
+                <h4 className="font-semibold text-slate-900 dark:text-white">Shift assigned successfully</h4>
               </div>
             ) : (
-              <form onSubmit={handleAddShiftSubmit} className="space-y-3 sm:space-y-4">
+              <form onSubmit={handleAddShiftSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1">
-                    Select Employee <span className="text-rose-500">*</span>
+                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
+                    Select employee <span className="text-rose-500">*</span>
                   </label>
                   <select
                     required
                     value={newShiftEmployeeId}
                     onChange={(e) => setNewShiftEmployeeId(e.target.value)}
-                    className="block w-full rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs text-zinc-900 focus:bg-white focus:outline-hidden"
+                    className="block w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2.5 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/50"
                   >
-                    <option value="">-- Choose Employee --</option>
+                    <option value="">-- Choose employee --</option>
                     {employeesList.map((emp) => (
                       <option key={emp.id} value={emp.id}>
                         {emp.name} ({emp.id}) — {emp.role}
@@ -1927,7 +1875,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1">
+                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
                     Date <span className="text-rose-500">*</span>
                   </label>
                   <input
@@ -1935,18 +1883,18 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                     required
                     value={newShiftDate}
                     onChange={(e) => setNewShiftDate(e.target.value)}
-                    className="block w-full rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs text-zinc-900 focus:bg-white focus:outline-hidden"
+                    className="block w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2.5 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/50"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1">
-                    Store Location
+                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
+                    Store location
                   </label>
                   <select
                     value={newShiftLocation}
                     onChange={(e) => setNewShiftLocation(e.target.value)}
-                    className="block w-full rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs text-zinc-900 focus:bg-white focus:outline-hidden"
+                    className="block w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2.5 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/50"
                   >
                     <option value="LOC_01">Flagship Store (District 1)</option>
                     <option value="LOC_02">Express Branch (District 7)</option>
@@ -1954,33 +1902,33 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 mb-1">
-                    Shift Period
+                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1.5">
+                    Shift period
                   </label>
                   <select
                     value={newShiftType}
                     onChange={(e) => setNewShiftType(e.target.value)}
-                    className="block w-full rounded-xl border border-zinc-200 bg-zinc-50 p-2.5 text-xs text-zinc-900 focus:bg-white focus:outline-hidden"
+                    className="block w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2.5 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-[#2F5BFF]/50"
                   >
-                    <option value="SHIFT_MORNING">Morning Shift (07:00 – 15:00)</option>
-                    <option value="SHIFT_AFTERNOON">Afternoon Shift (14:30 – 22:30)</option>
-                    <option value="SHIFT_NIGHT">Night Shift (22:00 – 06:00)</option>
+                    <option value="SHIFT_MORNING">Morning shift (07:00 – 15:00)</option>
+                    <option value="SHIFT_AFTERNOON">Afternoon shift (14:30 – 22:30)</option>
+                    <option value="SHIFT_NIGHT">Night shift (22:00 – 06:00)</option>
                   </select>
                 </div>
 
-                <div className="flex items-center justify-end space-x-2 pt-3 border-t border-zinc-100">
+                <div className="flex items-center justify-end space-x-2 pt-3 border-t border-slate-100 dark:border-slate-800">
                   <button
                     type="button"
                     onClick={() => setIsAddShiftOpen(false)}
-                    className="rounded-xl border border-zinc-200 px-3.5 sm:px-4 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50"
+                    className="rounded-full bg-slate-100 dark:bg-slate-800 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="rounded-xl bg-[#2F2C59] px-3.5 sm:px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] border border-[#2F2C59] transition shadow-xs"
+                    className="rounded-full bg-[#2F2C59] dark:bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-[#1E1B3A] dark:hover:bg-indigo-700 transition shadow-xs cursor-pointer active:scale-[0.99]"
                   >
-                    Confirm Assignment
+                    Confirm assignment
                   </button>
                 </div>
               </form>
@@ -1991,7 +1939,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
       {/* ================= FLOATING ACTION & UNDO TOAST ================= */}
       {actionToast && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-3 rounded-2xl bg-[#2F2C59] text-white px-4 py-3 shadow-xl border border-white/10 animate-in slide-in-from-bottom-5 duration-200">
+        <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-3 rounded-2xl bg-[#2F2C59] dark:bg-indigo-600 text-white px-4 py-3 shadow-xl border border-white/10 animate-in slide-in-from-bottom-5 duration-200">
           <div className="flex items-center space-x-2 text-xs font-semibold">
             <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
             <span>{actionToast.message}</span>
@@ -2000,7 +1948,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
             <button
               type="button"
               onClick={handleUndo}
-              className="inline-flex items-center space-x-1 rounded-lg bg-white/15 hover:bg-white/25 px-2.5 py-1 text-[11px] font-bold text-white transition cursor-pointer"
+              className="inline-flex items-center space-x-1 rounded-lg bg-white/15 dark:bg-slate-900/80 hover:bg-white/25 px-2.5 py-1 text-[11px] font-bold text-white transition cursor-pointer"
             >
               <Undo2 className="h-3 w-3" />
               <span>Undo</span>

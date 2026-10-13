@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, X, ChevronDown, List, LayoutGrid } from "lucide-react";
+import { Search, X, List, LayoutGrid, Filter } from "lucide-react";
 
 interface EmployeeToolbarProps {
   searchTerm: string;
@@ -30,8 +30,6 @@ export function EmployeeToolbar({
   totalEmployeesCount,
   selectedType,
   onTypeChange,
-  fullTimeCount,
-  partTimeCount,
   selectedStatus,
   onStatusChange,
   onResetFilters,
@@ -45,25 +43,26 @@ export function EmployeeToolbar({
     selectedStatus !== "all";
 
   return (
-    <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs space-y-3">
+    <div className="space-y-3">
+      {/* Search Bar & Primary Filter Pills */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-        {/* Left: Search Input & Dropdown Filters */}
+        {/* Left: Search input + contract & status pill toggles */}
         <div className="flex flex-wrap items-center gap-2.5 flex-1">
-          {/* Search Bar */}
-          <div className="relative min-w-[200px] flex-1 sm:max-w-xs">
-            <Search className="pointer-events-none absolute inset-y-0 left-0 h-3.5 w-3.5 my-auto ml-3 text-slate-400" />
+          {/* Pill Search */}
+          <div className="relative min-w-[220px] flex-1 sm:max-w-xs">
+            <Search className="pointer-events-none absolute inset-y-0 left-0 h-3.5 w-3.5 my-auto ml-3.5 text-slate-400" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Search staff, ID, phone..."
-              className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80 py-1.5 pl-8.5 pr-8 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition"
+              placeholder="Search staff, ID, email..."
+              className="w-full rounded-full border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 py-2 pl-9 pr-8 text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 shadow-xs transition"
             />
             {searchTerm && (
               <button
                 type="button"
                 onClick={() => onSearchChange("")}
-                className="absolute inset-y-0 right-0 flex items-center pr-2.5 text-slate-400 hover:text-slate-600 cursor-pointer"
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
                 aria-label="Clear search"
               >
                 <X className="h-3 w-3" />
@@ -71,50 +70,78 @@ export function EmployeeToolbar({
             )}
           </div>
 
-          {/* Role Dropdown */}
-          <div className="relative">
-            <select
-              value={selectedRole}
-              onChange={(e) => onRoleChange(e.target.value)}
-              className="appearance-none rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80 py-1.5 pl-3 pr-8 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition cursor-pointer"
+          {/* Contract Type Segmented Pill */}
+          <div className="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 p-1 text-xs font-medium">
+            <button
+              type="button"
+              onClick={() => onTypeChange("all")}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                selectedType === "all"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
             >
-              <option value="all">All Roles ({totalEmployeesCount})</option>
-              {roles.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-400" />
+              All contracts
+            </button>
+            <button
+              type="button"
+              onClick={() => onTypeChange("Full-time")}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                selectedType === "Full-time"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              Full-time
+            </button>
+            <button
+              type="button"
+              onClick={() => onTypeChange("Part-time")}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                selectedType === "Part-time"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              Part-time
+            </button>
           </div>
 
-          {/* Contract Type Dropdown */}
-          <div className="relative">
-            <select
-              value={selectedType}
-              onChange={(e) => onTypeChange(e.target.value)}
-              className="appearance-none rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80 py-1.5 pl-3 pr-8 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition cursor-pointer"
+          {/* Status Segmented Pill */}
+          <div className="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 p-1 text-xs font-medium">
+            <button
+              type="button"
+              onClick={() => onStatusChange("all")}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                selectedStatus === "all"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
             >
-              <option value="all">All Contracts</option>
-              <option value="Full-time">Full-time ({fullTimeCount})</option>
-              <option value="Part-time">Part-time ({partTimeCount})</option>
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-400" />
-          </div>
-
-          {/* Status Dropdown */}
-          <div className="relative">
-            <select
-              value={selectedStatus}
-              onChange={(e) => onStatusChange(e.target.value)}
-              className="appearance-none rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800/80 py-1.5 pl-3 pr-8 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF] transition cursor-pointer"
+              All statuses
+            </button>
+            <button
+              type="button"
+              onClick={() => onStatusChange("Active")}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                selectedStatus === "Active"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
             >
-              <option value="all">All Statuses</option>
-              <option value="Active">Active</option>
-              <option value="On Leave">On Leave</option>
-              <option value="Off Duty">Off Duty</option>
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-400" />
+              Active
+            </button>
+            <button
+              type="button"
+              onClick={() => onStatusChange("On Leave")}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer ${
+                selectedStatus === "On Leave"
+                  ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              On leave
+            </button>
           </div>
 
           {/* Reset Filters */}
@@ -122,7 +149,7 @@ export function EmployeeToolbar({
             <button
               type="button"
               onClick={onResetFilters}
-              className="inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
             >
               <X className="h-3 w-3" />
               <span>Reset</span>
@@ -130,35 +157,65 @@ export function EmployeeToolbar({
           )}
         </div>
 
-        {/* Right: View Mode Switcher */}
-        <div className="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl self-end md:self-auto shrink-0">
+        {/* Right: View Mode Segmented Control */}
+        <div className="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 p-1 text-xs font-semibold self-end md:self-auto shrink-0">
           <button
             type="button"
             onClick={() => onViewModeChange("table")}
-            className={`p-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
               viewMode === "table"
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs"
-                : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-[#2F2C59] text-white shadow-xs dark:bg-indigo-600"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
-            title="Table view"
-            aria-label="Table view"
           >
-            <List className="h-4 w-4" />
+            <List className="h-3.5 w-3.5" />
+            <span>Table</span>
           </button>
           <button
             type="button"
             onClick={() => onViewModeChange("cards")}
-            className={`p-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
               viewMode === "cards"
-                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs"
-                : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                ? "bg-[#2F2C59] text-white shadow-xs dark:bg-indigo-600"
+                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
-            title="Card grid view"
-            aria-label="Card grid view"
           >
-            <LayoutGrid className="h-4 w-4" />
+            <LayoutGrid className="h-3.5 w-3.5" />
+            <span>Cards</span>
           </button>
         </div>
+      </div>
+
+      {/* Role Filter Pills Strip */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+        <span className="text-slate-400 text-xs font-medium mr-1 flex items-center shrink-0">
+          <Filter className="h-3.5 w-3.5 mr-1" /> Role:
+        </span>
+        <button
+          type="button"
+          onClick={() => onRoleChange("all")}
+          className={`px-3 py-1.5 rounded-full font-semibold transition cursor-pointer shrink-0 text-xs ${
+            selectedRole === "all"
+              ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+              : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800"
+          }`}
+        >
+          All roles ({totalEmployeesCount})
+        </button>
+        {roles.map((r) => (
+          <button
+            key={r}
+            type="button"
+            onClick={() => onRoleChange(r)}
+            className={`px-3 py-1.5 rounded-full font-semibold transition cursor-pointer shrink-0 text-xs ${
+              selectedRole === r
+                ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
+                : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800"
+            }`}
+          >
+            {r}
+          </button>
+        ))}
       </div>
     </div>
   );

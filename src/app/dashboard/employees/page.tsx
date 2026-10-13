@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, X } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import {
   EmployeeProfile,
@@ -63,9 +63,10 @@ export default function EmployeesPage() {
   const metrics = useMemo(() => {
     const total = employees.length;
     const active = employees.filter((e) => e.status === "Active").length;
+    const onLeave = employees.filter((e) => e.status === "On Leave").length;
     const fullTime = employees.filter((e) => e.employmentType === "Full-time").length;
     const partTime = employees.filter((e) => e.employmentType === "Part-time").length;
-    return { total, active, fullTime, partTime };
+    return { total, active, onLeave, fullTime, partTime };
   }, [employees]);
 
   // Pagination State
@@ -173,9 +174,20 @@ export default function EmployeesPage() {
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Toast Notification */}
         {toastMessage && (
-          <div className="fixed top-20 right-6 z-50 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-2.5 text-xs font-semibold shadow-lg animate-in fade-in slide-in-from-top-2 flex items-center space-x-2">
-            <CheckCircle2 className="h-4 w-4 text-emerald-400 dark:text-emerald-600" />
-            <span>{toastMessage}</span>
+          <div
+            role="status"
+            className="fixed top-20 right-6 z-50 rounded-xl bg-[#2F2C59] dark:bg-indigo-600 text-white px-4 py-2.5 text-xs font-semibold shadow-lg flex items-center space-x-2 animate-in fade-in slide-in-from-top-2"
+          >
+            <CheckCircle2 className="h-4 w-4 text-emerald-300 shrink-0" />
+            <span className="flex-1">{toastMessage}</span>
+            <button
+              type="button"
+              onClick={() => setToastMessage(null)}
+              className="text-white/70 hover:text-white ml-1 p-0.5"
+              aria-label="Dismiss toast"
+            >
+              <X className="h-3 w-3" />
+            </button>
           </div>
         )}
 
@@ -211,16 +223,30 @@ export default function EmployeesPage() {
           onViewModeChange={setViewMode}
         />
 
-        {/* 3. Data View (Table or Cards) with Pagination */}
+        {/* 4. Data View (Table or Cards) with Pagination */}
         {viewMode === "table" ? (
-          <EmployeeTable
-            employees={paginatedEmployees}
-            searchTerm={searchTerm}
-            onToggleStatus={handleToggleStatus}
-            onEditEmployee={setEditingEmployee}
-            onDeleteEmployee={handleDeleteEmployee}
-            pagination={paginationElement}
-          />
+          <>
+            <div className="hidden md:block">
+              <EmployeeTable
+                employees={paginatedEmployees}
+                searchTerm={searchTerm}
+                onToggleStatus={handleToggleStatus}
+                onEditEmployee={setEditingEmployee}
+                onDeleteEmployee={handleDeleteEmployee}
+                pagination={paginationElement}
+              />
+            </div>
+            <div className="block md:hidden">
+              <EmployeeCards
+                employees={paginatedEmployees}
+                searchTerm={searchTerm}
+                onToggleStatus={handleToggleStatus}
+                onEditEmployee={setEditingEmployee}
+                onDeleteEmployee={handleDeleteEmployee}
+                pagination={paginationElement}
+              />
+            </div>
+          </>
         ) : (
           <EmployeeCards
             employees={paginatedEmployees}
@@ -232,14 +258,14 @@ export default function EmployeesPage() {
           />
         )}
 
-        {/* 4. Add Employee Modal */}
+        {/* 5. Add Employee Modal */}
         <AddEmployeeModal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
           onAdd={handleAddEmployee}
         />
 
-        {/* 5. Edit Employee Modal */}
+        {/* 6. Edit Employee Modal */}
         <EditEmployeeModal
           employee={editingEmployee}
           isOpen={Boolean(editingEmployee)}

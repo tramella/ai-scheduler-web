@@ -98,7 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (err) {
       console.error("Failed to refresh user:", err);
     }
-  }, [token, activeCompany?.id]);
+  }, [token, activeCompany]);
 
   const login = async (payload: LoginPayload): Promise<AuthResponse> => {
     const res = await loginApi(payload);

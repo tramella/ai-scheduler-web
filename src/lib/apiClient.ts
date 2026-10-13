@@ -65,19 +65,22 @@ export async function generateSchedule(params: GenerateScheduleParams): Promise<
     body: formData
   });
 
-  let data: any;
+  let data: Record<string, unknown> = {};
   try {
-    data = await response.json();
+    data = (await response.json()) as Record<string, unknown>;
   } catch {
     data = { error: `Server error (${response.status}): ${response.statusText}` };
   }
 
   if (!response.ok || !data.success) {
-    const errorMsg = data.error || data.message || `Failed to generate schedule (HTTP ${response.status})`;
+    const errorMsg =
+      (typeof data.error === "string" ? data.error : null) ||
+      (typeof data.message === "string" ? data.message : null) ||
+      `Failed to generate schedule (HTTP ${response.status})`;
     throw new Error(errorMsg);
   }
 
-  return data;
+  return data as unknown as GenerateScheduleResponse;
 }
 
 export async function exportSchedule(schedules: DailySchedule[]): Promise<Blob> {
