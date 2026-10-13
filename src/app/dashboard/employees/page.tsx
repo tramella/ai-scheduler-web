@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
-import { CheckCircle2 } from "lucide-react";
+import {
+  CheckCircle2,
+  Users,
+  UserCheck,
+  Clock,
+  Briefcase,
+  X,
+} from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import {
   EmployeeProfile,
@@ -14,6 +21,7 @@ import {
   EditEmployeeModal,
 } from "@/components/dashboard/employee";
 import { Pagination } from "@/components/ui/Pagination";
+import { KpiCard } from "@/components/ui/KpiCard";
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<EmployeeProfile[]>(INITIAL_EMPLOYEES);
@@ -63,9 +71,10 @@ export default function EmployeesPage() {
   const metrics = useMemo(() => {
     const total = employees.length;
     const active = employees.filter((e) => e.status === "Active").length;
+    const onLeave = employees.filter((e) => e.status === "On Leave").length;
     const fullTime = employees.filter((e) => e.employmentType === "Full-time").length;
     const partTime = employees.filter((e) => e.employmentType === "Part-time").length;
-    return { total, active, fullTime, partTime };
+    return { total, active, onLeave, fullTime, partTime };
   }, [employees]);
 
   // Pagination State
@@ -173,9 +182,20 @@ export default function EmployeesPage() {
       <div className="mx-auto max-w-7xl space-y-6">
         {/* Toast Notification */}
         {toastMessage && (
-          <div className="fixed top-20 right-6 z-50 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-4 py-2.5 text-xs font-semibold shadow-lg animate-in fade-in slide-in-from-top-2 flex items-center space-x-2">
-            <CheckCircle2 className="h-4 w-4 text-emerald-400 dark:text-emerald-600" />
-            <span>{toastMessage}</span>
+          <div
+            role="status"
+            className="fixed top-20 right-6 z-50 rounded-xl bg-[#2F2C59] dark:bg-indigo-600 text-white px-4 py-2.5 text-xs font-semibold shadow-lg flex items-center space-x-2 animate-in fade-in slide-in-from-top-2"
+          >
+            <CheckCircle2 className="h-4 w-4 text-emerald-300 shrink-0" />
+            <span className="flex-1">{toastMessage}</span>
+            <button
+              type="button"
+              onClick={() => setToastMessage(null)}
+              className="text-white/70 hover:text-white ml-1 p-0.5"
+              aria-label="Dismiss toast"
+            >
+              <X className="h-3 w-3" />
+            </button>
           </div>
         )}
 
@@ -186,7 +206,79 @@ export default function EmployeesPage() {
           onAddEmployee={() => setIsAddModalOpen(true)}
         />
 
-        {/* 2. Toolbar & Filters */}
+        {/* 2. Four KPI Blocks */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+          <KpiCard
+            label="Total staff"
+            value={metrics.total}
+            chip="100% enrolled"
+            chipVariant="neutral"
+            note={`${metrics.total} total staff records`}
+            icon={Users}
+            iconVariant="blue"
+          >
+            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-full bg-[#2F5BFF] w-full rounded-full" />
+            </div>
+          </KpiCard>
+
+          <KpiCard
+            label="Active on duty"
+            value={metrics.active}
+            chip={`${Math.round((metrics.active / metrics.total) * 100)}% active`}
+            chipVariant="success"
+            note={`${metrics.active} available for shift roster`}
+            icon={UserCheck}
+            iconVariant="emerald"
+          >
+            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-emerald-500 rounded-full"
+                style={{ width: `${(metrics.active / metrics.total) * 100}%` }}
+              />
+            </div>
+          </KpiCard>
+
+          <KpiCard
+            label="On leave / away"
+            value={metrics.onLeave}
+            chip={metrics.onLeave > 0 ? "Temporary leave" : "None away"}
+            chipVariant="warning"
+            note={`${metrics.onLeave} personnel currently away`}
+            icon={Clock}
+            iconVariant="orange"
+          >
+            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#FF7A59] rounded-full"
+                style={{ width: `${(metrics.onLeave / metrics.total) * 100}%` }}
+              />
+            </div>
+          </KpiCard>
+
+          <KpiCard
+            label="Employment mix"
+            value={`${metrics.fullTime} FT`}
+            chip={`${metrics.partTime} PT`}
+            chipVariant="info"
+            note={`${metrics.fullTime} full-time, ${metrics.partTime} part-time`}
+            icon={Briefcase}
+            iconVariant="indigo"
+          >
+            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex">
+              <div
+                className="h-full bg-[#2F2C59] dark:bg-indigo-400"
+                style={{ width: `${(metrics.fullTime / metrics.total) * 100}%` }}
+              />
+              <div
+                className="h-full bg-indigo-300 dark:bg-indigo-600"
+                style={{ width: `${(metrics.partTime / metrics.total) * 100}%` }}
+              />
+            </div>
+          </KpiCard>
+        </div>
+
+        {/* 3. Toolbar & Filters */}
         <EmployeeToolbar
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
@@ -211,16 +303,30 @@ export default function EmployeesPage() {
           onViewModeChange={setViewMode}
         />
 
-        {/* 3. Data View (Table or Cards) with Pagination */}
+        {/* 4. Data View (Table or Cards) with Pagination */}
         {viewMode === "table" ? (
-          <EmployeeTable
-            employees={paginatedEmployees}
-            searchTerm={searchTerm}
-            onToggleStatus={handleToggleStatus}
-            onEditEmployee={setEditingEmployee}
-            onDeleteEmployee={handleDeleteEmployee}
-            pagination={paginationElement}
-          />
+          <>
+            <div className="hidden md:block">
+              <EmployeeTable
+                employees={paginatedEmployees}
+                searchTerm={searchTerm}
+                onToggleStatus={handleToggleStatus}
+                onEditEmployee={setEditingEmployee}
+                onDeleteEmployee={handleDeleteEmployee}
+                pagination={paginationElement}
+              />
+            </div>
+            <div className="block md:hidden">
+              <EmployeeCards
+                employees={paginatedEmployees}
+                searchTerm={searchTerm}
+                onToggleStatus={handleToggleStatus}
+                onEditEmployee={setEditingEmployee}
+                onDeleteEmployee={handleDeleteEmployee}
+                pagination={paginationElement}
+              />
+            </div>
+          </>
         ) : (
           <EmployeeCards
             employees={paginatedEmployees}
@@ -232,14 +338,14 @@ export default function EmployeesPage() {
           />
         )}
 
-        {/* 4. Add Employee Modal */}
+        {/* 5. Add Employee Modal */}
         <AddEmployeeModal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}
           onAdd={handleAddEmployee}
         />
 
-        {/* 5. Edit Employee Modal */}
+        {/* 6. Edit Employee Modal */}
         <EditEmployeeModal
           employee={editingEmployee}
           isOpen={Boolean(editingEmployee)}

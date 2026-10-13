@@ -19,17 +19,12 @@ export function Pagination({
   currentPage,
   totalPages,
   totalItems,
-  pageSize,
   onPageChange,
-  onPageSizeChange,
-  pageSizeOptions = [6, 8, 12, 20],
-  itemLabel = "items",
   className = "",
 }: PaginationProps) {
-  if (totalItems === 0) return null;
-
-  const startItem = (currentPage - 1) * pageSize + 1;
-  const endItem = Math.min(currentPage * pageSize, totalItems);
+  // pageSize, onPageSizeChange, pageSizeOptions, itemLabel are still accepted
+  // for backward compatibility but no longer rendered.
+  if (totalItems === 0 || totalPages <= 1) return null;
 
   // Generate page numbers with ellipsis
   const pageNumbers: (number | string)[] = [];
@@ -47,49 +42,14 @@ export function Pagination({
 
   return (
     <div
-      className={`flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400 py-3.5 px-4 sm:px-6 ${className}`}
+      className={`flex items-center justify-center text-xs text-slate-600 dark:text-slate-400 py-3.5 px-4 sm:px-6 ${className}`}
     >
-      <div className="flex items-center space-x-3 text-xs">
-        <span>
-          Showing{" "}
-          <strong className="text-slate-900 dark:text-white font-mono font-semibold">
-            {startItem}
-          </strong>{" "}
-          to{" "}
-          <strong className="text-slate-900 dark:text-white font-mono font-semibold">
-            {endItem}
-          </strong>{" "}
-          of{" "}
-          <strong className="text-slate-900 dark:text-white font-mono font-semibold">
-            {totalItems}
-          </strong>{" "}
-          {itemLabel}
-        </span>
-
-        {pageSizeOptions.length > 1 && (
-          <div className="hidden sm:flex items-center space-x-1 pl-3 border-l border-slate-200 dark:border-slate-800">
-            <span className="text-[11px] text-slate-400">Per page:</span>
-            <select
-              value={pageSize}
-              onChange={(e) => onPageSizeChange(Number(e.target.value))}
-              className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-0.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300 focus:outline-hidden cursor-pointer"
-            >
-              {pageSizeOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-      </div>
-
       <div className="flex items-center space-x-1.5">
         <button
           type="button"
           disabled={currentPage <= 1}
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-          className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
+          className="p-1.5 rounded-full border border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
           aria-label="Previous page"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -110,10 +70,10 @@ export function Pagination({
                 key={`page-${p}`}
                 type="button"
                 onClick={() => onPageChange(Number(p))}
-                className={`min-w-[28px] h-7 px-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                className={`min-w-[28px] h-7 px-2 rounded-full text-xs font-semibold tabular-nums transition cursor-pointer ${
                   isCurrent
-                    ? "bg-[#2F2C59] dark:bg-indigo-600 text-white shadow-2xs font-bold"
-                    : "border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"
+                    ? "bg-[#2F2C59] dark:bg-indigo-600 text-white shadow-xs font-bold"
+                    : "border border-slate-200/80 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"
                 }`}
               >
                 {p}
@@ -126,7 +86,7 @@ export function Pagination({
           type="button"
           disabled={currentPage >= totalPages}
           onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-          className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
+          className="p-1.5 rounded-full border border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition cursor-pointer"
           aria-label="Next page"
         >
           <ChevronRight className="h-4 w-4" />

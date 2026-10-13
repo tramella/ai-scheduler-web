@@ -66,20 +66,25 @@ export function AddEmployeeModal({
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl space-y-4">
+      <div className="relative w-full max-w-md rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-          <div className="flex items-center space-x-2">
-            <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-[#2F2C59] dark:text-indigo-400">
-              <Plus className="h-4 w-4" />
+          <div className="flex items-center space-x-2.5">
+            <div className="h-10 w-10 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#2F5BFF] flex items-center justify-center shrink-0">
+              <Plus className="h-[18px] w-[18px]" />
             </div>
-            <h3 className="font-bold text-sm text-slate-900 dark:text-white">
-              Add New Employee
-            </h3>
+            <div>
+              <h3 className="font-semibold text-sm text-slate-900 dark:text-white">
+                Add employee
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Create new employee profile
+              </p>
+            </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg cursor-pointer"
+            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-full cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
             aria-label="Close modal"
           >
             <X className="h-4 w-4" />
@@ -88,8 +93,8 @@ export function AddEmployeeModal({
 
         <form onSubmit={handleSubmit} className="space-y-3.5 text-xs">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-              Full Name <span className="text-rose-500">*</span>
+            <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+              Full name <span className="text-rose-500">*</span>
             </label>
             <input
               type="text"
@@ -97,52 +102,77 @@ export function AddEmployeeModal({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Nguyễn Văn Hùng"
-              className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF]"
+              className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Certified Role
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Role
               </label>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden cursor-pointer"
+                className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 cursor-pointer"
               >
                 <option value="Shift Supervisor">Shift Supervisor</option>
                 <option value="Senior Barista">Senior Barista</option>
                 <option value="Barista">Barista</option>
                 <option value="Cashier">Cashier</option>
                 <option value="Kitchen Assistant">Kitchen Assistant</option>
-                <option value="Security & Closing Lead">Security Lead</option>
+                <option value="Security & Closing Lead">Security & Closing Lead</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Employment Type
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Employment type
               </label>
               <select
                 value={employmentType}
-                onChange={(e) => {
-                  const val = e.target.value as EmploymentType;
-                  setEmploymentType(val);
-                  setTargetHours(val === "Full-time" ? 40 : 20);
-                }}
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden cursor-pointer"
+                onChange={(e) => setEmploymentType(e.target.value as EmploymentType)}
+                className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 cursor-pointer"
               >
-                <option value="Full-time">Full-time (40h)</option>
-                <option value="Part-time">Part-time (20h)</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Part-time">Part-time</option>
+                <option value="Contract">Contract</option>
               </select>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Target Hours / Wk
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@store.io"
+                className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Phone
+              </label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="0901 234 567"
+                className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Target hours / week
               </label>
               <input
                 type="number"
@@ -150,18 +180,18 @@ export function AddEmployeeModal({
                 max={60}
                 value={targetHours}
                 onChange={(e) => setTargetHours(Number(e.target.value))}
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden"
+                className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs tabular-nums text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Home Location
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Home location
               </label>
               <select
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 p-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden cursor-pointer"
+                className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 cursor-pointer"
               >
                 <option value="Flagship Store (District 1)">Flagship Store (D1)</option>
                 <option value="Express Branch (District 3)">Express Branch (D3)</option>
@@ -173,15 +203,15 @@ export function AddEmployeeModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+              className="rounded-full bg-slate-100 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-xl bg-[#2F2C59] hover:bg-[#1E1B3A] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs cursor-pointer"
+              className="rounded-full bg-[#2F2C59] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#1E1B3A] dark:bg-indigo-600 dark:hover:bg-indigo-700 cursor-pointer"
             >
-              Save Employee
+              Save employee
             </button>
           </div>
         </form>

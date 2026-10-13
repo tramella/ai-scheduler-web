@@ -191,3 +191,26 @@ export async function resetPasswordApi(payload: ResetPasswordPayload): Promise<{
   });
   return handleResponse<{ success: boolean; message: string }>(res);
 }
+
+export interface ChangePasswordPayload {
+  current_password: string;
+  new_password: string;
+}
+
+/**
+ * Change password for authenticated user
+ */
+export async function changePasswordApi(
+  payload: ChangePasswordPayload,
+  token: string
+): Promise<{ success: boolean; message: string }> {
+  const res = await fetch(`${API_BASE_URL}/api/auth/change-password`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+  return handleResponse<{ success: boolean; message: string }>(res);
+}

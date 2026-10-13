@@ -14,7 +14,6 @@ export const PublicHeader: React.FC = () => {
   const { user, isAuthenticated, activeCompany, logout } = useAuth();
 
   const navLinks = [
-    ...(isAuthenticated ? [{ name: "Dashboard", href: "/dashboard" }] : []),
     { name: "Product", href: "/product" },
     { name: "Pricing", href: "/pricing" },
     { name: "FAQ", href: "/faq" },

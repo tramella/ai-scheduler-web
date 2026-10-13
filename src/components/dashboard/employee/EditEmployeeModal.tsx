@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Edit2, X, Plus, Trash2, CheckCircle2, ShieldCheck, Clock, MapPin, Mail, Phone, Briefcase } from "lucide-react";
+import { X, Plus } from "lucide-react";
 import { EmployeeProfile, EmploymentType, EmployeeStatus } from "./types";
 
 interface EditEmployeeModalProps {
@@ -100,12 +100,11 @@ export function EditEmployeeModal({
       role,
       department,
       employmentType,
-      location,
-      locationId: location.includes("District 1") ? "LOC_01" : "LOC_02",
-      email: email.trim() || employee.email,
-      phone: phone.trim() || employee.phone,
       targetHours: Number(targetHours),
       scheduledHours: Number(scheduledHours),
+      location,
+      email: email.trim() || employee.email,
+      phone: phone.trim() || employee.phone,
       status,
       skills,
     };
@@ -113,7 +112,7 @@ export function EditEmployeeModal({
     onSave(updatedEmployee);
   };
 
-  const initial = name.trim().charAt(0) || "E";
+  const initial = (name.trim() || employee.name).charAt(0);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -124,20 +123,20 @@ export function EditEmployeeModal({
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-xl max-h-[92vh] flex flex-col rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95">
+      <div className="relative w-full max-w-xl max-h-[92vh] flex flex-col rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95">
         
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40">
           <div className="flex items-center space-x-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2F2C59] dark:bg-indigo-600 text-white font-extrabold text-sm shadow-2xs">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#2F2C59] dark:bg-indigo-600 text-white font-semibold text-sm shadow-xs shrink-0">
               {initial}
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
-                  Edit Employee
+                <h3 className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
+                  Edit employee
                 </h3>
-                <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-200/70 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+                <span className="tabular-nums text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-200/70 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                   {employee.id}
                 </span>
               </div>
@@ -150,7 +149,7 @@ export function EditEmployeeModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg transition cursor-pointer"
+            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-full transition cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
             aria-label="Close modal"
           >
             <X className="h-5 w-5" />
@@ -162,14 +161,14 @@ export function EditEmployeeModal({
           
           {/* Section 1: Basic Information */}
           <div className="space-y-3">
-            <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-              Basic Identification
+            <h4 className="text-xs font-medium text-slate-500 dark:text-slate-400">
+              Basic identification
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Full Name <span className="text-rose-500">*</span>
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Full name <span className="text-rose-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -177,50 +176,50 @@ export function EditEmployeeModal({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Enter employee full name"
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF]"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Operational Status
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Operational status
                 </label>
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value as EmployeeStatus)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden cursor-pointer"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 cursor-pointer"
                 >
-                  <option value="Active">Active (Ready for shifts)</option>
-                  <option value="On Leave">On Leave (Temporarily unavailable)</option>
-                  <option value="Off Duty">Off Duty (Inactive)</option>
+                  <option value="Active">Active</option>
+                  <option value="On Leave">On leave</option>
+                  <option value="Off Duty">Off duty</option>
                 </select>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Work Email
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Work email
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="email@orbitweave.io"
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF]"
+                  placeholder="email@store.io"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Phone Number
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Phone number
                 </label>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="0901 xxx xxx"
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF]"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
                 />
               </div>
             </div>
@@ -228,19 +227,19 @@ export function EditEmployeeModal({
 
           {/* Section 2: Role & Deployment */}
           <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-            <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-              Role &amp; Deployment
+            <h4 className="text-xs font-medium text-slate-500 dark:text-slate-400">
+              Role &amp; deployment
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Certified Role
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Certified role
                 </label>
                 <select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden cursor-pointer"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 cursor-pointer"
                 >
                   {AVAILABLE_ROLES.map((r) => (
                     <option key={r} value={r}>
@@ -251,13 +250,13 @@ export function EditEmployeeModal({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
                   Department
                 </label>
                 <select
                   value={department}
                   onChange={(e) => setDepartment(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden cursor-pointer"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 cursor-pointer"
                 >
                   {AVAILABLE_DEPARTMENTS.map((d) => (
                     <option key={d} value={d}>
@@ -269,13 +268,13 @@ export function EditEmployeeModal({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Branch Location
+              <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                Primary branch
               </label>
               <select
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden cursor-pointer"
+                className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 cursor-pointer"
               >
                 <option value="Flagship Store (District 1)">Flagship Store (District 1)</option>
                 <option value="Express Branch (District 3)">Express Branch (District 3)</option>
@@ -283,16 +282,16 @@ export function EditEmployeeModal({
             </div>
           </div>
 
-          {/* Section 3: Contract & Hours */}
+          {/* Section 3: Hours & Contract */}
           <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-            <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-              Contract &amp; Capacity
+            <h4 className="text-xs font-medium text-slate-500 dark:text-slate-400">
+              Hours &amp; contract
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Contract Type
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Contract
                 </label>
                 <select
                   value={employmentType}
@@ -302,7 +301,7 @@ export function EditEmployeeModal({
                     if (val === "Full-time") setTargetHours(40);
                     else if (val === "Part-time") setTargetHours(20);
                   }}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden cursor-pointer"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50 cursor-pointer"
                 >
                   <option value="Full-time">Full-time</option>
                   <option value="Part-time">Part-time</option>
@@ -311,8 +310,8 @@ export function EditEmployeeModal({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Target Hours/Wk
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Target hours / week
                 </label>
                 <input
                   type="number"
@@ -320,13 +319,13 @@ export function EditEmployeeModal({
                   max={60}
                   value={targetHours}
                   onChange={(e) => setTargetHours(Number(e.target.value))}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs tabular-nums text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  Scheduled Hours
+                <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Scheduled hours
                 </label>
                 <input
                   type="number"
@@ -334,7 +333,7 @@ export function EditEmployeeModal({
                   max={60}
                   value={scheduledHours}
                   onChange={(e) => setScheduledHours(Number(e.target.value))}
-                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden"
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs tabular-nums text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
                 />
               </div>
             </div>
@@ -342,17 +341,17 @@ export function EditEmployeeModal({
 
           {/* Section 4: Skills & Credentials */}
           <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-            <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-              Certifications &amp; Skills
+            <h4 className="text-xs font-medium text-slate-500 dark:text-slate-400">
+              Certifications &amp; skills
             </h4>
 
             {/* Current skill tags */}
-            <div className="flex flex-wrap gap-1.5 min-h-[32px] p-2 rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40">
+            <div className="flex flex-wrap gap-1.5 min-h-[32px] p-2.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40">
               {skills.length > 0 ? (
                 skills.map((skill, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs"
+                    className="inline-flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-xs"
                   >
                     <span>{skill}</span>
                     <button
@@ -366,7 +365,7 @@ export function EditEmployeeModal({
                   </span>
                 ))
               ) : (
-                <span className="text-[11px] text-slate-400 italic">No skills registered yet.</span>
+                <span className="text-xs text-slate-400 italic">No skills registered yet.</span>
               )}
             </div>
 
@@ -377,15 +376,15 @@ export function EditEmployeeModal({
                 value={newSkillInput}
                 onChange={(e) => setNewSkillInput(e.target.value)}
                 onKeyDown={handleKeyDownSkill}
-                placeholder="Type skill and press Add (e.g. Latte Art, Cash Audit)..."
-                className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 text-xs text-slate-900 dark:text-white focus:bg-white focus:outline-hidden focus:ring-1 focus:ring-[#2F5BFF]"
+                placeholder="Type skill and press add..."
+                className="flex-1 rounded-full border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 px-3.5 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
               />
               <button
                 type="button"
                 onClick={handleAddSkill}
-                className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-200 transition cursor-pointer"
+                className="rounded-full border border-slate-200/80 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 transition cursor-pointer"
               >
-                Add Skill
+                Add skill
               </button>
             </div>
           </div>
@@ -395,15 +394,15 @@ export function EditEmployeeModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer"
+              className="rounded-full bg-slate-100 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-xl bg-[#2F2C59] hover:bg-[#1E1B3A] dark:bg-indigo-600 dark:hover:bg-indigo-700 text-white text-xs font-semibold shadow-xs transition active:scale-[0.99] cursor-pointer"
+              className="rounded-full bg-[#2F2C59] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#1E1B3A] dark:bg-indigo-600 dark:hover:bg-indigo-700 cursor-pointer"
             >
-              Save Changes
+              Save changes
             </button>
           </div>
         </form>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { DashboardHeader } from "./DashboardHeader";
 import { DashboardSidebar } from "./DashboardSidebar";
+import { MobileBottomNav } from "./MobileBottomNav";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -78,10 +79,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Top Header (Pinned at top, doesn't scroll) */}
         <DashboardHeader onToggleSidebar={() => setMobileOpen(true)} />
 
-        {/* Center Main Content (ONLY THIS SCROLLS VERTICALLY) */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 bg-white dark:bg-[#0B0F19]">
+        {/* Center Main Content (ONLY THIS SCROLLS VERTICALLY, with bottom padding for mobile bar) */}
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8 pb-20 lg:pb-8 bg-white dark:bg-[#0B0F19]">
           {children}
         </main>
+
+        {/* Mobile Persistent Bottom Navigation Bar */}
+        <MobileBottomNav />
       </div>
     </div>
   );
