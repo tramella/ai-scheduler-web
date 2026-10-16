@@ -47,145 +47,13 @@ export interface EmployeeSkillMatrixRow {
   }[];
 }
 
-const INITIAL_SKILLS: SkillItem[] = [
-  {
-    id: "SK-01",
-    code: "SUPERVISOR",
-    name: "Shift Supervision & Keyholding",
-    description: "Certified to open/close physical store, manage cash drawers, and lead team during emergencies.",
-    category: "Supervision",
-    certified_count: 3,
-    critical_station: "Supervisor Desk / Floor Lead",
-    required_for: "Mandatory 1 per opening & closing shift",
-  },
-  {
-    id: "SK-02",
-    code: "BARISTA",
-    name: "Specialty Espresso & Manual Brew",
-    description: "Trained on commercial espresso machinery, calibration, latte art, and rush volume brewing.",
-    category: "Service",
-    certified_count: 5,
-    critical_station: "Espresso Bar & Hand Drip",
-    required_for: "Min 2 during 07:00–10:30 rush",
-  },
-  {
-    id: "SK-03",
-    code: "POS_CASHIER",
-    name: "Front Register & Reconciliation",
-    description: "Operates POS terminal, handles multi-currency transactions, split checks, and invoice issuance.",
-    category: "Service",
-    certified_count: 6,
-    critical_station: "Front Counter Register",
-    required_for: "Min 1 during all operating hours",
-  },
-  {
-    id: "SK-04",
-    code: "KITCHEN_LEAD",
-    name: "Commercial Kitchen & Prep",
-    description: "Food prep safety, recipe consistency, oven management, and allergy protocol oversight.",
-    category: "Technical",
-    certified_count: 3,
-    critical_station: "Kitchen Prep Line",
-    required_for: "Required on brunch & lunch shifts",
-  },
-  {
-    id: "SK-05",
-    code: "FOOD_SAFETY",
-    name: "HACCP Food Safety Level 2",
-    description: "Formal certification for hygiene compliance, food temperature recording, and sanitization.",
-    category: "Compliance & Safety",
-    certified_count: 4,
-    critical_station: "All Food & Beverage Stations",
-    required_for: "Store compliance audit requirement",
-  },
-  {
-    id: "SK-06",
-    code: "FIRST_AID",
-    name: "Workplace First Aid & CPR",
-    description: "Certified emergency response, burn treatment, and workplace casualty management.",
-    category: "Compliance & Safety",
-    certified_count: 2,
-    critical_station: "Entire Store Facility",
-    required_for: "Safety regulation recommendation",
-  },
-];
+const INITIAL_SKILLS: SkillItem[] = [];
 
-const INITIAL_MATRIX_ROWS: EmployeeSkillMatrixRow[] = [
-  {
-    employee_id: "NV001",
-    name: "Anna Vance",
-    role: "Shift Supervisor",
-    avatar: "AV",
-    skills: [
-      { skill_code: "SUPERVISOR", level: "Lead", verified: true },
-      { skill_code: "BARISTA", level: "Senior", verified: true },
-      { skill_code: "POS_CASHIER", level: "Lead", verified: true },
-      { skill_code: "KITCHEN_LEAD", level: "Mid", verified: true },
-      { skill_code: "FOOD_SAFETY", level: "Senior", verified: true },
-      { skill_code: "FIRST_AID", level: "Lead", verified: true },
-    ],
-  },
-  {
-    employee_id: "NV002",
-    name: "David Kim",
-    role: "Senior Barista",
-    avatar: "DK",
-    skills: [
-      { skill_code: "SUPERVISOR", level: "Senior", verified: true },
-      { skill_code: "BARISTA", level: "Lead", verified: true },
-      { skill_code: "POS_CASHIER", level: "Senior", verified: true },
-      { skill_code: "KITCHEN_LEAD", level: "None", verified: false },
-      { skill_code: "FOOD_SAFETY", level: "Senior", verified: true },
-      { skill_code: "FIRST_AID", level: "None", verified: false },
-    ],
-  },
-  {
-    employee_id: "NV003",
-    name: "Michael Chen",
-    role: "Cashier",
-    avatar: "MC",
-    skills: [
-      { skill_code: "SUPERVISOR", level: "None", verified: false },
-      { skill_code: "BARISTA", level: "Junior", verified: false },
-      { skill_code: "POS_CASHIER", level: "Lead", verified: true },
-      { skill_code: "KITCHEN_LEAD", level: "None", verified: false },
-      { skill_code: "FOOD_SAFETY", level: "Mid", verified: true },
-      { skill_code: "FIRST_AID", level: "None", verified: false },
-    ],
-  },
-  {
-    employee_id: "NV004",
-    name: "Sarah Miller",
-    role: "Kitchen Assistant",
-    avatar: "SM",
-    skills: [
-      { skill_code: "SUPERVISOR", level: "None", verified: false },
-      { skill_code: "BARISTA", level: "None", verified: false },
-      { skill_code: "POS_CASHIER", level: "Mid", verified: true },
-      { skill_code: "KITCHEN_LEAD", level: "Senior", verified: true },
-      { skill_code: "FOOD_SAFETY", level: "Lead", verified: true },
-      { skill_code: "FIRST_AID", level: "Senior", verified: true },
-    ],
-  },
-  {
-    employee_id: "NV005",
-    name: "James Wilson",
-    role: "Barista",
-    avatar: "JW",
-    skills: [
-      { skill_code: "SUPERVISOR", level: "None", verified: false },
-      { skill_code: "BARISTA", level: "Senior", verified: true },
-      { skill_code: "POS_CASHIER", level: "Senior", verified: true },
-      { skill_code: "KITCHEN_LEAD", level: "None", verified: false },
-      { skill_code: "FOOD_SAFETY", level: "Mid", verified: true },
-      { skill_code: "FIRST_AID", level: "None", verified: false },
-    ],
-  },
-];
+const INITIAL_MATRIX_ROWS: EmployeeSkillMatrixRow[] = [];
 
 export default function SkillsPage() {
-  const [skills, setSkills] = useState<SkillItem[]>(INITIAL_SKILLS);
-  const [matrixRows, setMatrixRows] = useState<EmployeeSkillMatrixRow[]>(INITIAL_MATRIX_ROWS);
+  const [skills, setSkills] = useState<SkillItem[]>([]);
+  const [matrixRows, setMatrixRows] = useState<EmployeeSkillMatrixRow[]>([]);
   const [activeTab, setActiveTab] = useState<"DIRECTORY" | "MATRIX">("DIRECTORY");
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -202,14 +70,17 @@ export default function SkillsPage() {
             name: s.name,
             description: s.description || "Operational competency",
             category: "Service",
-            certified_count: 4,
-            critical_station: "Counter & Operations",
-            required_for: "Standard shift operations"
+            certified_count: s.certified_count || 0,
+            critical_station: s.critical_station || "Counter & Operations",
+            required_for: s.required_for || "Standard shift operations"
           }));
           setSkills(mapped);
+        } else {
+          setSkills([]);
         }
       } catch (err) {
         console.warn("Backend skills fallback:", err);
+        setSkills([]);
       }
     }
     loadSkills();
@@ -374,64 +245,87 @@ export default function SkillsPage() {
 
         {/* Tab 1: Skills Directory Cards */}
         {activeTab === "DIRECTORY" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredSkills.map((skill) => (
-              <Card
-                key={skill.id}
-                padding="lg"
-                className="flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition"
-              >
-                <div>
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                    <span className="font-mono text-xs font-bold text-[#2F5BFF] bg-blue-50 dark:bg-blue-950/60 px-2.5 py-0.5 rounded-full border border-blue-200/60 dark:border-blue-900">
-                      {skill.code}
-                    </span>
-                    <span className="text-[11px] font-semibold text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
-                      {skill.category}
-                    </span>
+          filteredSkills.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-12 text-center bg-white/50 dark:bg-slate-900/40">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/30 text-[#2F5BFF] mb-3">
+                <Award className="h-6 w-6" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">No skills registered yet</h3>
+              <p className="mt-1 text-xs text-slate-500 max-w-sm mx-auto">
+                No skill definitions have been configured. Click "Add New Skill" to register certifications and competencies for your staff.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredSkills.map((skill) => (
+                <Card
+                  key={skill.id}
+                  padding="lg"
+                  className="flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition"
+                >
+                  <div>
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                      <span className="font-mono text-xs font-bold text-[#2F5BFF] bg-blue-50 dark:bg-blue-950/60 px-2.5 py-0.5 rounded-full border border-blue-200/60 dark:border-blue-900">
+                        {skill.code}
+                      </span>
+                      <span className="text-[11px] font-semibold text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                        {skill.category}
+                      </span>
+                    </div>
+
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white mt-3.5">
+                      {skill.name}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                      {skill.description}
+                    </p>
+
+                    <div className="mt-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-1.5 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Critical Station:</span>
+                        <span className="font-semibold text-slate-800 dark:text-slate-200">{skill.critical_station}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500">Requirement:</span>
+                        <span className="text-[#2F2C59] dark:text-indigo-400 font-medium">{skill.required_for}</span>
+                      </div>
+                    </div>
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white mt-3.5">
-                    {skill.name}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                    {skill.description}
-                  </p>
-
-                  <div className="mt-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-1.5 text-xs">
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Critical Station:</span>
-                      <span className="font-semibold text-slate-800 dark:text-slate-200">{skill.critical_station}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-slate-500">Requirement:</span>
-                      <span className="text-[#2F2C59] dark:text-indigo-400 font-medium">{skill.required_for}</span>
-                    </div>
+                  <div className="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center">
+                      <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
+                      {skill.certified_count} staff certified
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400">
+                      {skill.id}
+                    </span>
                   </div>
-                </div>
-
-                <div className="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center">
-                    <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
-                    {skill.certified_count} staff certified
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400">
-                    {skill.id}
-                  </span>
-                </div>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          )
         )}
 
         {/* Tab 2: Coverage Matrix Table */}
         {activeTab === "MATRIX" && (
-          <Card padding="none" className="overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs sm:text-sm min-w-[700px]">
-                <thead>
-                  <tr className="border-b border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px] font-mono">
-                    <th className="py-3 px-4 sm:px-6 w-[220px]">Employee</th>
+          matrixRows.length === 0 || skills.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-12 text-center bg-white/50 dark:bg-slate-900/40">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 mb-3">
+                <GraduationCap className="h-6 w-6" />
+              </div>
+              <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">No skill coverage data</h3>
+              <p className="mt-1 text-xs text-slate-500 max-w-sm mx-auto">
+                Skill coverage matrix will populate when employees are assigned registered skills.
+              </p>
+            </div>
+          ) : (
+            <Card padding="none" className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs sm:text-sm min-w-[700px]">
+                  <thead>
+                    <tr className="border-b border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px] font-mono">
+                      <th className="py-3 px-4 sm:px-6 w-[220px]">Employee</th>
                     {skills.map((s) => (
                       <th key={s.code} className="py-3 px-3 text-center">
                         <div>{s.code}</div>
