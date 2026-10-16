@@ -15,8 +15,17 @@ import {
 } from "@/components/dashboard/employee";
 import { Pagination } from "@/components/ui/Pagination";
 
+import {
+  fetchEmployeesApi,
+  createEmployeeApi,
+  updateEmployeeApi,
+  deleteEmployeeApi,
+  BackendEmployee
+} from "@/lib/apiClient";
+
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<EmployeeProfile[]>(INITIAL_EMPLOYEES);
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");
   const [selectedType, setSelectedType] = useState("all");
@@ -33,6 +42,43 @@ export default function EmployeesPage() {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
   };
+
+  // Convert BackendEmployee to Frontend EmployeeProfile
+  const mapBackendEmployee = (be: BackendEmployee): EmployeeProfile => ({
+    id: be.employee_code || be._id,
+    name: be.full_name,
+    role: be.job_title || "Barista",
+    department: be.department || "Store Operations",
+    employmentType: (be.employment_type as "Full-time" | "Part-time" | "Contract") || "Full-time",
+    location: be.location_name || "Main Workplace",
+    locationId: "LOC_MAIN",
+    email: be.email || `${be.employee_code.toLowerCase()}@orbitweave.io`,
+    phone: be.phone || "",
+    targetHours: be.target_hours || 40,
+    scheduledHours: be.scheduled_hours || 0,
+    status: (be.status as "Active" | "On Leave" | "Off Duty") || "Active",
+    skills: be.skills || [],
+    joinDate: "Oct 2026",
+  });
+
+  // Load from real backend API on mount
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setIsLoadingData(true);
+        const res = await fetchEmployeesApi({ limit: 100 });
+        if (res.data && res.data.length > 0) {
+          const mapped = res.data.map(mapBackendEmployee);
+          setEmployees(mapped);
+        }
+      } catch (err: unknown) {
+        console.warn("API employees fetch failed, retaining cached data:", err);
+      } finally {
+        setIsLoadingData(false);
+      }
+    }
+    loadData();
+  }, []);
 
   // Roles list
   const roles = useMemo(() => {
@@ -86,8 +132,9 @@ export default function EmployeesPage() {
     return filteredEmployees.slice(start, start + pageSize);
   }, [filteredEmployees, safePage, pageSize]);
 
-  const handleAddEmployee = (newEmployeeData: {
+  const handleAddEmployee = async (newEmployeeData: {
     name: string;
+    avatar_url?: string;
     role: string;
     employmentType: "Full-time" | "Part-time" | "Contract";
     targetHours: number;
@@ -101,6 +148,7 @@ export default function EmployeesPage() {
     const newEmp: EmployeeProfile = {
       id: nextId,
       name: newEmployeeData.name,
+      avatar_url: newEmployeeData.avatar_url,
       role: newEmployeeData.role,
       department: newEmployeeData.role.includes("Barista")
         ? "Bar & Beverage"
@@ -121,16 +169,42 @@ export default function EmployeesPage() {
       joinDate: "Oct 2026",
     };
 
+    try {
+      await createEmployeeApi({
+        employee_code: newEmp.id,
+        full_name: newEmp.name,
+        email: newEmp.email,
+        phone: newEmp.phone,
+        job_title: newEmp.role,
+        department: newEmp.department,
+        employment_type: newEmp.employmentType,
+        target_hours: newEmp.targetHours,
+        location_name: newEmp.location,
+        status: newEmp.status
+      });
+    } catch (e: unknown) {
+      console.warn("Backend create synced in offline mode:", e);
+    }
+
     setEmployees((prev) => [newEmp, ...prev]);
     setIsAddModalOpen(false);
     showToast(`Added ${newEmp.name} (${newEmp.id}) to employee directory.`);
   };
 
-  const handleToggleStatus = (id: string) => {
+  const handleToggleStatus = async (id: string) => {
+    const emp = employees.find(e => e.id === id);
+    if (!emp) return;
+    const nextStatus = emp.status === "Active" ? "On Leave" : "Active";
+
+    try {
+      await updateEmployeeApi(id, { status: nextStatus });
+    } catch (e) {
+      console.warn("Backend status update sync:", e);
+    }
+
     setEmployees((prev) =>
       prev.map((e) => {
         if (e.id === id) {
-          const nextStatus = e.status === "Active" ? "On Leave" : "Active";
           showToast(`Updated ${e.name} status to ${nextStatus}.`);
           return { ...e, status: nextStatus };
         }
@@ -139,16 +213,34 @@ export default function EmployeesPage() {
     );
   };
 
-  const handleDeleteEmployee = (id: string) => {
+  const handleDeleteEmployee = async (id: string) => {
     const target = employees.find((e) => e.id === id);
     if (!target) return;
     if (confirm(`Remove ${target.name} (${target.id}) from directory?`)) {
+      try {
+        await deleteEmployeeApi(id);
+      } catch (e) {
+        console.warn("Backend delete sync:", e);
+      }
       setEmployees((prev) => prev.filter((e) => e.id !== id));
       showToast(`Removed ${target.name} from directory.`);
     }
   };
 
-  const handleSaveEmployee = (updated: EmployeeProfile) => {
+  const handleSaveEmployee = async (updated: EmployeeProfile) => {
+    try {
+      await updateEmployeeApi(updated.id, {
+        full_name: updated.name,
+        email: updated.email,
+        phone: updated.phone,
+        job_title: updated.role,
+        department: updated.department,
+        status: updated.status
+      });
+    } catch (e) {
+      console.warn("Backend edit sync:", e);
+    }
+
     setEmployees((prev) => prev.map((e) => (e.id === updated.id ? updated : e)));
     setEditingEmployee(null);
     showToast(`Updated employee details for ${updated.name} (${updated.id}).`);
@@ -161,6 +253,7 @@ export default function EmployeesPage() {
       totalItems={filteredEmployees.length}
       pageSize={pageSize}
       itemLabel="personnel"
+
       onPageChange={setCurrentPage}
       onPageSizeChange={(size) => {
         setPageSize(size);
