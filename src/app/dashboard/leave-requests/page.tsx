@@ -43,94 +43,10 @@ export interface LeaveRequestItem {
   impact_note: string;
 }
 
-const INITIAL_LEAVE_REQUESTS: LeaveRequestItem[] = [
-  {
-    id: "LR-101",
-    employee_id: "NV002",
-    employee_name: "David Kim",
-    employee_role: "Senior Barista",
-    employee_avatar: "DK",
-    start_date: "2026-10-18",
-    end_date: "2026-10-20",
-    days_count: 3,
-    reason_category: "Vacation",
-    reason_detail: "Attending specialty coffee roasting expo in Da Nang.",
-    status: "PENDING",
-    submitted_at: "2026-10-14 09:30",
-    schedule_impact: "Medium",
-    impact_note: "Weekend peak shift requires certified barista backfill",
-  },
-  {
-    id: "LR-102",
-    employee_id: "NV004",
-    employee_name: "Sarah Miller",
-    employee_role: "Kitchen Assistant",
-    employee_avatar: "SM",
-    start_date: "2026-10-16",
-    end_date: "2026-10-16",
-    days_count: 1,
-    reason_category: "Sick Leave",
-    reason_detail: "Doctor appointment & medical follow-up.",
-    status: "PENDING",
-    submitted_at: "2026-10-13 14:15",
-    schedule_impact: "Low",
-    impact_note: "Covered by Anna Vance on swing shift",
-  },
-  {
-    id: "LR-103",
-    employee_id: "NV003",
-    employee_name: "Michael Chen",
-    employee_role: "Cashier",
-    employee_avatar: "MC",
-    start_date: "2026-10-22",
-    end_date: "2026-10-25",
-    days_count: 4,
-    reason_category: "Study / Exam",
-    reason_detail: "University semester final examinations.",
-    status: "APPROVED",
-    submitted_at: "2026-10-10 11:00",
-    approved_by: "Store Manager",
-    schedule_impact: "Medium",
-    impact_note: "Part-time rotation already adjusted",
-  },
-  {
-    id: "LR-104",
-    employee_id: "NV005",
-    employee_name: "James Wilson",
-    employee_role: "Barista",
-    employee_avatar: "JW",
-    start_date: "2026-10-12",
-    end_date: "2026-10-13",
-    days_count: 2,
-    reason_category: "Family Emergency",
-    reason_detail: "Urgent family matter in home province.",
-    status: "APPROVED",
-    submitted_at: "2026-10-09 08:20",
-    approved_by: "Store Manager",
-    schedule_impact: "High",
-    impact_note: "Emergency shift swapped with Emily Davis",
-  },
-  {
-    id: "LR-105",
-    employee_id: "NV006",
-    employee_name: "Emily Davis",
-    employee_role: "Supervisor",
-    employee_avatar: "ED",
-    start_date: "2026-10-15",
-    end_date: "2026-10-19",
-    days_count: 5,
-    reason_category: "Vacation",
-    reason_detail: "Annual planned leave.",
-    status: "REJECTED",
-    submitted_at: "2026-10-08 16:40",
-    approved_by: "Operations Director",
-    schedule_impact: "High",
-    impact_note: "Conflicts with mandatory store quarterly inventory audit",
-  },
-];
+const INITIAL_LEAVE_REQUESTS: LeaveRequestItem[] = [];
 
 export default function LeaveRequestsPage() {
-  const [requests, setRequests] = useState<LeaveRequestItem[]>(INITIAL_LEAVE_REQUESTS);
+  const [requests, setRequests] = useState<LeaveRequestItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"ALL" | "PENDING" | "APPROVED" | "REJECTED">("ALL");
   const [reasonFilter, setReasonFilter] = useState<string>("ALL");
@@ -159,9 +75,12 @@ export default function LeaveRequestsPage() {
             impact_note: "Managed by coverage solver"
           }));
           setRequests(mapped);
+        } else {
+          setRequests([]);
         }
       } catch (err) {
         console.warn("Backend leave requests fallback:", err);
+        setRequests([]);
       }
     }
     loadRequests();
