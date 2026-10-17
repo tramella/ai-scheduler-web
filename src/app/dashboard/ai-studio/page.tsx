@@ -614,7 +614,7 @@ export default function AiStudioPage() {
     },
   ];
 
-  const [schedules, setSchedules] = useState<DailySchedule[]>(sampleDatabaseSchedules);
+  const [schedules, setSchedules] = useState<DailySchedule[]>([]);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -1174,16 +1174,38 @@ export default function AiStudioPage() {
 
         {/* TAB 2: SCHEDULE RESULT / CALENDAR CANVAS */}
         {activeTab === "result" && (
-          <div className="w-full space-y-4">
-            <ScheduleResultView
-              schedules={schedules}
-              startDate={startDate}
-              endDate={endDate}
-              onRegenerate={handleGenerate}
-              onReset={() => setActiveTab("generator")}
-              onScheduleChange={setSchedules}
-            />
-          </div>
+          schedules.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-800 p-12 text-center bg-white/50 dark:bg-slate-900/40 space-y-4">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-[#2F5BFF]">
+                <CalendarDays className="h-7 w-7" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="text-base font-semibold text-slate-800 dark:text-slate-200">No schedule generated yet</h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Configure your constraints and target dates in the Generator tab, then click &ldquo;Generate Schedule with AI&rdquo;.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveTab("generator")}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2F2C59] text-white text-xs font-semibold hover:bg-slate-800 transition shadow-sm cursor-pointer"
+              >
+                <Sparkles className="h-4 w-4 text-[#FF7A59]" />
+                <span>Go to Generator</span>
+              </button>
+            </div>
+          ) : (
+            <div className="w-full space-y-4">
+              <ScheduleResultView
+                schedules={schedules}
+                startDate={startDate}
+                endDate={endDate}
+                onRegenerate={handleGenerate}
+                onReset={() => setActiveTab("generator")}
+                onScheduleChange={setSchedules}
+              />
+            </div>
+          )
         )}
 
         {/* SLIDE-OVER DRAWER FOR CONSTRAINT POLICIES */}
