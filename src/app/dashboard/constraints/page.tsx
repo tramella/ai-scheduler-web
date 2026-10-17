@@ -17,7 +17,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { fetchConstraintsApi, createConstraintApi, deleteConstraintApi } from "@/lib/apiClient";
 
 export default function ConstraintsPage() {
-  const [constraints, setEmployees] = useState<ConstraintRule[]>(INITIAL_CONSTRAINTS);
+  const [constraints, setEmployees] = useState<ConstraintRule[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -44,9 +44,12 @@ export default function ConstraintsPage() {
             updatedAt: "Synced from DB"
           }));
           setEmployees(mapped);
+        } else {
+          setEmployees([]);
         }
       } catch (err) {
         console.warn("Backend constraints fallback:", err);
+        setEmployees([]);
       }
     }
     loadConstraints();
