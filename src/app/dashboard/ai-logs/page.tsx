@@ -51,114 +51,14 @@ export interface AiLogEntry {
   deterministic_status: "Verified 0-Conflict" | "Resolved by Kernel";
 }
 
-const INITIAL_AI_LOGS: AiLogEntry[] = [
-  {
-    id: "LOG-9042",
-    draft_id: "DFT-2026-10-W3",
-    timestamp: "2026-10-14 02:08:14",
-    ai_provider: "Gemini",
-    model_name: "gemini-2.5-flash",
-    user_prompt: "Ensure at least 1 certified supervisor on closing shifts and balance peak weekend slots evenly across the team.",
-    execution_time_ms: 142,
-    total_tokens: 1480,
-    cost_estimated: 0.0018,
-    violations_intercepted: 2,
-    hard_violations: [
-      {
-        rule: "14h Mandatory Rest Interval",
-        details: "AI proposed David Kim for Sunday Morning (07:00) after Saturday Night Closing (23:00) — 8h rest < 14h required.",
-        action_taken: "Deterministic solver rejected candidate assignment and substituted Anna Vance.",
-      },
-    ],
-    soft_violations: [
-      {
-        rule: "Fairness Deviation Limit",
-        details: "Weekend shift variance initially exceeded 1.5 shifts between staff.",
-        action_taken: "Re-equalized hours with LP balancing kernel.",
-      },
-    ],
-    deterministic_status: "Resolved by Kernel",
-  },
-  {
-    id: "LOG-9041",
-    draft_id: "DFT-2026-10-W2",
-    timestamp: "2026-10-13 18:22:45",
-    ai_provider: "Gemini",
-    model_name: "gemini-2.5-flash",
-    user_prompt: "Cap weekly workload at 24 hours per staff member and enforce mandatory single shift per day.",
-    execution_time_ms: 118,
-    total_tokens: 1250,
-    cost_estimated: 0.0015,
-    violations_intercepted: 0,
-    hard_violations: [],
-    soft_violations: [],
-    deterministic_status: "Verified 0-Conflict",
-  },
-  {
-    id: "LOG-9040",
-    draft_id: "DFT-2026-10-W1",
-    timestamp: "2026-10-12 11:05:10",
-    ai_provider: "OpenAI",
-    model_name: "gpt-4o",
-    user_prompt: "Emergency re-roster for Flagship Roastery due to Sarah Miller sick leave on Monday morning.",
-    execution_time_ms: 380,
-    total_tokens: 2100,
-    cost_estimated: 0.0105,
-    violations_intercepted: 1,
-    hard_violations: [
-      {
-        rule: "Station Certification Requirement",
-        details: "Candidate replacement lacked Food Safety Level 2 credential for Kitchen line.",
-        action_taken: "Restricted pool to certified personnel; assigned Anna Vance.",
-      },
-    ],
-    soft_violations: [],
-    deterministic_status: "Resolved by Kernel",
-  },
-  {
-    id: "LOG-9039",
-    draft_id: "DFT-2026-09-W4",
-    timestamp: "2026-10-10 09:12:33",
-    ai_provider: "Gemini",
-    model_name: "gemini-2.5-flash",
-    user_prompt: "Standard monthly schedule optimization with maximum part-time contract cap of 30h.",
-    execution_time_ms: 155,
-    total_tokens: 1620,
-    cost_estimated: 0.0020,
-    violations_intercepted: 0,
-    hard_violations: [],
-    soft_violations: [],
-    deterministic_status: "Verified 0-Conflict",
-  },
-  {
-    id: "LOG-9038",
-    draft_id: "DFT-2026-09-W3",
-    timestamp: "2026-10-07 14:40:02",
-    ai_provider: "Gemini",
-    model_name: "gemini-2.5-flash",
-    user_prompt: "Strict 1-shift/day cap per employee and 2 baristas on rush morning hours.",
-    execution_time_ms: 130,
-    total_tokens: 1310,
-    cost_estimated: 0.0016,
-    violations_intercepted: 1,
-    hard_violations: [
-      {
-        rule: "1-Shift Per Day Cap",
-        details: "AI proposed Michael Chen for both Morning and Swing shifts on Friday.",
-        action_taken: "Split shift prohibited by rule #2; second assignment discarded.",
-      },
-    ],
-    soft_violations: [],
-    deterministic_status: "Resolved by Kernel",
-  },
-];
+const INITIAL_AI_LOGS: AiLogEntry[] = [];
 
 export default function AiLogsPage() {
-  const [logs, setLogs] = useState<AiLogEntry[]>(INITIAL_AI_LOGS);
+  const [logs, setLogs] = useState<AiLogEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [providerFilter, setProviderFilter] = useState<"ALL" | "Gemini" | "OpenAI">("ALL");
   const [violationFilter, setViolationFilter] = useState<"ALL" | "VIOLATIONS" | "CLEAN">("ALL");
-  const [expandedLogId, setExpandedLogId] = useState<string | null>("LOG-9042");
+  const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
   const [inspectModalLog, setInspectModalLog] = useState<AiLogEntry | null>(null);
 
   React.useEffect(() => {
@@ -182,9 +82,12 @@ export default function AiLogsPage() {
             deterministic_status: "Verified 0-Conflict"
           }));
           setLogs(mapped);
+        } else {
+          setLogs([]);
         }
       } catch (err) {
         console.warn("Backend logs fallback:", err);
+        setLogs([]);
       }
     }
     loadLogs();
@@ -193,9 +96,9 @@ export default function AiLogsPage() {
   // KPIs
   const metrics = useMemo(() => {
     const totalRuns = logs.length;
-    const avgLatency = Math.round(
-      logs.reduce((sum, l) => sum + l.execution_time_ms, 0) / totalRuns
-    );
+    const avgLatency = totalRuns > 0
+      ? Math.round(logs.reduce((sum, l) => sum + l.execution_time_ms, 0) / totalRuns)
+      : 0;
     const totalTokens = logs.reduce((sum, l) => sum + l.total_tokens, 0);
     const totalViolationsBlocked = logs.reduce((sum, l) => sum + l.violations_intercepted, 0);
     return { totalRuns, avgLatency, totalTokens, totalViolationsBlocked };
@@ -325,9 +228,20 @@ export default function AiLogsPage() {
         </Card>
 
         {/* Audit Log Stream (Accordion List) */}
-        <div className="space-y-3">
-          {filteredLogs.map((log) => {
-            const isExpanded = expandedLogId === log.id;
+        {filteredLogs.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-slate-300 dark:border-slate-800 p-12 text-center bg-white/50 dark:bg-slate-900/40">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/30 text-[#2F5BFF] mb-3">
+              <Cpu className="h-6 w-6" />
+            </div>
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">No AI audit logs recorded yet</h3>
+            <p className="mt-1 text-xs text-slate-500 max-w-sm mx-auto">
+              Execution telemetry, token usage, and constraint verification traces will appear here once schedules are generated in AI Studio.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {filteredLogs.map((log) => {
+              const isExpanded = expandedLogId === log.id;
 
             return (
               <div
@@ -488,6 +402,7 @@ export default function AiLogsPage() {
             );
           })}
         </div>
+        )}
 
       </div>
 
