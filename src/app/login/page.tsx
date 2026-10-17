@@ -312,7 +312,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center rounded-full bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.98] border border-[#2F2C59] mt-2 cursor-pointer shadow-xs"
+                className="btn-primary w-full py-2.5 px-4 text-sm mt-2 disabled:opacity-50 cursor-pointer"
               >
                 <span>{loading ? "Signing in..." : "Continue"}</span>
                 <ArrowRight className="ml-2 h-4 w-4 text-white" />
@@ -364,7 +364,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading || otpCode.length !== 6}
-                className="w-full inline-flex items-center justify-center rounded-xl bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] cursor-pointer shadow-xs"
+                className="btn-primary w-full py-2.5 px-4 text-sm disabled:opacity-50 cursor-pointer"
               >
                 <span>{loading ? "Activating..." : "Activate & Sign In"}</span>
                 <ArrowRight className="ml-2 h-4 w-4 text-white" />
@@ -422,7 +422,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center rounded-xl bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] cursor-pointer shadow-xs"
+                className="btn-primary w-full py-2.5 px-4 text-sm disabled:opacity-50 cursor-pointer"
               >
                 <span>{loading ? "Sending..." : "Send Reset Code"}</span>
                 <ArrowRight className="ml-2 h-4 w-4 text-white" />
@@ -498,7 +498,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full inline-flex items-center justify-center rounded-xl bg-[#2F2C59] py-2.5 px-4 text-sm font-semibold text-white hover:bg-[#1E1B3A] disabled:opacity-50 transition active:scale-[0.99] border border-[#2F2C59] cursor-pointer shadow-xs"
+                className="btn-primary w-full py-2.5 px-4 text-sm disabled:opacity-50 cursor-pointer"
               >
                 <span>{loading ? "Updating..." : "Update Password & Sign In"}</span>
                 <ArrowRight className="ml-2 h-4 w-4 text-white" />

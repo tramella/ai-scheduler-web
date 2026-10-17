@@ -16,6 +16,8 @@ import {
   switchCompanyApi,
 } from "@/lib/authApi";
 
+export type SimulatedRole = "SUPER_ADMIN" | "COMPANY_ADMIN" | "STORE_MANAGER" | "STAFF" | null;
+
 interface AuthContextType {
   user: UserProfile | null;
   token: string | null;
@@ -23,6 +25,14 @@ interface AuthContextType {
   activeCompany: CompanyItem | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  // Role & Permissions
+  isSuperAdmin: boolean;
+  isCompanyAdmin: boolean;
+  isStoreManager: boolean;
+  isStaff: boolean;
+  simulatedRole: SimulatedRole;
+  setSimulatedRole: (role: SimulatedRole) => void;
+  // Methods
   login: (payload: LoginPayload) => Promise<AuthResponse>;
   register: (payload: RegisterPayload) => Promise<AuthResponse>;
   verifyEmail: (payload: VerifyEmailPayload) => Promise<AuthResponse>;
@@ -43,6 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [companies, setCompanies] = useState<CompanyItem[]>([]);
   const [activeCompany, setActiveCompany] = useState<CompanyItem | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [simulatedRole, setSimulatedRole] = useState<SimulatedRole>(null);
 
   // Initialize session on mount
   useEffect(() => {
@@ -166,7 +177,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setCompanies([]);
     setActiveCompany(null);
+    setSimulatedRole(null);
   };
+
+  // Determine effective roles based on real backend credentials or simulation override
+  const effectivePlatformRole =
+    simulatedRole === "SUPER_ADMIN"
+      ? "SUPER_ADMIN"
+      : user?.platform_role || "USER";
+
+  const effectiveCompanyRole =
+    simulatedRole === "SUPER_ADMIN"
+      ? "COMPANY_ADMIN"
+      : simulatedRole || activeCompany?.role || "COMPANY_ADMIN";
+
+  const isSuperAdmin = effectivePlatformRole === "SUPER_ADMIN";
+  const isCompanyAdmin = effectiveCompanyRole === "COMPANY_ADMIN";
+  const isStoreManager = effectiveCompanyRole === "STORE_MANAGER" || effectiveCompanyRole === "MANAGER";
+  const isStaff = effectiveCompanyRole === "STAFF";
 
   return (
     <AuthContext.Provider
@@ -177,6 +205,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         activeCompany,
         isLoading,
         isAuthenticated: Boolean(token && user),
+        isSuperAdmin,
+        isCompanyAdmin,
+        isStoreManager,
+        isStaff,
+        simulatedRole,
+        setSimulatedRole,
         login,
         register,
         verifyEmail,

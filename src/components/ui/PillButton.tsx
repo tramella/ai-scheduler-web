@@ -13,7 +13,7 @@ export interface PillButtonProps
 
 const VARIANT_CLASSES: Record<PillButtonVariant, string> = {
   primary:
-    "bg-[#2F2C59] text-white shadow-sm hover:bg-[#1E1B3A] active:scale-[0.99] dark:bg-indigo-600 dark:hover:bg-indigo-700",
+    "btn-primary !px-4 !py-2 text-xs",
   secondary:
     "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700",
   info:

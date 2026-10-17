@@ -98,7 +98,7 @@ const INITIAL_LOCATIONS: LocationItem[] = [
 ];
 
 export default function LocationsPage() {
-  const [locations, setLocations] = useState<LocationItem[]>(INITIAL_LOCATIONS);
+  const [locations, setLocations] = useState<LocationItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<"ALL" | "Active" | "Inactive">("ALL");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -346,98 +346,103 @@ export default function LocationsPage() {
         </Card>
 
         {/* Location Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {filteredLocations.map((loc) => {
-            const capacityRatio = Math.round((loc.current_staff_count / loc.max_capacity) * 100);
+        {filteredLocations.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {filteredLocations.map((loc) => {
+              const capacityRatio = Math.round((loc.current_staff_count / loc.max_capacity) * 100);
 
-            return (
-              <Card
-                key={loc.id}
-                padding="lg"
-                className="flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition"
-              >
-                <div>
-                  {/* Card Top: Code & Status */}
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                    <div className="flex items-center space-x-2">
-                      <span className="font-mono text-xs font-bold text-[#2F5BFF] bg-blue-50 dark:bg-blue-950/60 px-2.5 py-0.5 rounded-full border border-blue-200/60 dark:border-blue-900">
-                        {loc.code}
-                      </span>
-                      <span className="text-xs text-slate-400">•</span>
-                      <span className="text-xs font-medium text-slate-500">Mgr: {loc.manager_name}</span>
+              return (
+                <Card
+                  key={loc.id}
+                  padding="lg"
+                  className="flex flex-col justify-between hover:border-slate-300 dark:hover:border-slate-700 transition"
+                >
+                  <div>
+                    {/* Card Top: Code & Status */}
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-mono text-xs font-bold text-[#2F5BFF] bg-blue-50 dark:bg-blue-950/60 px-2.5 py-0.5 rounded-full border border-blue-200/60 dark:border-blue-900">
+                          {loc.code}
+                        </span>
+                        <span className="text-xs text-slate-400">•</span>
+                        <span className="text-xs font-medium text-slate-500">Mgr: {loc.manager_name}</span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleToggleStatus(loc.id)}
+                        className="cursor-pointer transition active:scale-95"
+                      >
+                        <StatusChip variant={loc.status === "Active" ? "success" : "neutral"}>
+                          {loc.status}
+                        </StatusChip>
+                      </button>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => handleToggleStatus(loc.id)}
-                      className="cursor-pointer transition active:scale-95"
-                    >
-                      <StatusChip variant={loc.status === "Active" ? "success" : "neutral"}>
-                        {loc.status}
-                      </StatusChip>
-                    </button>
-                  </div>
+                    {/* Title & Address */}
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-3.5">
+                      {loc.name}
+                    </h3>
+                    <div className="flex items-start text-xs text-slate-500 dark:text-slate-400 mt-1 space-x-1.5">
+                      <MapPin className="h-3.5 w-3.5 text-slate-400 shrink-0 mt-0.5" />
+                      <span className="truncate">{loc.address}</span>
+                    </div>
 
-                  {/* Title & Address */}
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-3.5">
-                    {loc.name}
-                  </h3>
-                  <div className="flex items-start text-xs text-slate-500 dark:text-slate-400 mt-1 space-x-1.5">
-                    <MapPin className="h-3.5 w-3.5 text-slate-400 shrink-0 mt-0.5" />
-                    <span className="truncate">{loc.address}</span>
-                  </div>
-
-                  {/* Operational Hours */}
-                  <div className="mt-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-xs">
-                    <div className="flex items-center space-x-2">
-                      <Clock className="h-4 w-4 text-[#FF7A59]" />
-                      <span className="font-semibold text-slate-800 dark:text-slate-200">
-                        {loc.working_hours.open} – {loc.working_hours.close}
+                    {/* Operational Hours */}
+                    <div className="mt-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-xs">
+                      <div className="flex items-center space-x-2">
+                        <Clock className="h-4 w-4 text-[#FF7A59]" />
+                        <span className="font-semibold text-slate-800 dark:text-slate-200">
+                          {loc.working_hours.open} – {loc.working_hours.close}
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                        {loc.open_days.length === 7 ? "Open 7 Days / Week" : `${loc.open_days.length} Days / Week`}
                       </span>
                     </div>
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                      {loc.open_days.length === 7 ? "Open 7 Days / Week" : `${loc.open_days.length} Days / Week`}
+
+                    {/* Capacity Bar */}
+                    <div className="mt-4 space-y-1.5">
+                      <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400 font-medium">
+                        <span>Staffing Capacity</span>
+                        <span className="font-mono font-bold text-slate-900 dark:text-white">
+                          {loc.current_staff_count} / {loc.max_capacity} staff ({capacityRatio}%)
+                        </span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-[#2F2C59] dark:bg-indigo-500 transition-all"
+                          style={{ width: `${Math.min(100, capacityRatio)}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card Actions */}
+                  <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <span className="text-[11px] font-mono text-slate-400">
+                      ID: {loc.id}
                     </span>
-                  </div>
-
-                  {/* Capacity Bar */}
-                  <div className="mt-4 space-y-1.5">
-                    <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400 font-medium">
-                      <span>Staffing Capacity</span>
-                      <span className="font-mono font-bold text-slate-900 dark:text-white">
-                        {loc.current_staff_count} / {loc.max_capacity} staff ({capacityRatio}%)
-                      </span>
-                    </div>
-                    <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-[#2F2C59] dark:bg-indigo-500 transition-all"
-                        style={{ width: `${Math.min(100, capacityRatio)}%` }}
-                      />
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => handleOpenModal(loc)}
+                        className="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer flex items-center space-x-1"
+                      >
+                        <Edit2 className="h-3 w-3" />
+                        <span>Edit</span>
+                      </button>
                     </div>
                   </div>
-                </div>
-
-                {/* Card Actions */}
-                <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-slate-400">
-                    ID: {loc.id}
-                  </span>
-                  <div className="flex items-center space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => handleOpenModal(loc)}
-                      className="px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 transition cursor-pointer flex items-center space-x-1"
-                    >
-                      <Edit2 className="h-3 w-3" />
-                      <span>Edit</span>
-                    </button>
-                  </div>
-                </div>
-              </Card>
-            );
-          })}
-        </div>
-
+                </Card>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 p-12 text-center text-xs text-slate-400">
+            {searchTerm ? `No locations found matching "${searchTerm}".` : "No locations registered yet. Click 'Add Location' to create one."}
+          </div>
+        )}
       </div>
 
       {/* Add / Edit Location Modal */}

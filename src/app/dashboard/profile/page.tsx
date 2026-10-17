@@ -14,6 +14,7 @@ import {
   KeyRound,
   CheckCircle2,
   ArrowLeft,
+  Calendar,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
@@ -23,10 +24,22 @@ import { Card } from "@/components/ui/Card";
 import { PillButton } from "@/components/ui/PillButton";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { ChangePasswordForm } from "@/components/dashboard/ChangePasswordForm";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { user, companies, activeCompany, logout } = useAuth();
+  const {
+    user,
+    companies,
+    activeCompany,
+    logout,
+    isSuperAdmin,
+    isCompanyAdmin,
+    isStoreManager,
+    isStaff,
+    simulatedRole,
+    setSimulatedRole,
+  } = useAuth();
   const { lang } = useLanguage();
 
   const handleLogout = () => {
@@ -78,9 +91,12 @@ export default function ProfilePage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-3xl bg-[#2F2C59] dark:bg-indigo-600 text-white font-bold text-2xl sm:text-3xl flex items-center justify-center shadow-md shrink-0">
-                  {initial}
-                </div>
+                <UserAvatar
+                  src={user?.avatar_url}
+                  name={user?.full_name}
+                  size="xl"
+                  shape="rounded"
+                />
                 <div
                   className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 flex items-center justify-center text-white"
                   title="Active account"
@@ -197,8 +213,24 @@ export default function ProfilePage() {
                     {lang === "vi" ? "Loại tài khoản" : "Account tier"}
                   </span>
                   <span className="font-semibold text-slate-900 dark:text-white capitalize block text-sm">
-                    {user?.account_type || "Admin"}
+                    {user?.account_type || "Personal"}
                   </span>
+                </div>
+
+                <div className="sm:col-span-2 p-3.5 rounded-2xl bg-slate-50/70 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-800 flex items-center justify-between">
+                  <div>
+                    <span className="text-slate-400 dark:text-slate-500 block mb-1">
+                      {lang === "vi" ? "Ảnh đại diện (Photo URL)" : "Profile Avatar (Photo URL)"}
+                    </span>
+                    <span className="font-semibold text-slate-900 dark:text-white block text-xs truncate max-w-xs sm:max-w-md">
+                      {user?.avatar_url || (lang === "vi" ? "Đang dùng ảnh đại diện mặc định (Placeholder)" : "Using placeholder avatar")}
+                    </span>
+                  </div>
+                  <UserAvatar
+                    src={user?.avatar_url}
+                    name={user?.full_name}
+                    size="sm"
+                  />
                 </div>
               </div>
             </Card>
@@ -287,7 +319,121 @@ export default function ProfilePage() {
           {/* Right Column (5 cols): Security & Change Password */}
           <div className="lg:col-span-5 space-y-6">
 
-            {/* 3.3 Change Password Card */}
+            {/* 3.3 RBAC Simulator Card */}
+            <Card padding="lg" className="space-y-4 border-indigo-200/70 dark:border-indigo-800/70">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-indigo-50 text-[#2F2C59] dark:bg-indigo-950/50 dark:text-indigo-300">
+                    <ShieldCheck className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-semibold text-slate-900 dark:text-white">
+                      {lang === "vi" ? "Chế độ kiểm thử phân quyền (RBAC)" : "Role & Permission Simulator"}
+                    </h2>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      {lang === "vi"
+                        ? "Chuyển đổi vai trò tức thì để kiểm tra giao diện & quyền hạn"
+                        : "Switch role on the fly to inspect permissions & navigation"}
+                    </p>
+                  </div>
+                </div>
+                {simulatedRole && (
+                  <button
+                    type="button"
+                    onClick={() => setSimulatedRole(null)}
+                    className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer"
+                  >
+                    {lang === "vi" ? "Đặt lại" : "Reset"}
+                  </button>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => setSimulatedRole("SUPER_ADMIN")}
+                    className={`p-3 rounded-2xl border text-left transition cursor-pointer flex flex-col justify-between h-20 ${
+                      isSuperAdmin
+                        ? "bg-[#2F2C59] text-white border-[#2F2C59] shadow-sm"
+                        : "bg-slate-50/70 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 border-slate-200/70 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <ShieldCheck className="h-4 w-4 text-amber-400" />
+                      {isSuperAdmin && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />}
+                    </div>
+                    <div>
+                      <div className="leading-tight font-bold">Product Owner</div>
+                      <div className={`text-[10px] mt-0.5 ${isSuperAdmin ? "text-amber-200" : "text-slate-400"}`}>ORBIT SaaS Provider</div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSimulatedRole("COMPANY_ADMIN")}
+                    className={`p-3 rounded-2xl border text-left transition cursor-pointer flex flex-col justify-between h-20 ${
+                      !isSuperAdmin && isCompanyAdmin
+                        ? "bg-[#2F5BFF] text-white border-[#2F5BFF] shadow-sm"
+                        : "bg-slate-50/70 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 border-slate-200/70 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <Building2 className="h-4 w-4 text-blue-300" />
+                      {!isSuperAdmin && isCompanyAdmin && <CheckCircle2 className="h-3.5 w-3.5 text-white" />}
+                    </div>
+                    <div>
+                      <div className="leading-tight font-bold">Business Owner</div>
+                      <div className={`text-[10px] mt-0.5 ${!isSuperAdmin && isCompanyAdmin ? "text-blue-100" : "text-slate-400"}`}>Client Company Admin</div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSimulatedRole("STORE_MANAGER")}
+                    className={`p-3 rounded-2xl border text-left transition cursor-pointer flex flex-col justify-between h-20 ${
+                      !isSuperAdmin && isStoreManager
+                        ? "bg-amber-600 text-white border-amber-600 shadow-sm"
+                        : "bg-slate-50/70 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 border-slate-200/70 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <User className="h-4 w-4 text-amber-200" />
+                      {!isSuperAdmin && isStoreManager && <CheckCircle2 className="h-3.5 w-3.5 text-white" />}
+                    </div>
+                    <div>
+                      <div className="leading-tight font-bold">Store Manager</div>
+                      <div className={`text-[10px] mt-0.5 ${!isSuperAdmin && isStoreManager ? "text-amber-100" : "text-slate-400"}`}>Branch Shifts & Staff</div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setSimulatedRole("STAFF")}
+                    className={`p-3 rounded-2xl border text-left transition cursor-pointer flex flex-col justify-between h-20 ${
+                      !isSuperAdmin && isStaff
+                        ? "bg-emerald-600 text-white border-emerald-600 shadow-sm"
+                        : "bg-slate-50/70 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 border-slate-200/70 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <Calendar className="h-4 w-4 text-emerald-200" />
+                      {!isSuperAdmin && isStaff && <CheckCircle2 className="h-3.5 w-3.5 text-white" />}
+                    </div>
+                    <div>
+                      <div className="leading-tight font-bold">Staff Member</div>
+                      <div className={`text-[10px] mt-0.5 ${!isSuperAdmin && isStaff ? "text-emerald-100" : "text-slate-400"}`}>My Calendar & Leave</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800">
+                Current Active Session: <span className="font-bold text-slate-800 dark:text-slate-200">{simulatedRole ? `${simulatedRole} (Simulated)` : `${user?.platform_role || "USER"} / ${activeCompany?.role || "COMPANY_ADMIN"} (Database)`}</span>
+              </div>
+            </Card>
+
+            {/* 3.4 Change Password Card */}
             <Card padding="lg" className="space-y-5">
               <div className="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-indigo-50 text-[#2F2C59] dark:bg-indigo-950/50 dark:text-indigo-300">

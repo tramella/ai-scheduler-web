@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { X, Plus } from "lucide-react";
+import { X, Plus, Image as ImageIcon } from "lucide-react";
 import { EmployeeProfile, EmploymentType, EmployeeStatus } from "./types";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 
 interface EditEmployeeModalProps {
   employee: EmployeeProfile | null;
@@ -40,6 +41,7 @@ export function EditEmployeeModal({
   onSave,
 }: EditEmployeeModalProps) {
   const [name, setName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [role, setRole] = useState("Barista");
   const [department, setDepartment] = useState("Store Operations");
   const [employmentType, setEmploymentType] = useState<EmploymentType>("Full-time");
@@ -55,6 +57,7 @@ export function EditEmployeeModal({
   useEffect(() => {
     if (employee) {
       setName(employee.name);
+      setAvatarUrl(employee.avatar_url || "");
       setRole(employee.role);
       setDepartment(employee.department);
       setEmploymentType(employee.employmentType);
@@ -97,6 +100,7 @@ export function EditEmployeeModal({
     const updatedEmployee: EmployeeProfile = {
       ...employee,
       name: name.trim(),
+      avatar_url: avatarUrl.trim() || undefined,
       role,
       department,
       employmentType,
@@ -112,8 +116,6 @@ export function EditEmployeeModal({
     onSave(updatedEmployee);
   };
 
-  const initial = (name.trim() || employee.name).charAt(0);
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
@@ -128,9 +130,13 @@ export function EditEmployeeModal({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40">
           <div className="flex items-center space-x-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#2F2C59] dark:bg-indigo-600 text-white font-semibold text-sm shadow-xs shrink-0">
-              {initial}
-            </div>
+            <UserAvatar
+              src={avatarUrl}
+              name={name || employee.name}
+              size="md"
+              shape="rounded"
+              className="shrink-0"
+            />
             <div>
               <div className="flex items-center space-x-2">
                 <h3 className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white">
@@ -164,6 +170,29 @@ export function EditEmployeeModal({
             <h4 className="text-xs font-medium text-slate-500 dark:text-slate-400">
               Basic identification
             </h4>
+
+            {/* Avatar URL & Live Preview */}
+            <div className="flex items-center space-x-3.5 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+              <UserAvatar
+                src={avatarUrl}
+                name={name || employee.name}
+                size="lg"
+                shape="rounded"
+                className="shrink-0 ring-2 ring-[#2F5BFF]/20"
+              />
+              <div className="flex-1 min-w-0">
+                <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                  Avatar Photo URL (Optional)
+                </label>
+                <input
+                  type="url"
+                  value={avatarUrl}
+                  onChange={(e) => setAvatarUrl(e.target.value)}
+                  placeholder="https://images.unsplash.com/photo-..."
+                  className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-850 p-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
+                />
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>

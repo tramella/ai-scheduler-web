@@ -106,16 +106,16 @@ export default function FAQPage() {
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center mb-10 space-y-2.5">
-          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-100 border border-slate-200/80 px-4 py-1 text-xs font-semibold text-slate-800 shadow-2xs">
+        <div className="text-center mb-10 space-y-3">
+          <div className="inline-flex items-center space-x-2 rounded-full border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-2xs">
             <HelpCircle className="h-3.5 w-3.5 text-[#2F5BFF]" />
-            <span>Knowledge Base</span>
+            <span className="tracking-tight">Knowledge Base & FAQ</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-[#2F2C59]">
-            Frequently Asked Questions
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-slate-950 dark:text-white leading-[1.12]">
+            Frequently asked questions.
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 max-w-lg mx-auto">
-            Answers about Gemini & OpenAI engines, free trial limits, and Excel support.
+          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
+            Everything you need to know about the AI solver, personal plans, and Excel format support.
           </p>
         </div>
 

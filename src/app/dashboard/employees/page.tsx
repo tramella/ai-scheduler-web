@@ -24,7 +24,7 @@ import {
 } from "@/lib/apiClient";
 
 export default function EmployeesPage() {
-  const [employees, setEmployees] = useState<EmployeeProfile[]>(INITIAL_EMPLOYEES);
+  const [employees, setEmployees] = useState<EmployeeProfile[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState("all");

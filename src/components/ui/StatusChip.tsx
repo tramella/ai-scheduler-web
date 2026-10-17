@@ -1,6 +1,6 @@
 import React from "react";
 
-export type StatusChipVariant = "success" | "neutral" | "info" | "warning";
+export type StatusChipVariant = "success" | "neutral" | "info" | "warning" | "danger";
 
 export interface StatusChipProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
@@ -14,6 +14,7 @@ const VARIANT_CLASSES: Record<StatusChipVariant, string> = {
   neutral: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300",
   info: "bg-blue-50 text-[#2F5BFF] dark:bg-blue-950/50 dark:text-blue-300",
   warning: "bg-orange-50 text-[#FF7A59] dark:bg-orange-950/40 dark:text-orange-300",
+  danger: "bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300",
 };
 
 const PULSE_CLASSES: Record<StatusChipVariant, string> = {
@@ -21,6 +22,7 @@ const PULSE_CLASSES: Record<StatusChipVariant, string> = {
   neutral: "bg-slate-400",
   info: "bg-[#2F5BFF]",
   warning: "bg-[#FF7A59]",
+  danger: "bg-rose-500",
 };
 
 export function StatusChip({

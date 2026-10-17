@@ -1,59 +1,49 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
+import { WeaveMark } from "@/components/ui/WeaveMark";
 
-export const Benefits: React.FC = () => {
-  return (
-    <section className="py-16 md:py-20 border-t border-slate-200/80 bg-slate-50/50 relative">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-[#2F2C59]/40 bg-[#2F2C59] p-8 sm:p-14 text-center relative overflow-hidden shadow-xl text-white">
-          {/* Subtle Ambient Radial Highlight */}
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 bg-gradient-to-br from-[#2F5BFF]/30 to-transparent rounded-full blur-2xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-gradient-to-tr from-[#FF7A59]/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+export const Benefits: React.FC = () => (
+  <section className="border-t border-slate-200/70 bg-[#F6F7FB] py-20 dark:border-slate-800 dark:bg-slate-950 md:py-24">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative overflow-hidden rounded-[36px] bg-[#2F2C59] px-6 py-14 text-white shadow-2xl shadow-[#2F2C59]/30 sm:px-14 sm:py-20">
+        {/* Họa tiết weave từ logo, hai viên thuốc đan chéo */}
+        <WeaveMark className="pointer-events-none absolute -bottom-24 -right-16 w-[26rem] opacity-[0.16]" />
+        <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[#2F5BFF]/30 blur-3xl" />
 
-          <div className="relative z-10 max-w-xl mx-auto space-y-4">
-            <div className="inline-flex items-center space-x-2 rounded-full bg-white/10 px-4 py-1 text-xs font-semibold text-white border border-white/15">
-              <Sparkles className="h-3.5 w-3.5 text-[#FF7A59]" />
-              <span>Ready in 60 seconds</span>
-            </div>
+        <div className="relative max-w-xl">
+          <h3 className="text-3xl font-display font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
+            Automate your workforce scheduling.
+          </h3>
+          <p className="mt-5 text-base leading-relaxed text-indigo-100/85 sm:text-lg">
+            Upload your roster and get a conflict-free schedule in about a minute.
+          </p>
 
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white leading-tight">
-              Automate your workforce scheduling
-            </h3>
-
-            <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              Upload your employee roster and generate conflict-free shift schedules today.
-            </p>
-
-            {/* CTAs */}
-            <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link
-                href="/product"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 text-sm font-bold text-[#2F2C59] bg-white hover:bg-slate-100 rounded-full shadow-md transition active:scale-[0.98]"
-              >
-                <span>Generate schedule free</span>
-                <ArrowRight className="ml-2 h-4 w-4 text-[#2F2C59]" />
-              </Link>
-            </div>
-
-            {/* Trust Points */}
-            <div className="pt-5 flex flex-wrap items-center justify-center gap-5 text-xs text-slate-300 font-medium">
-              <div className="flex items-center space-x-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>No credit card required</span>
-              </div>
-              <div className="flex items-center space-x-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Excel (.xlsx) compatible</span>
-              </div>
-              <div className="flex items-center space-x-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Zero double-bookings</span>
-              </div>
-            </div>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/product"
+              className="group inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#2F2C59] shadow-md transition hover:bg-slate-100 active:scale-[0.98]"
+            >
+              Generate a free schedule
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/30 transition hover:bg-white/10 active:scale-[0.98]"
+            >
+              View pricing
+            </Link>
           </div>
+
+          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium text-indigo-100/85">
+            {["No credit card required", "Works with your Excel files"].map((t) => (
+              <li key={t} className="flex items-center gap-1.5">
+                <Check className="h-3.5 w-3.5 stroke-[3] text-[#7B9BFF]" /> {t}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
