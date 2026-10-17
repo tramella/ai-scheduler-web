@@ -390,6 +390,7 @@ export default function SkillsPage() {
               </table>
             </div>
           </Card>
+          )
         )}
 
       </div>
