@@ -21,20 +21,8 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { KpiCard } from "@/components/ui/KpiCard";
 
 /* -------------------------------------------------------------------------- */
-/*  Data                                                                      */
+/*  Data & Types                                                              */
 /* -------------------------------------------------------------------------- */
-
-const TODAY_INDEX = 1; // Tuesday, Oct 13
-
-const WEEK = [
-  { day: "Monday", short: "Mon", dayNum: "12", label: "Mon, Oct 12", shifts: 16, staff: 14, morning: 6, afternoon: 6, night: 4 },
-  { day: "Tuesday", short: "Tue", dayNum: "13", label: "Tue, Oct 13", shifts: 16, staff: 15, morning: 6, afternoon: 6, night: 4 },
-  { day: "Wednesday", short: "Wed", dayNum: "14", label: "Wed, Oct 14", shifts: 18, staff: 16, morning: 7, afternoon: 7, night: 4 },
-  { day: "Thursday", short: "Thu", dayNum: "15", label: "Thu, Oct 15", shifts: 16, staff: 14, morning: 6, afternoon: 6, night: 4 },
-  { day: "Friday", short: "Fri", dayNum: "16", label: "Fri, Oct 16", shifts: 20, staff: 18, morning: 8, afternoon: 8, night: 4 },
-  { day: "Saturday", short: "Sat", dayNum: "17", label: "Sat, Oct 17", shifts: 22, staff: 20, morning: 9, afternoon: 9, night: 4 },
-  { day: "Sunday", short: "Sun", dayNum: "18", label: "Sun, Oct 18", shifts: 14, staff: 12, morning: 5, afternoon: 5, night: 4 },
-];
 
 type ShiftKey = "morning" | "afternoon" | "night";
 
@@ -43,9 +31,7 @@ const SHIFT_TYPES: {
   name: string;
   time: string;
   start: number;
-  end: number; // > 24 means it wraps past midnight
-  supervisor: string;
-  initial: string;
+  end: number;
   icon: React.ElementType;
   text: string;
   bar: string;
@@ -58,8 +44,6 @@ const SHIFT_TYPES: {
     time: "07:00 – 15:00",
     start: 7,
     end: 15,
-    supervisor: "Nguyễn Văn An",
-    initial: "A",
     icon: Sun,
     text: "text-[#2F5BFF]",
     bar: "bg-[#2F5BFF]",
@@ -72,8 +56,6 @@ const SHIFT_TYPES: {
     time: "14:30 – 22:30",
     start: 14.5,
     end: 22.5,
-    supervisor: "Lý Khánh Nam",
-    initial: "N",
     icon: Sunset,
     text: "text-[#FF7A59]",
     bar: "bg-[#FF7A59]",
@@ -86,8 +68,6 @@ const SHIFT_TYPES: {
     time: "22:00 – 06:00",
     start: 22,
     end: 30,
-    supervisor: "Vũ Tuấn Kiệt",
-    initial: "K",
     icon: Moon,
     text: "text-[#2F2C59] dark:text-indigo-300",
     bar: "bg-[#2F2C59] dark:bg-indigo-400",
@@ -95,8 +75,6 @@ const SHIFT_TYPES: {
     heroDot: "bg-indigo-300",
   },
 ];
-
-const MAX_SLOTS = Math.max(...WEEK.map((d) => d.morning + d.afternoon + d.night));
 
 const CARD =
   "rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)]";
@@ -204,7 +182,7 @@ export default function DashboardPage() {
           }
         }
       } catch (err) {
-        console.warn("Failed to load dashboard summary, using fallback:", err);
+        console.warn("Failed to load dashboard summary:", err);
       } finally {
         setIsLoading(false);
       }
@@ -212,21 +190,34 @@ export default function DashboardPage() {
     loadSummary();
   }, []);
 
-  const weekList = summaryData?.weekData || WEEK;
-  const todayIdx = typeof summaryData?.todayIndex === "number" ? summaryData.todayIndex : TODAY_INDEX;
-  const today = weekList[todayIdx] || WEEK[0];
+  const weekList: any[] = summaryData?.weekData || [];
+  const todayIdx = typeof summaryData?.todayIndex === "number" ? summaryData.todayIndex : 0;
+  const today = weekList[todayIdx] || { staff: 0, shifts: 0, morning: 0, afternoon: 0, night: 0, leads: {} };
   const day = weekList[selected] || today;
 
-  const staffPool = summaryData?.staffPool || { total: 28, active: 28, availableRatio: 100 };
+  const staffPool = summaryData?.staffPool || { total: 0, active: 0, availableRatio: 0 };
   const weeklyStats = summaryData?.weeklyStats || {
-    totalShifts: 122,
-    totalHours: 896,
-    budgetHours: 920,
-    utilizationPercent: 97.4,
+    totalShifts: 0,
+    totalHours: 0,
+    budgetHours: 0,
+    utilizationPercent: 0,
     complianceScore: 100,
-    activeRulesCount: 6
+    activeRulesCount: 0
   };
-  const coveragePercent = summaryData?.todayCoverage?.coveragePercent ?? 100;
+  const coveragePercent = summaryData?.todayCoverage?.coveragePercent ?? (today.staff > 0 ? 100 : 0);
+
+  const maxSlots = Math.max(1, ...weekList.map((d: any) => (d.morning || 0) + (d.afternoon || 0) + (d.night || 0)));
+
+  // Date range formatted from data
+  const dateRangeLabel = summaryData?.periodInfo
+    ? `${summaryData.periodInfo.startDate} – ${summaryData.periodInfo.endDate}`
+    : weekList.length > 0
+    ? `${weekList[0]?.label || ""} – ${weekList[weekList.length - 1]?.label || ""}`
+    : "Current schedule period";
+
+  const todayLabel = weekList[todayIdx]?.label
+    ? `${weekList[todayIdx].day}, ${weekList[todayIdx].label}`
+    : new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
 
   const status =
     selected < todayIdx
@@ -240,13 +231,13 @@ export default function DashboardPage() {
       <div className="mx-auto max-w-7xl space-y-6">
         {/* ============================ Header ============================ */}
         <PageHeader
-          eyebrow="Tuesday, October 13"
+          eyebrow={todayLabel}
           title={`Welcome back, ${user?.full_name?.split(" ")[0] || "Manager"}`}
           actions={
             <>
               <span className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3.5 py-2 text-xs font-medium text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
                 <CalendarDays className="h-3.5 w-3.5 text-slate-400" />
-                Oct 12 – Oct 18, 2026
+                {dateRangeLabel}
               </span>
               <Link
                 href="/dashboard/ai-studio"
@@ -258,6 +249,25 @@ export default function DashboardPage() {
             </>
           }
         />
+
+        {/* Empty state alert if no schedule period */}
+        {!isLoading && weekList.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-8 text-center bg-white dark:bg-slate-900">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-white">Chưa có lịch làm việc nào được phân bổ</h3>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+              Hãy sử dụng AI Studio để tạo ca và xếp lịch làm việc cho các nhân viên trong tuần này.
+            </p>
+            <div className="mt-4">
+              <Link
+                href="/dashboard/ai-studio"
+                className="inline-flex items-center gap-2 rounded-full bg-[#2F2C59] dark:bg-indigo-600 text-white px-4 py-2 text-xs font-medium"
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                Tạo lịch ngay
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* ===================== Row 1: Hero + KPIs ===================== */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-12">
@@ -273,7 +283,7 @@ export default function DashboardPage() {
               <div>
                 <p className="text-sm text-white/60">On duty today</p>
                 <p className="mt-1 text-4xl font-semibold tabular-nums tracking-tight">
-                  {today.staff}
+                  {today.staff || 0}
                   <span className="ml-1.5 text-base font-normal text-white/60">staff</span>
                 </p>
               </div>
@@ -424,7 +434,7 @@ export default function DashboardPage() {
                             className={`w-full rounded-md transition-opacity duration-150 ${s.bar} ${
                               isSelected ? "opacity-100" : "opacity-35 group-hover:opacity-70"
                             }`}
-                            style={{ height: `${(d[s.key] / (MAX_SLOTS || 1)) * 100}%` }}
+                            style={{ height: `${((d[s.key] || 0) / (maxSlots || 1)) * 100}%` }}
                           />
                         ))}
                       </div>
@@ -479,7 +489,7 @@ export default function DashboardPage() {
                 </p>
               </div>
               <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold ${status.cls}`}>
-                {selected === TODAY_INDEX && (
+                {selected === todayIdx && (
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:animate-none" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -515,10 +525,10 @@ export default function DashboardPage() {
 
                     <div className="mt-3 flex items-center gap-2">
                       <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#2F2C59] text-[10px] font-semibold text-white">
-                        {s.initial}
+                        {(day.leads && day.leads[s.key] ? day.leads[s.key].charAt(0).toUpperCase() : "L")}
                       </div>
                       <span className="truncate text-xs text-slate-600 dark:text-slate-400">
-                        Lead: <span className="font-medium text-slate-800 dark:text-slate-200">{s.supervisor}</span>
+                        Lead: <span className="font-medium text-slate-800 dark:text-slate-200">{(day.leads && day.leads[s.key]) || "Unassigned"}</span>
                       </span>
                     </div>
                   </article>
