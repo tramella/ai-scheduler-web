@@ -12,7 +12,7 @@ const ROWS: { name: string; role: string; shifts: Shift[] }[] = [
   { name: "Dev R.", role: "Cashier", shifts: [{ col: 1, span: 2, label: "09–17" }, { col: 4, span: 2, label: "09–17" }] },
 ];
 
-/** Khoảnh khắc đặc trưng của ORBIT: AI đề xuất (coral) -> toán học xác nhận (xanh). */
+/** Signature ORBIT behavior: AI suggests (coral) -> mathematical solver verifies (blue). */
 const RosterCard: React.FC = () => (
   <div className="relative rounded-[28px] border border-slate-200/80 bg-white p-5 shadow-[0_24px_60px_-20px_rgba(47,44,89,0.25)] dark:border-slate-800 dark:bg-slate-900">
     <div className="mb-4 flex items-center justify-between">
@@ -74,7 +74,7 @@ export const Hero: React.FC = () => (
 
     <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
-        {/* Nội dung chữ — căn trái */}
+        {/* Left column: text content */}
         <div className="lg:col-span-7">
           <h1 className="max-w-2xl text-[2.5rem] font-display font-extrabold leading-[1.05] tracking-tight text-slate-950 dark:text-white sm:text-5xl lg:text-[3.5rem]">
             Shift scheduling without the spreadsheet chaos.
@@ -103,7 +103,7 @@ export const Hero: React.FC = () => (
           <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">No credit card required.</p>
         </div>
 
-        {/* Thẻ roster minh họa */}
+        {/* Illustrative roster card */}
         <div className="lg:col-span-5">
           <RosterCard />
         </div>

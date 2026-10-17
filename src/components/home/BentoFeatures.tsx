@@ -19,7 +19,7 @@ export const BentoFeatures: React.FC = () => (
       <SectionHeading title="Built for the realities of shift work." className="mb-10" />
 
       <div className="grid gap-4 md:grid-cols-3">
-        {/* Rules bằng ngôn ngữ tự nhiên */}
+        {/* Natural language rule definition */}
         <div className={`${base} flex flex-col justify-between gap-8 bg-[#2F2C59] text-white md:col-span-2`}>
           <WeaveMark className="pointer-events-none absolute -right-10 -top-10 w-52 opacity-[0.08]" />
           <div className="relative max-w-md space-y-3">
@@ -41,7 +41,7 @@ export const BentoFeatures: React.FC = () => (
           </div>
         </div>
 
-        {/* Cân bằng giờ */}
+        {/* Hour balance optimization */}
         <div className={`${base} ${light} flex flex-col justify-between gap-8`}>
           <div className="space-y-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2F5BFF]/10 text-[#2F5BFF]"><Sliders className="h-5 w-5" /></div>

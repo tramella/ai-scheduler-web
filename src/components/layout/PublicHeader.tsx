@@ -24,7 +24,7 @@ export const PublicHeader: React.FC = () => {
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
-  // Header trong suốt ở đầu trang, đặc + blur khi cuộn
+  // Transparent header at page top, solid + blurred on scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -32,7 +32,7 @@ export const PublicHeader: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Đóng menu khi đổi trang hoặc nhấn Esc
+  // Close mobile navigation drawer on route change or Escape key
   useEffect(() => setMenuOpen(false), [pathname]);
   useEffect(() => {
     if (!menuOpen) return;
@@ -58,7 +58,7 @@ export const PublicHeader: React.FC = () => {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo: tự đổi bản sáng/tối theo theme */}
+        {/* Logo: adapts to light/dark theme automatically */}
         <Link href="/" aria-label="ORBIT home" className="flex items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2F5BFF]">
           <Image
             src="/images/logo/orbit-weave-logo-indigo-light-bg.svg"
@@ -80,7 +80,7 @@ export const PublicHeader: React.FC = () => {
           />
         </Link>
 
-        {/* Điều hướng giữa */}
+        {/* Center navigation */}
         <nav aria-label="Main" className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map((link) => {
             const active = isActive(link.href);
@@ -101,7 +101,7 @@ export const PublicHeader: React.FC = () => {
           })}
         </nav>
 
-        {/* Hành động bên phải */}
+        {/* Right action controls */}
         <div className="hidden md:flex items-center gap-2">
           {isAuthenticated ? (
             <>
@@ -141,7 +141,7 @@ export const PublicHeader: React.FC = () => {
           )}
         </div>
 
-        {/* Nút mở menu mobile */}
+        {/* Mobile menu toggle trigger */}
         <button
           type="button"
           onClick={() => setMenuOpen((v) => !v)}

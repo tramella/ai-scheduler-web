@@ -34,11 +34,11 @@ const COLUMNS = [
 
 export const PublicFooter: React.FC = () => (
   <footer className="relative mt-auto overflow-hidden bg-[#0B0F19] text-slate-400">
-    {/* Họa tiết weave rất mờ ở góc */}
+    {/* Subtle brand weave watermark */}
     <WeaveMark className="pointer-events-none absolute -bottom-24 -right-20 w-[28rem] opacity-[0.06]" />
 
     <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-16 sm:px-6 lg:px-8">
-      {/* Dải CTA */}
+      {/* Brand CTA band */}
       <div className="flex flex-col gap-8 border-b border-white/10 pb-12 md:flex-row md:items-end md:justify-between">
         <div className="max-w-md space-y-4">
           <Link href="/" aria-label="ORBIT home" className="inline-block">

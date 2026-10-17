@@ -14,7 +14,7 @@ interface Industry {
   highlights: string[];
 }
 
-// TODO: thay các số liệu minh họa bằng số liệu khách hàng thực khi có.
+// TODO: replace sample metrics with real customer case metrics when available.
 const INDUSTRIES: Industry[] = [
   {
     id: "cafes",

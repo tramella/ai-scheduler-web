@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { useLanguage } from "@/context/LanguageContext";
 
 function segments(start: number, end: number): [number, number][] {
   return end > 24 ? [[start, 24], [0, end - 24]] : [[start, end]];
@@ -70,6 +71,7 @@ interface DaySchedule {
 import { fetchCalendarScheduleApi } from "@/lib/apiClient";
 
 export default function CalendarPage() {
+  const { lang } = useLanguage();
   const [viewMode, setViewMode] = useState<"week" | "month">("week");
   const [selectedRole, setSelectedRole] = useState("all");
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
@@ -363,9 +365,13 @@ export default function CalendarPage() {
         {/* Empty state when no schedule exists for this week */}
         {!isLoading && totalStaffAssigned === 0 && (
           <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-8 text-center bg-white dark:bg-slate-900 space-y-3">
-            <h3 className="text-sm font-semibold text-slate-800 dark:text-white">Chưa có ca làm việc nào được phân bổ trong tuần này</h3>
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-white">
+              {lang === "vi" ? "Chưa có ca làm việc nào được phân bổ trong tuần này" : "No shifts scheduled for this week"}
+            </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-              Không tìm thấy phân bổ ca nào trong kỳ làm việc này. Bạn có thể sử dụng AI Studio để tạo ca tự động hoặc chọn tuần khác.
+              {lang === "vi"
+                ? "Không tìm thấy phân bổ ca nào trong kỳ làm việc này. Bạn có thể sử dụng AI Studio để tạo ca tự động hoặc chọn tuần khác."
+                : "No roster assignments found for this period. Use AI Studio to generate shifts automatically or select another week."}
             </p>
             <div className="pt-2">
               <Link
@@ -373,7 +379,7 @@ export default function CalendarPage() {
                 className="inline-flex items-center gap-2 rounded-full bg-[#2F2C59] dark:bg-indigo-600 text-white px-4 py-2 text-xs font-semibold"
               >
                 <Sparkles className="h-3.5 w-3.5" />
-                <span>Mở AI Studio</span>
+                <span>{lang === "vi" ? "Mở AI Studio" : "Open AI Studio"}</span>
               </Link>
             </div>
           </div>

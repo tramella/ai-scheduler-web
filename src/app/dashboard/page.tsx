@@ -16,6 +16,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { KpiCard } from "@/components/ui/KpiCard";
@@ -166,6 +167,7 @@ import { fetchDashboardSummaryApi } from "@/lib/apiClient";
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { lang } = useLanguage();
   const [summaryData, setSummaryData] = useState<any>(null);
   const [selected, setSelected] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -253,9 +255,13 @@ export default function DashboardPage() {
         {/* Empty state alert if no schedule period */}
         {!isLoading && weekList.length === 0 && (
           <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-8 text-center bg-white dark:bg-slate-900">
-            <h3 className="text-sm font-semibold text-slate-800 dark:text-white">Chưa có lịch làm việc nào được phân bổ</h3>
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-white">
+              {lang === "vi" ? "Chưa có lịch làm việc nào được phân bổ" : "No schedule roster has been published"}
+            </h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-              Hãy sử dụng AI Studio để tạo ca và xếp lịch làm việc cho các nhân viên trong tuần này.
+              {lang === "vi"
+                ? "Hãy sử dụng AI Studio để tạo ca và xếp lịch làm việc cho các nhân viên trong tuần này."
+                : "Use AI Studio to generate shifts and schedule work hours for your team this week."}
             </p>
             <div className="mt-4">
               <Link
@@ -263,7 +269,7 @@ export default function DashboardPage() {
                 className="inline-flex items-center gap-2 rounded-full bg-[#2F2C59] dark:bg-indigo-600 text-white px-4 py-2 text-xs font-medium"
               >
                 <Sparkles className="h-3.5 w-3.5" />
-                Tạo lịch ngay
+                {lang === "vi" ? "Tạo lịch ngay" : "Generate schedule now"}
               </Link>
             </div>
           </div>

@@ -32,7 +32,7 @@ export default function ContactPage() {
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
   const [message, setMessage] = useState("");
-  const [website, setWebsite] = useState(""); // honeypot chống spam
+  const [website, setWebsite] = useState(""); // Honeypot for anti-spam
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -42,7 +42,7 @@ export default function ContactPage() {
 
   const hint = CATEGORIES.find((c) => c.id === inquiryType)?.hint;
 
-  // Chuyển focus tới thông báo thành công để screen reader đọc ngay
+  // Move focus to success message for screen reader accessibility
   useEffect(() => {
     if (submitted) successRef.current?.focus();
   }, [submitted]);
@@ -99,7 +99,7 @@ export default function ContactPage() {
         </header>
 
         <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
-          {/* Trái: kênh liên hệ */}
+          {/* Left column: contact channels */}
           <aside className="space-y-8 lg:col-span-5">
             <div className="divide-y divide-slate-200/80 overflow-hidden rounded-3xl border border-slate-200/80 bg-white dark:divide-slate-800 dark:border-slate-800 dark:bg-slate-900">
               {CHANNELS.map(({ icon: Icon, title, desc, email: addr, note }) => (
@@ -142,7 +142,7 @@ export default function ContactPage() {
               </Link>
             </div>
 
-            {/* Chuỗi các bước thật nên có đánh số */}
+            {/* Next steps list */}
             <div>
               <h2 className="text-sm font-bold text-slate-900 dark:text-white">What happens next</h2>
               <ol className="mt-4 space-y-3">
@@ -158,7 +158,7 @@ export default function ContactPage() {
             </div>
           </aside>
 
-          {/* Phải: form */}
+          {/* Right column: form */}
           <div className="lg:col-span-7">
             <div className="rounded-[28px] border border-slate-200/80 bg-white p-6 shadow-[0_24px_60px_-30px_rgba(47,44,89,0.25)] dark:border-slate-800 dark:bg-slate-900 sm:p-9">
               {submitted ? (
@@ -232,7 +232,7 @@ export default function ContactPage() {
                     <textarea id="contact-message" required rows={5} value={message} onChange={(e) => setMessage(e.target.value)} placeholder={hint} className={`${field} resize-y`} />
                   </div>
 
-                  {/* Honeypot: người thật không thấy, bot sẽ điền */}
+                  {/* Honeypot: hidden from real users, autofilled by bots */}
                   <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
                     <label>Website<input type="text" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} /></label>
                   </div>
