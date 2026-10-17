@@ -67,390 +67,48 @@ interface DaySchedule {
   };
 }
 
-const WEEK_DATA: DaySchedule[] = [
-  {
-    dayName: "Mon",
-    dateStr: "Oct 12",
-    dayNum: 12,
-    isToday: false,
-    shifts: {
-      morning: {
-        id: "m-12",
-        shiftType: "morning",
-        name: "Morning shift",
-        time: "07:00 – 15:00",
-        requiredStaff: 6,
-        staff: [
-          { id: "1", name: "Nguyễn Văn An", role: "Supervisor", avatar: "A", isLead: true },
-          { id: "2", name: "Trần Thị Bình", role: "Barista", avatar: "B" },
-          { id: "3", name: "Lê Hoàng Long", role: "Barista", avatar: "L" },
-          { id: "4", name: "Phạm Thảo Vy", role: "Cashier", avatar: "V" },
-          { id: "5", name: "Vũ Hải Đăng", role: "Kitchen", avatar: "Đ" },
-          { id: "6", name: "Đỗ Minh Khang", role: "Cashier", avatar: "K" },
-        ],
-      },
-      afternoon: {
-        id: "a-12",
-        shiftType: "afternoon",
-        name: "Afternoon shift",
-        time: "14:30 – 22:30",
-        requiredStaff: 6,
-        staff: [
-          { id: "7", name: "Lý Khánh Nam", role: "Supervisor", avatar: "N", isLead: true },
-          { id: "8", name: "Hoàng Gia Huy", role: "Barista", avatar: "H" },
-          { id: "9", name: "Bùi Tuyết Mai", role: "Barista", avatar: "M" },
-          { id: "10", name: "Dương Quốc Bảo", role: "Cashier", avatar: "B" },
-          { id: "11", name: "Trịnh Thùy Linh", role: "Cashier", avatar: "L" },
-          { id: "12", name: "Hồ Thanh Tùng", role: "Kitchen", avatar: "T" },
-        ],
-      },
-      night: {
-        id: "n-12",
-        shiftType: "night",
-        name: "Night shift",
-        time: "22:00 – 06:00",
-        requiredStaff: 4,
-        staff: [
-          { id: "13", name: "Vũ Tuấn Kiệt", role: "Supervisor", avatar: "K", isLead: true },
-          { id: "14", name: "Lê Nhật Quang", role: "Barista", avatar: "Q" },
-          { id: "15", name: "Đặng Hữu Phúc", role: "Kitchen", avatar: "P" },
-          { id: "16", name: "Phan Văn Hậu", role: "Cashier", avatar: "H" },
-        ],
-      },
-    },
-  },
-  {
-    dayName: "Tue",
-    dateStr: "Oct 13",
-    dayNum: 13,
-    isToday: true,
-    shifts: {
-      morning: {
-        id: "m-13",
-        shiftType: "morning",
-        name: "Morning shift",
-        time: "07:00 – 15:00",
-        requiredStaff: 6,
-        staff: [
-          { id: "1", name: "Nguyễn Văn An", role: "Supervisor", avatar: "A", isLead: true },
-          { id: "2", name: "Trần Thị Bình", role: "Barista", avatar: "B" },
-          { id: "17", name: "Cao Đình Trọng", role: "Barista", avatar: "T" },
-          { id: "4", name: "Phạm Thảo Vy", role: "Cashier", avatar: "V" },
-          { id: "18", name: "Võ Kim Ngân", role: "Cashier", avatar: "N" },
-          { id: "5", name: "Vũ Hải Đăng", role: "Kitchen", avatar: "Đ" },
-        ],
-      },
-      afternoon: {
-        id: "a-13",
-        shiftType: "afternoon",
-        name: "Afternoon shift",
-        time: "14:30 – 22:30",
-        requiredStaff: 6,
-        staff: [
-          { id: "7", name: "Lý Khánh Nam", role: "Supervisor", avatar: "N", isLead: true },
-          { id: "8", name: "Hoàng Gia Huy", role: "Barista", avatar: "H" },
-          { id: "19", name: "Ngô Bá Khá", role: "Barista", avatar: "K" },
-          { id: "10", name: "Dương Quốc Bảo", role: "Cashier", avatar: "B" },
-          { id: "20", name: "Mai Hồng Ngọc", role: "Cashier", avatar: "N" },
-          { id: "12", name: "Hồ Thanh Tùng", role: "Kitchen", avatar: "T" },
-        ],
-      },
-      night: {
-        id: "n-13",
-        shiftType: "night",
-        name: "Night shift",
-        time: "22:00 – 06:00",
-        requiredStaff: 4,
-        staff: [
-          { id: "13", name: "Vũ Tuấn Kiệt", role: "Supervisor", avatar: "K", isLead: true },
-          { id: "14", name: "Lê Nhật Quang", role: "Barista", avatar: "Q" },
-          { id: "15", name: "Đặng Hữu Phúc", role: "Kitchen", avatar: "P" },
-          { id: "21", name: "Lưu Trọng Hiếu", role: "Kitchen", avatar: "H" },
-        ],
-      },
-    },
-  },
-  {
-    dayName: "Wed",
-    dateStr: "Oct 14",
-    dayNum: 14,
-    isToday: false,
-    shifts: {
-      morning: {
-        id: "m-14",
-        shiftType: "morning",
-        name: "Morning shift",
-        time: "07:00 – 15:00",
-        requiredStaff: 7,
-        staff: [
-          { id: "1", name: "Nguyễn Văn An", role: "Supervisor", avatar: "A", isLead: true },
-          { id: "2", name: "Trần Thị Bình", role: "Barista", avatar: "B" },
-          { id: "3", name: "Lê Hoàng Long", role: "Barista", avatar: "L" },
-          { id: "4", name: "Phạm Thảo Vy", role: "Cashier", avatar: "V" },
-          { id: "6", name: "Đỗ Minh Khang", role: "Cashier", avatar: "K" },
-          { id: "5", name: "Vũ Hải Đăng", role: "Kitchen", avatar: "Đ" },
-          { id: "18", name: "Võ Kim Ngân", role: "Cashier", avatar: "N" },
-        ],
-      },
-      afternoon: {
-        id: "a-14",
-        shiftType: "afternoon",
-        name: "Afternoon shift",
-        time: "14:30 – 22:30",
-        requiredStaff: 7,
-        staff: [
-          { id: "7", name: "Lý Khánh Nam", role: "Supervisor", avatar: "N", isLead: true },
-          { id: "8", name: "Hoàng Gia Huy", role: "Barista", avatar: "H" },
-          { id: "9", name: "Bùi Tuyết Mai", role: "Barista", avatar: "M" },
-          { id: "10", name: "Dương Quốc Bảo", role: "Cashier", avatar: "B" },
-          { id: "11", name: "Trịnh Thùy Linh", role: "Cashier", avatar: "L" },
-          { id: "12", name: "Hồ Thanh Tùng", role: "Kitchen", avatar: "T" },
-          { id: "19", name: "Ngô Bá Khá", role: "Barista", avatar: "K" },
-        ],
-      },
-      night: {
-        id: "n-14",
-        shiftType: "night",
-        name: "Night shift",
-        time: "22:00 – 06:00",
-        requiredStaff: 4,
-        staff: [
-          { id: "13", name: "Vũ Tuấn Kiệt", role: "Supervisor", avatar: "K", isLead: true },
-          { id: "14", name: "Lê Nhật Quang", role: "Barista", avatar: "Q" },
-          { id: "15", name: "Đặng Hữu Phúc", role: "Kitchen", avatar: "P" },
-          { id: "16", name: "Phan Văn Hậu", role: "Cashier", avatar: "H" },
-        ],
-      },
-    },
-  },
-  {
-    dayName: "Thu",
-    dateStr: "Oct 15",
-    dayNum: 15,
-    isToday: false,
-    shifts: {
-      morning: {
-        id: "m-15",
-        shiftType: "morning",
-        name: "Morning shift",
-        time: "07:00 – 15:00",
-        requiredStaff: 6,
-        staff: [
-          { id: "1", name: "Nguyễn Văn An", role: "Supervisor", avatar: "A", isLead: true },
-          { id: "3", name: "Lê Hoàng Long", role: "Barista", avatar: "L" },
-          { id: "17", name: "Cao Đình Trọng", role: "Barista", avatar: "T" },
-          { id: "4", name: "Phạm Thảo Vy", role: "Cashier", avatar: "V" },
-          { id: "6", name: "Đỗ Minh Khang", role: "Cashier", avatar: "K" },
-          { id: "5", name: "Vũ Hải Đăng", role: "Kitchen", avatar: "Đ" },
-        ],
-      },
-      afternoon: {
-        id: "a-15",
-        shiftType: "afternoon",
-        name: "Afternoon shift",
-        time: "14:30 – 22:30",
-        requiredStaff: 6,
-        staff: [
-          { id: "7", name: "Lý Khánh Nam", role: "Supervisor", avatar: "N", isLead: true },
-          { id: "8", name: "Hoàng Gia Huy", role: "Barista", avatar: "H" },
-          { id: "9", name: "Bùi Tuyết Mai", role: "Barista", avatar: "M" },
-          { id: "11", name: "Trịnh Thùy Linh", role: "Cashier", avatar: "L" },
-          { id: "20", name: "Mai Hồng Ngọc", role: "Cashier", avatar: "N" },
-          { id: "12", name: "Hồ Thanh Tùng", role: "Kitchen", avatar: "T" },
-        ],
-      },
-      night: {
-        id: "n-15",
-        shiftType: "night",
-        name: "Night shift",
-        time: "22:00 – 06:00",
-        requiredStaff: 4,
-        staff: [
-          { id: "13", name: "Vũ Tuấn Kiệt", role: "Supervisor", avatar: "K", isLead: true },
-          { id: "14", name: "Lê Nhật Quang", role: "Barista", avatar: "Q" },
-          { id: "21", name: "Lưu Trọng Hiếu", role: "Kitchen", avatar: "H" },
-          { id: "16", name: "Phan Văn Hậu", role: "Cashier", avatar: "H" },
-        ],
-      },
-    },
-  },
-  {
-    dayName: "Fri",
-    dateStr: "Oct 16",
-    dayNum: 16,
-    isToday: false,
-    shifts: {
-      morning: {
-        id: "m-16",
-        shiftType: "morning",
-        name: "Morning shift",
-        time: "07:00 – 15:00",
-        requiredStaff: 8,
-        staff: [
-          { id: "1", name: "Nguyễn Văn An", role: "Supervisor", avatar: "A", isLead: true },
-          { id: "2", name: "Trần Thị Bình", role: "Barista", avatar: "B" },
-          { id: "3", name: "Lê Hoàng Long", role: "Barista", avatar: "L" },
-          { id: "17", name: "Cao Đình Trọng", role: "Barista", avatar: "T" },
-          { id: "4", name: "Phạm Thảo Vy", role: "Cashier", avatar: "V" },
-          { id: "18", name: "Võ Kim Ngân", role: "Cashier", avatar: "N" },
-          { id: "5", name: "Vũ Hải Đăng", role: "Kitchen", avatar: "Đ" },
-          { id: "6", name: "Đỗ Minh Khang", role: "Cashier", avatar: "K" },
-        ],
-      },
-      afternoon: {
-        id: "a-16",
-        shiftType: "afternoon",
-        name: "Afternoon shift",
-        time: "14:30 – 22:30",
-        requiredStaff: 8,
-        staff: [
-          { id: "7", name: "Lý Khánh Nam", role: "Supervisor", avatar: "N", isLead: true },
-          { id: "8", name: "Hoàng Gia Huy", role: "Barista", avatar: "H" },
-          { id: "9", name: "Bùi Tuyết Mai", role: "Barista", avatar: "M" },
-          { id: "19", name: "Ngô Bá Khá", role: "Barista", avatar: "K" },
-          { id: "10", name: "Dương Quốc Bảo", role: "Cashier", avatar: "B" },
-          { id: "11", name: "Trịnh Thùy Linh", role: "Cashier", avatar: "L" },
-          { id: "20", name: "Mai Hồng Ngọc", role: "Cashier", avatar: "N" },
-          { id: "12", name: "Hồ Thanh Tùng", role: "Kitchen", avatar: "T" },
-        ],
-      },
-      night: {
-        id: "n-16",
-        shiftType: "night",
-        name: "Night shift",
-        time: "22:00 – 06:00",
-        requiredStaff: 4,
-        staff: [
-          { id: "13", name: "Vũ Tuấn Kiệt", role: "Supervisor", avatar: "K", isLead: true },
-          { id: "14", name: "Lê Nhật Quang", role: "Barista", avatar: "Q" },
-          { id: "15", name: "Đặng Hữu Phúc", role: "Kitchen", avatar: "P" },
-          { id: "21", name: "Lưu Trọng Hiếu", role: "Kitchen", avatar: "H" },
-        ],
-      },
-    },
-  },
-  {
-    dayName: "Sat",
-    dateStr: "Oct 17",
-    dayNum: 17,
-    isToday: false,
-    shifts: {
-      morning: {
-        id: "m-17",
-        shiftType: "morning",
-        name: "Morning shift",
-        time: "07:00 – 15:00",
-        requiredStaff: 9,
-        staff: [
-          { id: "1", name: "Nguyễn Văn An", role: "Supervisor", avatar: "A", isLead: true },
-          { id: "2", name: "Trần Thị Bình", role: "Barista", avatar: "B" },
-          { id: "3", name: "Lê Hoàng Long", role: "Barista", avatar: "L" },
-          { id: "8", name: "Hoàng Gia Huy", role: "Barista", avatar: "H" },
-          { id: "4", name: "Phạm Thảo Vy", role: "Cashier", avatar: "V" },
-          { id: "10", name: "Dương Quốc Bảo", role: "Cashier", avatar: "B" },
-          { id: "5", name: "Vũ Hải Đăng", role: "Kitchen", avatar: "Đ" },
-          { id: "12", name: "Hồ Thanh Tùng", role: "Kitchen", avatar: "T" },
-          { id: "6", name: "Đỗ Minh Khang", role: "Cashier", avatar: "K" },
-        ],
-      },
-      afternoon: {
-        id: "a-17",
-        shiftType: "afternoon",
-        name: "Afternoon shift",
-        time: "14:30 – 22:30",
-        requiredStaff: 9,
-        staff: [
-          { id: "7", name: "Lý Khánh Nam", role: "Supervisor", avatar: "N", isLead: true },
-          { id: "9", name: "Bùi Tuyết Mai", role: "Barista", avatar: "M" },
-          { id: "17", name: "Cao Đình Trọng", role: "Barista", avatar: "T" },
-          { id: "19", name: "Ngô Bá Khá", role: "Barista", avatar: "K" },
-          { id: "11", name: "Trịnh Thùy Linh", role: "Cashier", avatar: "L" },
-          { id: "18", name: "Võ Kim Ngân", role: "Cashier", avatar: "N" },
-          { id: "20", name: "Mai Hồng Ngọc", role: "Cashier", avatar: "N" },
-          { id: "15", name: "Đặng Hữu Phúc", role: "Kitchen", avatar: "P" },
-          { id: "21", name: "Lưu Trọng Hiếu", role: "Kitchen", avatar: "H" },
-        ],
-      },
-      night: {
-        id: "n-17",
-        shiftType: "night",
-        name: "Night shift",
-        time: "22:00 – 06:00",
-        requiredStaff: 4,
-        staff: [
-          { id: "13", name: "Vũ Tuấn Kiệt", role: "Supervisor", avatar: "K", isLead: true },
-          { id: "14", name: "Lê Nhật Quang", role: "Barista", avatar: "Q" },
-          { id: "16", name: "Phan Văn Hậu", role: "Cashier", avatar: "H" },
-          { id: "10", name: "Dương Quốc Bảo", role: "Cashier", avatar: "B" },
-        ],
-      },
-    },
-  },
-  {
-    dayName: "Sun",
-    dateStr: "Oct 18",
-    dayNum: 18,
-    isToday: false,
-    shifts: {
-      morning: {
-        id: "m-18",
-        shiftType: "morning",
-        name: "Morning shift",
-        time: "07:00 – 15:00",
-        requiredStaff: 5,
-        staff: [
-          { id: "1", name: "Nguyễn Văn An", role: "Supervisor", avatar: "A", isLead: true },
-          { id: "2", name: "Trần Thị Bình", role: "Barista", avatar: "B" },
-          { id: "3", name: "Lê Hoàng Long", role: "Barista", avatar: "L" },
-          { id: "4", name: "Phạm Thảo Vy", role: "Cashier", avatar: "V" },
-          { id: "5", name: "Vũ Hải Đăng", role: "Kitchen", avatar: "Đ" },
-        ],
-      },
-      afternoon: {
-        id: "a-18",
-        shiftType: "afternoon",
-        name: "Afternoon shift",
-        time: "14:30 – 22:30",
-        requiredStaff: 5,
-        staff: [
-          { id: "7", name: "Lý Khánh Nam", role: "Supervisor", avatar: "N", isLead: true },
-          { id: "8", name: "Hoàng Gia Huy", role: "Barista", avatar: "H" },
-          { id: "9", name: "Bùi Tuyết Mai", role: "Barista", avatar: "M" },
-          { id: "10", name: "Dương Quốc Bảo", role: "Cashier", avatar: "B" },
-          { id: "12", name: "Hồ Thanh Tùng", role: "Kitchen", avatar: "T" },
-        ],
-      },
-      night: {
-        id: "n-18",
-        shiftType: "night",
-        name: "Night shift",
-        time: "22:00 – 06:00",
-        requiredStaff: 4,
-        staff: [
-          { id: "13", name: "Vũ Tuấn Kiệt", role: "Supervisor", avatar: "K", isLead: true },
-          { id: "14", name: "Lê Nhật Quang", role: "Barista", avatar: "Q" },
-          { id: "15", name: "Đặng Hữu Phúc", role: "Kitchen", avatar: "P" },
-          { id: "16", name: "Phan Văn Hậu", role: "Cashier", avatar: "H" },
-        ],
-      },
-    },
-  },
-];
+import { fetchCalendarScheduleApi } from "@/lib/apiClient";
 
 export default function CalendarPage() {
   const [viewMode, setViewMode] = useState<"week" | "month">("week");
   const [selectedRole, setSelectedRole] = useState("all");
-  const [selectedDayIndex, setSelectedDayIndex] = useState(1); // Default to Tue (today)
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+  const [weekOffset, setWeekOffset] = useState(0);
   const [inspectShift, setInspectShift] = useState<{
     day: DaySchedule;
     shift: CalendarShift;
   } | null>(null);
 
-  const roles = ["all", "Supervisor", "Barista", "Cashier", "Kitchen"];
+  const [calendarData, setCalendarData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    async function loadCalendar() {
+      try {
+        setIsLoading(true);
+        const res = await fetchCalendarScheduleApi({ weekOffset });
+        if (res.data) {
+          setCalendarData(res.data);
+          const tIdx = res.data.weekData?.findIndex((d: any) => d.isToday);
+          if (tIdx !== -1 && typeof tIdx === "number") {
+            setSelectedDayIndex(tIdx);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to load calendar schedule:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadCalendar();
+  }, [weekOffset]);
+
+  const rawWeek: DaySchedule[] = calendarData?.weekData || [];
+  const roles: string[] = calendarData?.roles?.length > 0 ? ["all", ...calendarData.roles] : ["all", "Supervisor", "Barista", "Cashier", "Kitchen Assistant"];
 
   const filteredWeek = useMemo(() => {
-    if (selectedRole === "all") return WEEK_DATA;
-    return WEEK_DATA.map((day) => ({
+    if (selectedRole === "all") return rawWeek;
+    return rawWeek.map((day) => ({
       ...day,
       shifts: {
         morning: {
@@ -467,9 +125,11 @@ export default function CalendarPage() {
         },
       },
     }));
-  }, [selectedRole]);
+  }, [selectedRole, rawWeek]);
 
-  const activeMobileDay = filteredWeek[selectedDayIndex];
+  const activeMobileDay = filteredWeek[selectedDayIndex] || filteredWeek[0];
+  const weekLabel = calendarData?.weekLabel || "Current week";
+  const totalStaffAssigned = calendarData?.totalStaffAssigned || 0;
 
   return (
     <DashboardLayout>
@@ -477,20 +137,21 @@ export default function CalendarPage() {
         
         {/* ================= 1. CALENDAR HEADER ================= */}
         <PageHeader
-          eyebrow="Week 42 · Oct 12 – Oct 18, 2026"
+          eyebrow={`Scheduled roster · ${calendarData?.periodInfo?.status || "Active"}`}
           title="Roster calendar"
           actions={
             <>
               {/* Coverage status chip */}
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
                 <CheckCircle2 className="h-3.5 w-3.5" />
-                100% covered
+                {totalStaffAssigned > 0 ? `${totalStaffAssigned} assignments` : "0 shifts"}
               </span>
 
               {/* Week navigation pill */}
               <div className="inline-flex items-center rounded-full border border-slate-200/80 bg-white dark:bg-slate-900 dark:border-slate-800 p-1 shadow-xs">
                 <button
                   type="button"
+                  onClick={() => setWeekOffset((prev) => prev - 1)}
                   className="p-1 rounded-full text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
                   title="Previous week"
                   aria-label="Previous week"
@@ -498,10 +159,11 @@ export default function CalendarPage() {
                   <ChevronLeft className="h-4 w-4" />
                 </button>
                 <span className="px-3 text-xs font-semibold tabular-nums text-slate-700 dark:text-slate-300">
-                  Oct 12 – 18
+                  {weekLabel}
                 </span>
                 <button
                   type="button"
+                  onClick={() => setWeekOffset((prev) => prev + 1)}
                   className="p-1 rounded-full text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
                   title="Next week"
                   aria-label="Next week"
@@ -565,7 +227,7 @@ export default function CalendarPage() {
                     : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800"
                 }`}
               >
-                {r === "all" ? "All roles (28)" : r}
+                {r === "all" ? `All roles (${totalStaffAssigned})` : r}
               </button>
             ))}
           </div>
@@ -613,15 +275,17 @@ export default function CalendarPage() {
           </div>
 
           {/* Active day header & shift stack */}
-          <div className="flex items-center justify-between px-1">
-            <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-              {activeMobileDay.dayName}, {activeMobileDay.dateStr}
-              {activeMobileDay.isToday && (
-                <span className="ml-2 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full">
-                  Today
+          {activeMobileDay && (
+            <>
+              <div className="flex items-center justify-between px-1">
+                <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  {activeMobileDay.dayName}, {activeMobileDay.dateStr}
+                  {activeMobileDay.isToday && (
+                    <span className="ml-2 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full">
+                      Today
+                    </span>
+                  )}
                 </span>
-              )}
-            </span>
             <span className="text-xs tabular-nums text-slate-500 dark:text-slate-400">
               {activeMobileDay.shifts.morning.staff.length +
                 activeMobileDay.shifts.afternoon.staff.length +
@@ -692,7 +356,28 @@ export default function CalendarPage() {
               </div>
             );
           })}
+          </>
+          )}
         </div>
+
+        {/* Empty state when no schedule exists for this week */}
+        {!isLoading && totalStaffAssigned === 0 && (
+          <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-8 text-center bg-white dark:bg-slate-900 space-y-3">
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-white">Chưa có ca làm việc nào được phân bổ trong tuần này</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+              Không tìm thấy phân bổ ca nào trong kỳ làm việc này. Bạn có thể sử dụng AI Studio để tạo ca tự động hoặc chọn tuần khác.
+            </p>
+            <div className="pt-2">
+              <Link
+                href="/dashboard/ai-studio"
+                className="inline-flex items-center gap-2 rounded-full bg-[#2F2C59] dark:bg-indigo-600 text-white px-4 py-2 text-xs font-semibold"
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>Mở AI Studio</span>
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* ================= 4. DESKTOP FULL-WIDTH WEEK ROSTER TIMETABLE (>= md) ================= */}
         {viewMode === "week" && (

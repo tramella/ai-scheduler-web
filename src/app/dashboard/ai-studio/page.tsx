@@ -136,6 +136,8 @@ const POLICY_TEMPLATES: Omit<ConstraintPolicy, "enabled">[] = [
   },
 ];
 
+import { fetchLocationsApi } from "@/lib/apiClient";
+
 export default function AiStudioPage() {
   const { user, activeCompany } = useAuth();
 
@@ -143,31 +145,47 @@ export default function AiStudioPage() {
   const [activeTab, setActiveTab] = useState<"generator" | "result">("generator");
 
   // 1. Generation Parameters
-  const [selectedLocation, setSelectedLocation] = useState("Main Store - Central Hub");
+  const [locations, setLocations] = useState<any[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
   const locationDropdownRef = useRef<HTMLDivElement>(null);
 
-  const availableLocations = [
+  useEffect(() => {
+    async function loadLocations() {
+      try {
+        const res = await fetchLocationsApi();
+        if (res.data && res.data.length > 0) {
+          const locs = res.data.map((l: any) => ({
+            id: l._id || l.id,
+            name: l.name,
+            badge: l.name?.toLowerCase().includes("main") ? "Primary Hub" : "Branch",
+            staffCount: "Active store",
+            staffNum: 10,
+            shiftCount: "Daily roster",
+            shiftBreakdown: "Opening • Peak • Closing",
+            complianceStatus: "Pre-flight Valid"
+          }));
+          setLocations(locs);
+          setSelectedLocation(locs[0].name);
+        }
+      } catch (e) {
+        console.warn("Failed to fetch locations:", e);
+      }
+    }
+    loadLocations();
+  }, []);
+
+  const availableLocations = locations.length > 0 ? locations : [
     {
       id: "LOC_01",
-      name: "Main Store - Central Hub",
+      name: activeCompany?.name || "Main Store - Central Hub",
       badge: "Primary Hub",
-      staffCount: "10 active staff",
+      staffCount: "Store location",
       staffNum: 10,
       shiftCount: "3 daily shifts",
       shiftBreakdown: "Opening • Peak • Closing",
-      complianceStatus: "100% Pre-flight Valid",
-    },
-    {
-      id: "LOC_02",
-      name: "Express Branch - East Side",
-      badge: "Express Branch",
-      staffCount: "8 active staff",
-      staffNum: 8,
-      shiftCount: "3 daily shifts",
-      shiftBreakdown: "Opening • Peak • Closing",
-      complianceStatus: "100% Pre-flight Valid",
-    },
+      complianceStatus: "Pre-flight Valid",
+    }
   ];
 
   const currentLocation =
