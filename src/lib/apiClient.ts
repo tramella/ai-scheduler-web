@@ -277,3 +277,229 @@ export async function importEmployeeExcelApi(file: File): Promise<{ success: boo
   return resData;
 }
 
+// ---------------- Locations API ----------------
+export async function fetchLocationsApi(): Promise<{ success: boolean; data: any[] }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/locations`, { headers });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to fetch locations");
+  return data;
+}
+
+export async function createLocationApi(payload: any): Promise<{ success: boolean; data: any }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/locations`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload)
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to create location");
+  return data;
+}
+
+export async function deleteLocationApi(id: string): Promise<{ success: boolean }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/locations/${id}`, {
+    method: "DELETE",
+    headers
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to delete location");
+  return data;
+}
+
+// ---------------- Skills API ----------------
+export async function fetchSkillsApi(): Promise<{ success: boolean; data: any[] }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/skills`, { headers });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to fetch skills");
+  return data;
+}
+
+export async function createSkillApi(payload: any): Promise<{ success: boolean; data: any }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/skills`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload)
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to create skill");
+  return data;
+}
+
+// ---------------- Leave Requests API ----------------
+export async function fetchLeaveRequestsApi(): Promise<{ success: boolean; data: any[] }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/leave-requests`, { headers });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to fetch leave requests");
+  return data;
+}
+
+export async function updateLeaveRequestStatusApi(id: string, status: "APPROVED" | "REJECTED" | "PENDING"): Promise<{ success: boolean; data: any }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/leave-requests/${id}/status`, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify({ status })
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to update leave request status");
+  return data;
+}
+
+// ---------------- Constraints / Conditions API ----------------
+export async function fetchConstraintsApi(): Promise<{ success: boolean; data: any[] }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/constraints`, { headers });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to fetch constraints");
+  return data;
+}
+
+export async function createConstraintApi(payload: any): Promise<{ success: boolean; data: any }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/constraints`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload)
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to create constraint");
+  return data;
+}
+
+export async function deleteConstraintApi(id: string): Promise<{ success: boolean }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/constraints/${id}`, {
+    method: "DELETE",
+    headers
+  });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to delete constraint");
+  return data;
+}
+
+// ---------------- AI Logs API ----------------
+export async function fetchAiLogsApi(): Promise<{ success: boolean; data: any[] }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/ai-generation-logs`, { headers });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to fetch AI logs");
+  return data;
+}
+
+// ---------------- Dashboard & Analytics API ----------------
+export async function fetchDashboardSummaryApi(): Promise<{ success: boolean; data: any }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const response = await fetch(`${API_BASE_URL}/api/dashboard/summary`, { headers });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to fetch dashboard summary");
+  return data;
+}
+
+export async function fetchDashboardAnalyticsApi(period?: string): Promise<{ success: boolean; data: any }> {
+  const token = typeof window !== "undefined" ? localStorage.getItem("orbit_auth_token") : null;
+  const activeCompany = typeof window !== "undefined" ? localStorage.getItem("orbit_active_company") : null;
+  const companyId = activeCompany ? JSON.parse(activeCompany).id : null;
+
+  const headers: Record<string, string> = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+  if (companyId) headers["x-company-id"] = companyId;
+
+  const query = period ? `?period=${encodeURIComponent(period)}` : "";
+  const response = await fetch(`${API_BASE_URL}/api/dashboard/analytics${query}`, { headers });
+  const data = await response.json();
+  if (!response.ok || !data.success) throw new Error(data.error || "Failed to fetch dashboard analytics");
+  return data;
+}
+
+
+

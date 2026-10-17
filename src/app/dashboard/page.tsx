@@ -184,17 +184,54 @@ const Kpi = KpiCard;
 /*  Page                                                                      */
 /* -------------------------------------------------------------------------- */
 
+import { fetchDashboardSummaryApi } from "@/lib/apiClient";
+
 export default function DashboardPage() {
   const { user } = useAuth();
-  const [selected, setSelected] = useState(TODAY_INDEX);
+  const [summaryData, setSummaryData] = useState<any>(null);
+  const [selected, setSelected] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const today = WEEK[TODAY_INDEX];
-  const day = WEEK[selected];
+  React.useEffect(() => {
+    async function loadSummary() {
+      try {
+        setIsLoading(true);
+        const res = await fetchDashboardSummaryApi();
+        if (res.data) {
+          setSummaryData(res.data);
+          if (typeof res.data.todayIndex === "number") {
+            setSelected(res.data.todayIndex);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to load dashboard summary, using fallback:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadSummary();
+  }, []);
+
+  const weekList = summaryData?.weekData || WEEK;
+  const todayIdx = typeof summaryData?.todayIndex === "number" ? summaryData.todayIndex : TODAY_INDEX;
+  const today = weekList[todayIdx] || WEEK[0];
+  const day = weekList[selected] || today;
+
+  const staffPool = summaryData?.staffPool || { total: 28, active: 28, availableRatio: 100 };
+  const weeklyStats = summaryData?.weeklyStats || {
+    totalShifts: 122,
+    totalHours: 896,
+    budgetHours: 920,
+    utilizationPercent: 97.4,
+    complianceScore: 100,
+    activeRulesCount: 6
+  };
+  const coveragePercent = summaryData?.todayCoverage?.coveragePercent ?? 100;
 
   const status =
-    selected < TODAY_INDEX
+    selected < todayIdx
       ? { text: "Completed", cls: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300" }
-      : selected === TODAY_INDEX
+      : selected === todayIdx
       ? { text: "Live now", cls: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300" }
       : { text: "Scheduled", cls: "bg-blue-50 text-[#2F5BFF] dark:bg-blue-950/50 dark:text-blue-300" };
 
@@ -240,7 +277,7 @@ export default function DashboardPage() {
                   <span className="ml-1.5 text-base font-normal text-white/60">staff</span>
                 </p>
               </div>
-              <CoverageRing percent={100} />
+              <CoverageRing percent={coveragePercent} />
             </div>
 
             <ul className="relative mt-6 space-y-3">
@@ -250,7 +287,7 @@ export default function DashboardPage() {
                     <span className={`h-2 w-2 rounded-full ${s.heroDot}`} />
                     {s.name}
                   </span>
-                  <span className="font-semibold tabular-nums">{today[s.key]}</span>
+                  <span className="font-semibold tabular-nums">{today[s.key] || 0}</span>
                 </li>
               ))}
             </ul>
@@ -268,49 +305,52 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-8">
             <Kpi
               label="Staff pool"
-              value="28"
-              chip="100% active"
+              value={String(staffPool.total)}
+              chip={`${staffPool.availableRatio}% active`}
               chipClass="bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
-              note="28 / 28 personnel available"
+              note={`${staffPool.active} / ${staffPool.total} personnel available`}
               icon={Users}
               iconClass="bg-blue-50 text-[#2F5BFF] dark:bg-blue-950/50"
             >
-              <Sparkline values={WEEK.map((d) => d.staff)} highlight={TODAY_INDEX} barClass="bg-[#2F5BFF]" />
+              <Sparkline values={weekList.map((d: any) => d.staff)} highlight={todayIdx} barClass="bg-[#2F5BFF]" />
             </Kpi>
 
             <Kpi
               label="Weekly shifts"
-              value="122"
+              value={String(weeklyStats.totalShifts)}
               chip="3 shifts / day"
               chipClass="bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
               note="Demand fully satisfied · 0 gaps"
               icon={CalendarCheck}
               iconClass="bg-orange-50 text-[#FF7A59] dark:bg-orange-950/50"
             >
-              <Sparkline values={WEEK.map((d) => d.shifts)} highlight={TODAY_INDEX} barClass="bg-[#FF7A59]" />
+              <Sparkline values={weekList.map((d: any) => d.shifts)} highlight={todayIdx} barClass="bg-[#FF7A59]" />
             </Kpi>
 
             <Kpi
               label="Total hours"
-              value="896h"
-              chip="Cap 920h"
+              value={`${weeklyStats.totalHours}h`}
+              chip={`Cap ${weeklyStats.budgetHours}h`}
               chipClass="bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"
-              note="97.4% of budget · ~32.0h per staff"
+              note={`${weeklyStats.utilizationPercent}% of budget`}
               icon={Clock}
               iconClass="bg-indigo-50 text-[#2F2C59] dark:bg-indigo-950/50 dark:text-indigo-300"
             >
               <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-                <div className="h-full w-[97.4%] rounded-full bg-[#2F2C59] dark:bg-indigo-400" />
+                <div
+                  className="h-full rounded-full bg-[#2F2C59] dark:bg-indigo-400"
+                  style={{ width: `${Math.min(100, weeklyStats.utilizationPercent)}%` }}
+                />
               </div>
             </Kpi>
 
             <Kpi
               label="Statutory audit"
-              value="100%"
+              value={`${weeklyStats.complianceScore}%`}
               valueClass="text-emerald-600 dark:text-emerald-400"
               chip="Passed"
               chipClass="bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
-              note="4 / 4 rules strictly enforced"
+              note={`${weeklyStats.activeRulesCount} rules strictly enforced`}
               icon={ShieldCheck}
               iconClass="bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400"
             >
@@ -365,9 +405,9 @@ export default function DashboardPage() {
               </div>
 
               <div className="relative grid grid-cols-7 gap-2 sm:gap-4">
-                {WEEK.map((d, i) => {
+                {weekList.map((d: any, i: number) => {
                   const isSelected = i === selected;
-                  const isToday = i === TODAY_INDEX;
+                  const isToday = i === todayIdx;
                   return (
                     <button
                       key={d.day}
@@ -384,7 +424,7 @@ export default function DashboardPage() {
                             className={`w-full rounded-md transition-opacity duration-150 ${s.bar} ${
                               isSelected ? "opacity-100" : "opacity-35 group-hover:opacity-70"
                             }`}
-                            style={{ height: `${(d[s.key] / MAX_SLOTS) * 100}%` }}
+                            style={{ height: `${(d[s.key] / (MAX_SLOTS || 1)) * 100}%` }}
                           />
                         ))}
                       </div>
@@ -432,7 +472,7 @@ export default function DashboardPage() {
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="text-base font-semibold text-slate-900 dark:text-white">
-                  {selected === TODAY_INDEX ? "Today’s shifts" : "Shifts"}
+                  {selected === todayIdx ? "Today’s shifts" : "Shifts"}
                 </h2>
                 <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
                   {day.label} · {day.staff} staff
