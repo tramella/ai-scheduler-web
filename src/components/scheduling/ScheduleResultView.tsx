@@ -13,27 +13,17 @@ import {
   Copy,
   Check,
   Search,
-  Sparkles,
   CalendarDays,
-  ChevronsLeft,
-  ChevronsRight,
-  ChevronLeft,
-  ChevronRight,
   ChevronDown,
   Sun,
   Sunset,
   Moon,
   ShieldCheck,
-  Users,
-  Timer,
-  Layers,
-  Sparkle,
   GripVertical,
   ArrowRightLeft,
   Undo2,
-  Sliders,
 } from "lucide-react";
-import { DailySchedule, exportSchedule } from "@/lib/apiClient";
+import { DailySchedule, exportSchedule } from "@/lib/api-clients/schedule/scheduleApi";
 import CustomDatePicker from "./CustomDatePicker";
 import { Pagination } from "@/components/ui/Pagination";
 
@@ -199,7 +189,7 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
   startDate: initialStartDate,
   endDate: initialEndDate,
   onRegenerate,
-  onReset,
+  onReset: _onReset,
   onScheduleChange,
 }) => {
   const [schedules, setSchedules] = useState<DailySchedule[]>(initialSchedules);
@@ -250,7 +240,6 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
   const [newShiftType, setNewShiftType] = useState("SHIFT_MORNING");
   const [addShiftSuccess, setAddShiftSuccess] = useState(false);
 
-  // Sync state when props change
   useEffect(() => {
     setSchedules(initialSchedules);
     setStartDate(initialStartDate);
@@ -592,11 +581,34 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setExportError(err.message);
-      } else {
-        setExportError("Failed to export schedule to Excel.");
+    } catch {
+      // Fallback: Generate client-side CSV file when backend export endpoint is unreachable
+      try {
+        const rows: string[] = ["Date,Location,Shift,Start,End,Employee ID,Employee Name,Role"];
+        schedules.forEach((day) => {
+          day.locations.forEach((loc) => {
+            loc.shifts.forEach((s) => {
+              s.employees.forEach((emp) => {
+                const empName = emp.name ? `"${emp.name.replace(/"/g, '""')}"` : "";
+                const locName = loc.name ? `"${loc.name.replace(/"/g, '""')}"` : "";
+                const sName = s.name ? `"${s.name.replace(/"/g, '""')}"` : "";
+                rows.push(`${day.date},${locName},${sName},${s.start},${s.end},${emp.id || emp.employee_id || ""},${empName},${emp.job_title || ""}`);
+              });
+            });
+          });
+        });
+        const csvContent = rows.join("\n");
+        const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `orbit_schedule_${startDate}_to_${endDate}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } catch (clientErr) {
+        setExportError(clientErr instanceof Error ? clientErr.message : "Failed to export schedule.");
       }
     } finally {
       setIsExporting(false);
@@ -921,17 +933,6 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
 
   return (
     <div className="space-y-3.5 sm:space-y-4">
-      {/* Status Strip */}
-      <div className="flex items-center justify-between">
-        <span className="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-900/60 shadow-2xs">
-          <span className="relative flex h-2 w-2 mr-1.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          AI Schedule Generated & Verified
-        </span>
-      </div>
-
       {/* Active Floating Drag Notification (Appears ONLY while dragging a shift) */}
       {draggedShift && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-slate-900/95 text-white text-xs font-semibold shadow-2xl backdrop-blur-md animate-in fade-in slide-in-from-bottom-2 border border-white/10">
@@ -1967,5 +1968,4 @@ export const ScheduleResultView: React.FC<ScheduleResultViewProps> = ({
     </div>
   );
 };
-
 
