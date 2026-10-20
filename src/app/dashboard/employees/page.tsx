@@ -5,7 +5,6 @@ import { CheckCircle2, X } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import {
   EmployeeProfile,
-  INITIAL_EMPLOYEES,
   EmployeeHeader,
   EmployeeToolbar,
   EmployeeTable,
@@ -21,7 +20,7 @@ import {
   updateEmployeeApi,
   deleteEmployeeApi,
   BackendEmployee
-} from "@/lib/apiClient";
+} from "@/lib/api-clients/employees/employeeApi";
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<EmployeeProfile[]>([]);
@@ -118,11 +117,6 @@ export default function EmployeesPage() {
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(8);
-
-  // Reset page to 1 when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, selectedRole, selectedType, selectedLocation, selectedStatus]);
 
   const totalPages = Math.max(1, Math.ceil(filteredEmployees.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
@@ -294,23 +288,36 @@ export default function EmployeesPage() {
         {/* 2. Toolbar & Filters */}
         <EmployeeToolbar
           searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
+          onSearchChange={(value) => {
+            setSearchTerm(value);
+            setCurrentPage(1);
+          }}
           selectedRole={selectedRole}
-          onRoleChange={setSelectedRole}
+          onRoleChange={(value) => {
+            setSelectedRole(value);
+            setCurrentPage(1);
+          }}
           roles={roles}
           totalEmployeesCount={metrics.total}
           selectedType={selectedType}
-          onTypeChange={setSelectedType}
+          onTypeChange={(value) => {
+            setSelectedType(value);
+            setCurrentPage(1);
+          }}
           fullTimeCount={metrics.fullTime}
           partTimeCount={metrics.partTime}
           selectedStatus={selectedStatus}
-          onStatusChange={setSelectedStatus}
+          onStatusChange={(value) => {
+            setSelectedStatus(value);
+            setCurrentPage(1);
+          }}
           onResetFilters={() => {
             setSearchTerm("");
             setSelectedRole("all");
             setSelectedType("all");
             setSelectedStatus("all");
             setSelectedLocation("all");
+            setCurrentPage(1);
           }}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
@@ -360,6 +367,7 @@ export default function EmployeesPage() {
 
         {/* 6. Edit Employee Modal */}
         <EditEmployeeModal
+          key={editingEmployee?.id}
           employee={editingEmployee}
           isOpen={Boolean(editingEmployee)}
           onClose={() => setEditingEmployee(null)}

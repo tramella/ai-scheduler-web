@@ -16,7 +16,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { forgotPasswordApi, resetPasswordApi } from "@/lib/authApi";
+import { forgotPasswordApi, resetPasswordApi } from "@/lib/api-clients/auth/authApi";
 
 export default function LoginPage() {
   const router = useRouter();

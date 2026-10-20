@@ -139,18 +139,20 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-color: rgba(108, 80, 204, 0.9);
-  color: #e1e1ea;
-  font-weight: 600;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 1px 2px 0 rgba(47, 44, 89, 0.04);
+  /* background-color: rgba(251, 251, 251, 0.9); */
+  color: #2754f8;
+  border: 1px solid #2754f8;
+  font-weight: 500;
+  /* backdrop-filter: blur(8px); */
+  box-shadow: 0 1px 2px 0 rgba(65, 51, 255, 0.44);
   transition: all 0.15s ease;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 .btn-primary:hover {
-  background-color: rgba(47, 44, 89, 0.16);
-  border-color: rgba(47, 44, 89, 0.35);
+  background-color: rgba(65, 52, 252, 0.76);
+  color: #ffffff;
+  border:none;
 }
 .btn-primary:active {
   transform: scale(0.98);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { X, Sliders, ShieldCheck } from "lucide-react";
 import { ConstraintRule, ConstraintType, ConstraintCategory, CATEGORY_LABELS } from "./types";
 
@@ -17,31 +17,16 @@ export function EditConstraintModal({
   onClose,
   onSave,
 }: EditConstraintModalProps) {
-  const [name, setName] = useState("");
-  const [code, setCode] = useState("");
-  const [description, setDescription] = useState("");
-  const [type, setType] = useState<ConstraintType>("hard");
-  const [category, setCategory] = useState<ConstraintCategory>("labor_law");
-  const [threshold, setThreshold] = useState(8);
-  const [unit, setUnit] = useState("hours");
-  const [weight, setWeight] = useState(80);
-  const [scope, setScope] = useState("All Crew Members");
-  const [status, setStatus] = useState<"Active" | "Paused">("Active");
-
-  useEffect(() => {
-    if (constraint) {
-      setName(constraint.name);
-      setCode(constraint.code);
-      setDescription(constraint.description);
-      setType(constraint.type);
-      setCategory(constraint.category);
-      setThreshold(constraint.threshold);
-      setUnit(constraint.unit);
-      setWeight(constraint.weight);
-      setScope(constraint.scope);
-      setStatus(constraint.status);
-    }
-  }, [constraint, isOpen]);
+  const [name, setName] = useState(constraint?.name ?? "");
+  const [code] = useState(constraint?.code ?? "");
+  const [description, setDescription] = useState(constraint?.description ?? "");
+  const [type, setType] = useState<ConstraintType>(constraint?.type ?? "hard");
+  const [category, setCategory] = useState<ConstraintCategory>(constraint?.category ?? "labor_law");
+  const [threshold, setThreshold] = useState(constraint?.threshold ?? 8);
+  const [unit, setUnit] = useState(constraint?.unit ?? "hours");
+  const [weight, setWeight] = useState(constraint?.weight ?? 80);
+  const [scope, setScope] = useState(constraint?.scope ?? "All Crew Members");
+  const [status, setStatus] = useState<"Active" | "Paused">(constraint?.status ?? "Active");
 
   if (!isOpen || !constraint) return null;
 

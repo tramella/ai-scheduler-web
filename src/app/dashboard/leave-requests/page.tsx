@@ -6,15 +6,10 @@ import {
   Plus,
   Search,
   CheckCircle2,
-  XCircle,
   Clock,
-  AlertTriangle,
-  User,
   Check,
   X,
-  Filter,
   Palmtree,
-  Calendar,
   Sparkles,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
@@ -23,7 +18,7 @@ import { KpiCard } from "@/components/ui/KpiCard";
 import { Card } from "@/components/ui/Card";
 import { PillButton } from "@/components/ui/PillButton";
 import { StatusChip } from "@/components/ui/StatusChip";
-import { fetchLeaveRequestsApi, updateLeaveRequestStatusApi } from "@/lib/apiClient";
+import { fetchLeaveRequestsApi, updateLeaveRequestStatusApi } from "@/lib/api-clients/leave-requests/leaveRequestsApi";
 
 export interface LeaveRequestItem {
   id: string;
@@ -42,8 +37,6 @@ export interface LeaveRequestItem {
   schedule_impact: "Low" | "Medium" | "High";
   impact_note: string;
 }
-
-const INITIAL_LEAVE_REQUESTS: LeaveRequestItem[] = [];
 
 export default function LeaveRequestsPage() {
   const [requests, setRequests] = useState<LeaveRequestItem[]>([]);

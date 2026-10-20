@@ -72,8 +72,14 @@ export default function CustomDatePicker({
   const [rangeStep, setRangeStep] = useState<"idle" | "selecting_end">("idle");
   const [hoverDate, setHoverDate] = useState<string | null>(null);
 
-  // Keep in sync when external props change
-  useEffect(() => {
+  const [syncedProps, setSyncedProps] = useState({ singleDate, startDate, endDate, mode });
+  if (
+    syncedProps.singleDate !== singleDate ||
+    syncedProps.startDate !== startDate ||
+    syncedProps.endDate !== endDate ||
+    syncedProps.mode !== mode
+  ) {
+    setSyncedProps({ singleDate, startDate, endDate, mode });
     setTempSingle(singleDate);
     setTempStart(startDate);
     setTempEnd(endDate);
@@ -83,7 +89,7 @@ export default function CustomDatePicker({
     if (!isNaN(d.getTime())) {
       setViewMonth(new Date(d.getFullYear(), d.getMonth(), 1));
     }
-  }, [singleDate, startDate, endDate, mode]);
+  }
 
   // Click outside to close
   useEffect(() => {

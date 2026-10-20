@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { UploadCloud, FileSpreadsheet, X, AlertCircle, FileDown } from "lucide-react";
+import { UploadCloud, FileSpreadsheet, X } from "lucide-react";
 
 interface FileUploaderProps {
   file: File | null;

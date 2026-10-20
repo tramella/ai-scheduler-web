@@ -1,5 +1,5 @@
 import React from "react";
-import { DailySchedule } from "@/lib/apiClient";
+import { DailySchedule } from "@/lib/api-clients/schedule/scheduleApi";
 
 interface ScheduleTableProps {
   schedules: DailySchedule[];

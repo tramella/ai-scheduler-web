@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, X, Image as ImageIcon } from "lucide-react";
-import { EmployeeProfile, EmploymentType } from "./types";
+import { Plus, X } from "lucide-react";
+import { EmploymentType } from "./types";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 
 interface AddEmployeeModalProps {

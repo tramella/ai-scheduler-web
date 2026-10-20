@@ -22,7 +22,14 @@ export const PublicHeader: React.FC = () => {
   const router = useRouter();
   const { user, isAuthenticated, logout } = useAuth();
 
+  const [menuPathname, setMenuPathname] = useState(pathname);
+  if (pathname !== menuPathname) {
+    setMenuPathname(pathname);
+    setMenuOpen(false);
+  }
+
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const closeMenu = () => setMenuOpen(false);
 
   // Transparent header at page top, solid + blurred on scroll
   useEffect(() => {
@@ -32,8 +39,6 @@ export const PublicHeader: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close mobile navigation drawer on route change or Escape key
-  useEffect(() => setMenuOpen(false), [pathname]);
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
@@ -133,9 +138,9 @@ export const PublicHeader: React.FC = () => {
               </Link>
               <Link
                 href="/register"
-                className="btn-primary px-5 py-2 text-sm"
+                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-slate-600 transition hover:text-slate-950 dark:text-slate-400 dark:hover:text-white"
               >
-                Get started
+                Sign up
               </Link>
             </>
           )}
@@ -167,6 +172,7 @@ export const PublicHeader: React.FC = () => {
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={closeMenu}
                   aria-current={active ? "page" : undefined}
                   className={`flex items-center justify-between rounded-xl px-3 py-3.5 text-base ${
                     active
@@ -188,7 +194,7 @@ export const PublicHeader: React.FC = () => {
                   Signed in as{" "}
                   <span className="font-semibold text-slate-800 dark:text-slate-200">{user?.full_name}</span>
                 </p>
-                <Link href="/dashboard" className="btn-primary py-3 text-center text-sm">
+                <Link href="/dashboard" onClick={closeMenu} className="btn-primary py-3 text-center text-sm">
                   Go to dashboard
                 </Link>
                 <button type="button" onClick={handleLogout} className="cursor-pointer rounded-full px-4 py-3 text-sm font-medium text-rose-600">
@@ -197,10 +203,10 @@ export const PublicHeader: React.FC = () => {
               </>
             ) : (
               <>
-                <Link href="/register" className="btn-primary py-3 text-center text-sm">
+                <Link href="/register" onClick={closeMenu} className="btn-primary py-3 text-center text-sm">
                   Get started
                 </Link>
-                <Link href="/login" className="btn-secondary py-3 text-center text-sm">
+                <Link href="/login" onClick={closeMenu} className="btn-secondary py-3 text-center text-sm">
                   Sign in
                 </Link>
               </>

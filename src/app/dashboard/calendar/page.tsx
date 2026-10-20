@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   Filter,
   X,
-  Users,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -35,9 +34,6 @@ function TimeTrack({ start, end, barClass }: { start: number; end: number; barCl
     </div>
   );
 }
-
-const CARD =
-  "rounded-3xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)]";
 
 interface ShiftAssignment {
   id: string;
@@ -68,7 +64,7 @@ interface DaySchedule {
   };
 }
 
-import { fetchCalendarScheduleApi } from "@/lib/apiClient";
+import { fetchCalendarScheduleApi } from "@/lib/api-clients/calendar/calendarApi";
 
 export default function CalendarPage() {
   const { lang } = useLanguage();
@@ -105,10 +101,10 @@ export default function CalendarPage() {
     loadCalendar();
   }, [weekOffset]);
 
-  const rawWeek: DaySchedule[] = calendarData?.weekData || [];
   const roles: string[] = calendarData?.roles?.length > 0 ? ["all", ...calendarData.roles] : ["all", "Supervisor", "Barista", "Cashier", "Kitchen Assistant"];
 
   const filteredWeek = useMemo(() => {
+    const rawWeek: DaySchedule[] = calendarData?.weekData || [];
     if (selectedRole === "all") return rawWeek;
     return rawWeek.map((day) => ({
       ...day,
@@ -127,7 +123,7 @@ export default function CalendarPage() {
         },
       },
     }));
-  }, [selectedRole, rawWeek]);
+  }, [selectedRole, calendarData]);
 
   const activeMobileDay = filteredWeek[selectedDayIndex] || filteredWeek[0];
   const weekLabel = calendarData?.weekLabel || "Current week";

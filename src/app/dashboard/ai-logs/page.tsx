@@ -6,15 +6,11 @@ import {
   Search,
   ShieldCheck,
   AlertTriangle,
-  Clock,
   Zap,
-  Terminal,
   ChevronDown,
   ChevronUp,
   Sparkles,
   CheckCircle2,
-  Lock,
-  Layers,
   X,
   Code2,
   Check,
@@ -22,10 +18,8 @@ import {
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { KpiCard } from "@/components/ui/KpiCard";
-import { Card, CARD_BASE_CLASSES } from "@/components/ui/Card";
-import { StatusChip } from "@/components/ui/StatusChip";
-import { PillButton } from "@/components/ui/PillButton";
-import { fetchAiLogsApi } from "@/lib/apiClient";
+import { Card } from "@/components/ui/Card";
+import { fetchAiLogsApi } from "@/lib/api-clients/ai-logs/aiLogsApi";
 
 export interface AiLogEntry {
   id: string;
@@ -50,8 +44,6 @@ export interface AiLogEntry {
   }[];
   deterministic_status: "Verified 0-Conflict" | "Resolved by Kernel";
 }
-
-const INITIAL_AI_LOGS: AiLogEntry[] = [];
 
 export default function AiLogsPage() {
   const [logs, setLogs] = useState<AiLogEntry[]>([]);

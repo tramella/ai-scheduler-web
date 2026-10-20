@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { X, Plus, Image as ImageIcon } from "lucide-react";
+import React, { useState } from "react";
+import { X } from "lucide-react";
 import { EmployeeProfile, EmploymentType, EmployeeStatus } from "./types";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 
@@ -40,37 +40,19 @@ export function EditEmployeeModal({
   onClose,
   onSave,
 }: EditEmployeeModalProps) {
-  const [name, setName] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [role, setRole] = useState("Barista");
-  const [department, setDepartment] = useState("Store Operations");
-  const [employmentType, setEmploymentType] = useState<EmploymentType>("Full-time");
-  const [targetHours, setTargetHours] = useState(40);
-  const [scheduledHours, setScheduledHours] = useState(40);
-  const [location, setLocation] = useState("Flagship Store (District 1)");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [status, setStatus] = useState<EmployeeStatus>("Active");
-  const [skills, setSkills] = useState<string[]>([]);
+  const [name, setName] = useState(employee?.name ?? "");
+  const [avatarUrl, setAvatarUrl] = useState(employee?.avatar_url || "");
+  const [role, setRole] = useState(employee?.role ?? "Barista");
+  const [department, setDepartment] = useState(employee?.department ?? "Store Operations");
+  const [employmentType, setEmploymentType] = useState<EmploymentType>(employee?.employmentType ?? "Full-time");
+  const [targetHours, setTargetHours] = useState(employee?.targetHours ?? 40);
+  const [scheduledHours, setScheduledHours] = useState(employee?.scheduledHours ?? 40);
+  const [location, setLocation] = useState(employee?.location ?? "Flagship Store (District 1)");
+  const [email, setEmail] = useState(employee?.email ?? "");
+  const [phone, setPhone] = useState(employee?.phone ?? "");
+  const [status, setStatus] = useState<EmployeeStatus>(employee?.status ?? "Active");
+  const [skills, setSkills] = useState<string[]>(employee?.skills || []);
   const [newSkillInput, setNewSkillInput] = useState("");
-
-  useEffect(() => {
-    if (employee) {
-      setName(employee.name);
-      setAvatarUrl(employee.avatar_url || "");
-      setRole(employee.role);
-      setDepartment(employee.department);
-      setEmploymentType(employee.employmentType);
-      setTargetHours(employee.targetHours);
-      setScheduledHours(employee.scheduledHours);
-      setLocation(employee.location);
-      setEmail(employee.email);
-      setPhone(employee.phone);
-      setStatus(employee.status);
-      setSkills(employee.skills || []);
-      setNewSkillInput("");
-    }
-  }, [employee, isOpen]);
 
   if (!isOpen || !employee) return null;
 

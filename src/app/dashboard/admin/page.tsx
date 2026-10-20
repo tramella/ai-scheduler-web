@@ -6,22 +6,17 @@ import {
   ShieldCheck,
   Users,
   Building2,
-  Cpu,
   ArrowRight,
-  CheckCircle2,
   AlertTriangle,
   UserCheck,
   CalendarCheck,
-  Terminal,
-  Zap,
-  CreditCard,
   Store,
   Layers,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { KpiCard } from "@/components/ui/KpiCard";
-import { Card, CARD_BASE_CLASSES } from "@/components/ui/Card";
+import { Card } from "@/components/ui/Card";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { PillButton } from "@/components/ui/PillButton";
 import { useAuth } from "@/context/AuthContext";
