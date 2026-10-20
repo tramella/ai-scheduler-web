@@ -5,7 +5,9 @@ export interface UserProfile {
   email: string;
   full_name: string;
   phone_number?: string;
+  avatar_url?: string;
   account_type: "PERSONAL" | "BUSINESS";
+  platform_role?: "SUPER_ADMIN" | "USER";
   is_verified: boolean;
   is_active: boolean;
   created_at?: string;
@@ -15,7 +17,7 @@ export interface CompanyItem {
   id: string;
   code: string;
   name: string;
-  role: "COMPANY_ADMIN" | "MANAGER" | "STAFF";
+  role: "COMPANY_ADMIN" | "STORE_MANAGER" | "MANAGER" | "STAFF";
   is_default: boolean;
   tax_code?: string;
   logo_url?: string;

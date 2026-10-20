@@ -1,14 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Image as ImageIcon } from "lucide-react";
 import { EmployeeProfile, EmploymentType } from "./types";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 
 interface AddEmployeeModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (newEmployeeData: {
     name: string;
+    avatar_url?: string;
     role: string;
     employmentType: EmploymentType;
     targetHours: number;
@@ -24,6 +26,7 @@ export function AddEmployeeModal({
   onAdd,
 }: AddEmployeeModalProps) {
   const [name, setName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [role, setRole] = useState("Barista");
   const [employmentType, setEmploymentType] = useState<EmploymentType>("Full-time");
   const [targetHours, setTargetHours] = useState(40);
@@ -39,6 +42,7 @@ export function AddEmployeeModal({
 
     onAdd({
       name: name.trim(),
+      avatar_url: avatarUrl.trim() || undefined,
       role,
       employmentType,
       targetHours: Number(targetHours),
@@ -49,6 +53,7 @@ export function AddEmployeeModal({
 
     // Reset Form
     setName("");
+    setAvatarUrl("");
     setRole("Barista");
     setEmploymentType("Full-time");
     setTargetHours(40);
@@ -92,6 +97,29 @@ export function AddEmployeeModal({
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3.5 text-xs">
+          {/* Avatar URL & Live Preview */}
+          <div className="flex items-center space-x-3.5 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+            <UserAvatar
+              src={avatarUrl}
+              name={name || "Employee"}
+              size="lg"
+              shape="rounded"
+              className="shrink-0 ring-2 ring-[#2F5BFF]/20"
+            />
+            <div className="flex-1 min-w-0">
+              <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Avatar Photo URL (Optional)
+              </label>
+              <input
+                type="url"
+                value={avatarUrl}
+                onChange={(e) => setAvatarUrl(e.target.value)}
+                placeholder="https://images.unsplash.com/photo-..."
+                className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-850 p-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
+              />
+            </div>
+          </div>
+
           <div>
             <label className="block text-xs font-medium text-slate-700 dark:text-slate-300 mb-1">
               Full name <span className="text-rose-500">*</span>
@@ -101,7 +129,7 @@ export function AddEmployeeModal({
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Nguyễn Văn Hùng"
+              placeholder="e.g. Alex Johnson"
               className="w-full rounded-xl border border-slate-200/80 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-2.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
             />
           </div>

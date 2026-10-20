@@ -4,6 +4,7 @@ import React from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { EmployeeProfile } from "./types";
 import { StatusChip } from "@/components/ui/StatusChip";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 
 interface EmployeeTableProps {
   employees: EmployeeProfile[];
@@ -40,7 +41,6 @@ export function EmployeeTable({
           <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
             {employees.length > 0 ? (
               employees.map((emp) => {
-                const initial = emp.name.charAt(0);
                 const isFull = emp.scheduledHours >= emp.targetHours;
 
                 return (
@@ -51,9 +51,13 @@ export function EmployeeTable({
                     {/* Col 1: Employee Identity */}
                     <td className="py-3 px-4">
                       <div className="flex items-center space-x-3">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#2F2C59] dark:bg-indigo-600 text-white font-semibold text-xs shadow-xs shrink-0">
-                          {initial}
-                        </div>
+                        <UserAvatar
+                          src={emp.avatar_url}
+                          name={emp.name}
+                          size="sm"
+                          shape="rounded"
+                          className="shrink-0"
+                        />
                         <div className="min-w-0">
                           <div className="font-semibold text-xs text-slate-900 dark:text-white truncate">
                             {emp.name}

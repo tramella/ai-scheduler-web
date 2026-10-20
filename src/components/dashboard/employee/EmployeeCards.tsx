@@ -4,6 +4,7 @@ import React from "react";
 import { Edit2, Trash2 } from "lucide-react";
 import { EmployeeProfile } from "./types";
 import { StatusChip } from "@/components/ui/StatusChip";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 
 interface EmployeeCardsProps {
   employees: EmployeeProfile[];
@@ -27,8 +28,6 @@ export function EmployeeCards({
       {employees.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {employees.map((emp) => {
-            const initial = emp.name.charAt(0);
-
             return (
               <div
                 key={emp.id}
@@ -36,9 +35,13 @@ export function EmployeeCards({
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2F2C59] dark:bg-indigo-600 text-white font-semibold text-sm shadow-xs shrink-0">
-                      {initial}
-                    </div>
+                    <UserAvatar
+                      src={emp.avatar_url}
+                      name={emp.name}
+                      size="md"
+                      shape="rounded"
+                      className="shrink-0"
+                    />
                     <div>
                       <h3 className="font-semibold text-xs text-slate-900 dark:text-white">
                         {emp.name}

@@ -4,6 +4,7 @@ export type EmployeeStatus = "Active" | "On Leave" | "Off Duty";
 export interface EmployeeProfile {
   id: string;
   name: string;
+  avatar_url?: string;
   role: string;
   department: string;
   employmentType: EmploymentType;

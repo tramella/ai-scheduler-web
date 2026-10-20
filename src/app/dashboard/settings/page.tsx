@@ -32,6 +32,8 @@ function calculateShiftHours(start: string, end: string): string {
   return (totalMin / 60).toFixed(1);
 }
 
+import { fetchSettingsApi, updateSettingsApi } from "@/lib/apiClient";
+
 export default function SettingsPage() {
   const { activeCompany } = useAuth();
   const { theme, setTheme } = useTheme();
@@ -43,41 +45,13 @@ export default function SettingsPage() {
   >("general");
 
   // Store profile
-  const [storeName, setStoreName] = useState(activeCompany?.name || "Highlands Coffee - Central Hub");
-  const [storeAddress, setStoreAddress] = useState("123 Lê Lợi, Phường Bến Nghé, Quận 1, TP. HCM");
+  const [storeName, setStoreName] = useState(activeCompany?.name || "");
+  const [storeAddress, setStoreAddress] = useState("");
   const [timezone, setTimezone] = useState("Asia/Ho_Chi_Minh (GMT+7)");
   const [currency, setCurrency] = useState("VND");
 
   // Shift presets
-  const [shifts, setShifts] = useState([
-    {
-      id: "morning",
-      name: "Morning shift",
-      startTime: "07:00",
-      endTime: "15:00",
-      minStaff: 6,
-      supervisorRequired: true,
-      color: "#2F5BFF",
-    },
-    {
-      id: "afternoon",
-      name: "Afternoon shift",
-      startTime: "14:30",
-      endTime: "22:30",
-      minStaff: 6,
-      supervisorRequired: true,
-      color: "#FF7A59",
-    },
-    {
-      id: "night",
-      name: "Night shift",
-      startTime: "22:00",
-      endTime: "06:00",
-      minStaff: 4,
-      supervisorRequired: true,
-      color: "#2F2C59",
-    },
-  ]);
+  const [shifts, setShifts] = useState<any[]>([]);
 
   // AI Engine preferences
   const [selectedEngine, setSelectedEngine] = useState<"gemini" | "openai">("gemini");
@@ -90,10 +64,55 @@ export default function SettingsPage() {
 
   // Toast feedback
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = () => {
-    setToastMessage(lang === "vi" ? "Đã cập nhật cài đặt thành công." : "Settings updated successfully.");
-    setTimeout(() => setToastMessage(null), 3500);
+  React.useEffect(() => {
+    async function loadSettings() {
+      try {
+        const res = await fetchSettingsApi();
+        if (res.data) {
+          if (res.data.company?.name) {
+            setStoreName(res.data.company.name);
+          }
+          if (res.data.locations && res.data.locations.length > 0) {
+            setStoreAddress(res.data.locations[0].address || "Central Hub Location");
+          }
+          if (res.data.shifts && res.data.shifts.length > 0) {
+            const mappedShifts = res.data.shifts.map((s: any) => ({
+              id: s._id || s.id,
+              name: s.name,
+              startTime: s.start_time || "07:00",
+              endTime: s.end_time || "15:00",
+              minStaff: s.required_staff || 4,
+              supervisorRequired: true,
+              color: s.name?.toLowerCase().includes("morning") ? "#2F5BFF" : s.name?.toLowerCase().includes("afternoon") ? "#FF7A59" : "#2F2C59"
+            }));
+            setShifts(mappedShifts);
+          }
+        }
+      } catch (err) {
+        console.warn("Using local settings fallback:", err);
+      }
+    }
+    loadSettings();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+      await updateSettingsApi({
+        storeName,
+        max_hours_per_day: 8,
+        min_rest_hours: 12,
+        balance_workload: autoEnforceRules
+      });
+      setToastMessage(lang === "vi" ? "Đã cập nhật cài đặt thành công." : "Settings updated successfully.");
+    } catch (err: any) {
+      setToastMessage(err.message || "Failed to update settings");
+    } finally {
+      setIsSaving(false);
+      setTimeout(() => setToastMessage(null), 3500);
+    }
   };
 
   return (
@@ -391,24 +410,29 @@ export default function SettingsPage() {
               <StatusChip variant="neutral">{shifts.length} active shifts</StatusChip>
             </div>
 
-            <div className="space-y-3.5">
-              {shifts.map((shift, idx) => {
-                const Icon = idx === 0 ? Sun : idx === 1 ? Sunset : Moon;
-                const hours = calculateShiftHours(shift.startTime, shift.endTime);
+            {shifts.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-8 text-center bg-slate-50/50 dark:bg-slate-800/20 text-xs text-slate-400">
+                {lang === "vi" ? "Chưa có mẫu ca làm việc nào được cấu hình." : "No shift templates configured yet."}
+              </div>
+            ) : (
+              <div className="space-y-3.5">
+                {shifts.map((shift: any, idx: number) => {
+                  const Icon = idx === 0 ? Sun : idx === 1 ? Sunset : Moon;
+                  const hours = calculateShiftHours(shift.startTime, shift.endTime);
 
-                return (
-                  <div
-                    key={shift.id}
-                    className="p-4 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/30 space-y-3"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Icon className="h-4 w-4 text-slate-600 dark:text-slate-300" />
-                        <span className="text-xs font-semibold text-slate-900 dark:text-white">
-                          {shift.name}
-                        </span>
-                      </div>
-                      <StatusChip variant="neutral">{hours} hours</StatusChip>
+                  return (
+                    <div
+                      key={shift.id}
+                      className="p-4 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/30 space-y-3"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Icon className="h-4 w-4 text-slate-600 dark:text-slate-300" />
+                          <span className="text-xs font-semibold text-slate-900 dark:text-white">
+                            {shift.name}
+                          </span>
+                        </div>
+                        <StatusChip variant="neutral">{hours} hours</StatusChip>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
@@ -466,6 +490,7 @@ export default function SettingsPage() {
                 );
               })}
             </div>
+            )}
           </Card>
         )}
 

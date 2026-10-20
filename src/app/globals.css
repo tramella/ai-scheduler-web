@@ -2,6 +2,12 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-sans: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-display), var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
 @layer base {
   :root {
     --background: #F6F7FB;
@@ -21,9 +27,15 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
   }
 
 
@@ -68,4 +80,125 @@
 .glow-weave {
   background: radial-gradient(circle at 30% 30%, rgba(47, 91, 255, 0.15) 0%, transparent 60%),
               radial-gradient(circle at 70% 70%, rgba(255, 122, 89, 0.12) 0%, transparent 60%);
+}
+
+/* ───────── Dán vào globals.css (sau block @theme hiện có) ───────── */
+
+@theme {
+  --color-orbit-blue: #2F5BFF;
+  --color-orbit-coral: #FF7A59;
+  --color-orbit-indigo: #2F2C59;
+}
+
+/* Range slider có phần đã chọn được tô màu (dùng với style={{ "--fill": "42%" }}) */
+.orbit-range {
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  cursor: pointer;
+  background: linear-gradient(to right, #2F5BFF var(--fill, 50%), #cbd5e1 var(--fill, 50%));
+}
+.dark .orbit-range {
+  background: linear-gradient(to right, #4F78FF var(--fill, 50%), #334155 var(--fill, 50%));
+}
+.orbit-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 3px solid #2F5BFF;
+  box-shadow: 0 2px 8px rgba(47, 91, 255, 0.35);
+  transition: transform 0.15s ease;
+}
+.orbit-range::-webkit-slider-thumb:hover { transform: scale(1.12); }
+.orbit-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 3px solid #2F5BFF;
+  box-shadow: 0 2px 8px rgba(47, 91, 255, 0.35);
+}
+.orbit-range:focus-visible { outline: 2px solid #2F5BFF; outline-offset: 6px; }
+
+@keyframes orbit-draft { 0%, 35% { opacity: 1; } 45%, 92% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes orbit-ok    { 0%, 35% { opacity: 0; } 45%, 92% { opacity: 1; } 100% { opacity: 0; } }
+.orbit-draft, .orbit-proposed { animation: orbit-draft 7s ease-in-out infinite; }
+.orbit-ok { animation: orbit-ok 7s ease-in-out infinite; }
+
+@keyframes orbit-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.orbit-rise { animation: orbit-rise 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+/* Design System Buttons (Ultra Light Tint 10-15% Opacity) */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgba(108, 80, 204, 0.9);
+  color: #e1e1ea;
+  font-weight: 600;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 2px 0 rgba(47, 44, 89, 0.04);
+  transition: all 0.15s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.btn-primary:hover {
+  background-color: rgba(47, 44, 89, 0.16);
+  border-color: rgba(47, 44, 89, 0.35);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+.btn-primary:focus-visible {
+  outline: 2px solid #2F5BFF;
+  outline-offset: 2px;
+}
+
+.dark .btn-primary {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+.dark .btn-primary:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  font-weight: 500;
+  border: 1px solid #CBD5E1;
+  transition: all 0.15s ease;
+}
+.btn-secondary:hover {
+  border-color: #2F2C59;
+}
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.dark .btn-secondary {
+  background-color: #0F172A;
+  border-color: #334155;
+  color: #F1F5F9;
+}
+.dark .btn-secondary:hover {
+  border-color: #FFFFFF;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-draft, .orbit-proposed { animation: none; opacity: 0; }
+  .orbit-ok { animation: none; opacity: 1; }
+  .orbit-rise { animation: none; }
 }

@@ -21,10 +21,17 @@ import {
   Calendar,
   BarChart3,
   Settings,
+  Palmtree,
+  Store,
+  Award,
+  Terminal,
+  CreditCard,
+  ShieldCheck,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useRouter, usePathname } from "next/navigation";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 
 interface DashboardHeaderProps {
   onToggleSidebar?: () => void;
@@ -35,12 +42,33 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
   const pathname = usePathname();
   const isAiStudio = pathname.startsWith("/dashboard/ai-studio");
   const isEmployees = pathname.startsWith("/dashboard/employees");
+  const isLeaveRequests = pathname.startsWith("/dashboard/leave-requests");
+  const isLocations = pathname.startsWith("/dashboard/locations");
+  const isSkills = pathname.startsWith("/dashboard/skills");
+  const isAiLogs = pathname.startsWith("/dashboard/ai-logs");
+  const isBilling = pathname.startsWith("/dashboard/billing");
   const isConstraints = pathname.startsWith("/dashboard/constraints");
   const isCalendar = pathname.startsWith("/dashboard/calendar");
   const isAnalytics = pathname.startsWith("/dashboard/analytics");
   const isSettings = pathname.startsWith("/dashboard/settings");
   const isProfile = pathname.startsWith("/dashboard/profile");
-  const { user, activeCompany, companies, switchCompany, logout } = useAuth();
+  const isAdminOverview = pathname === "/dashboard/admin";
+  const isAdminUsers = pathname === "/dashboard/admin/users";
+  const isAdminCompanies = pathname === "/dashboard/admin/companies";
+
+  const {
+    user,
+    activeCompany,
+    companies,
+    switchCompany,
+    logout,
+    isSuperAdmin,
+    isCompanyAdmin,
+    isStoreManager,
+    isStaff,
+    simulatedRole,
+    setSimulatedRole,
+  } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
   const logoSrc =
@@ -94,7 +122,7 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
 
             <div className="hidden sm:flex items-center space-x-2">
               <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
-                Workspace
+                {isSuperAdmin ? "ORBIT Platform" : "Business Workspace"}
               </span>
               <span className="text-slate-300 dark:text-slate-700">/</span>
               {isAiStudio ? (
@@ -117,6 +145,61 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                   <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
                     <Users className="h-3.5 w-3.5 text-[#2F5BFF] mr-1" />
                     <span>Employees</span>
+                  </h1>
+                </div>
+              ) : isLeaveRequests ? (
+                <div key="breadcrumb-leaves" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Palmtree className="h-3.5 w-3.5 text-[#FF7A59] mr-1" />
+                    <span>Leave Requests</span>
+                  </h1>
+                </div>
+              ) : isLocations ? (
+                <div key="breadcrumb-locations" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Store className="h-3.5 w-3.5 text-[#2F5BFF] mr-1" />
+                    <span>Locations</span>
+                  </h1>
+                </div>
+              ) : isSkills ? (
+                <div key="breadcrumb-skills" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Award className="h-3.5 w-3.5 text-[#FF7A59] mr-1" />
+                    <span>Skills Matrix</span>
+                  </h1>
+                </div>
+              ) : isAiLogs ? (
+                <div key="breadcrumb-ailogs" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Terminal className="h-3.5 w-3.5 text-[#2F5BFF] mr-1" />
+                    <span>AI Audit Logs</span>
+                  </h1>
+                </div>
+              ) : isBilling ? (
+                <div key="breadcrumb-billing" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    {activeCompany?.name || "Overview"}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <CreditCard className="h-3.5 w-3.5 text-emerald-500 mr-1" />
+                    <span>Billing & Quota</span>
                   </h1>
                 </div>
               ) : isConstraints ? (
@@ -174,6 +257,39 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                     <span>Profile</span>
                   </h1>
                 </div>
+              ) : isAdminOverview ? (
+                <div key="breadcrumb-admin" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                    Platform Console
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <ShieldCheck className="h-3.5 w-3.5 text-indigo-600 mr-1" />
+                    <span>Platform Overview</span>
+                  </h1>
+                </div>
+              ) : isAdminUsers ? (
+                <div key="breadcrumb-admin-users" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                    Platform Console
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Users className="h-3.5 w-3.5 text-[#2F5BFF] mr-1" />
+                    <span>Global Users</span>
+                  </h1>
+                </div>
+              ) : isAdminCompanies ? (
+                <div key="breadcrumb-admin-companies" className="flex items-center space-x-1.5">
+                  <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                    Platform Console
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">/</span>
+                  <h1 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center space-x-1">
+                    <Building2 className="h-3.5 w-3.5 text-[#2F5BFF] mr-1" />
+                    <span>Tenants Registry</span>
+                  </h1>
+                </div>
               ) : (
                 <h1 key="breadcrumb-overview" className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
                   {activeCompany?.name || "Overview"}
@@ -210,6 +326,18 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
 
           {/* Right: Actions, Theme Toggle, Company Switcher, Profile */}
           <div className="flex items-center space-x-1.5 sm:space-x-2.5">
+
+            {/* ORBIT Product Owner Status Pill */}
+            {isSuperAdmin && (
+              <Link
+                href="/dashboard/admin"
+                className="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800 text-[11px] font-bold text-indigo-700 dark:text-indigo-300 shadow-2xs hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition"
+                title="ORBIT SaaS Product Owner Platform Console"
+              >
+                <ShieldCheck className="h-3.5 w-3.5 text-amber-500" />
+                <span>ORBIT PRODUCT OWNER</span>
+              </Link>
+            )}
 
             {/* Exit Dashboard Button (Desktop) */}
             <Link
@@ -298,9 +426,11 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                 className="flex items-center space-x-2 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#2F5BFF]/50"
                 aria-label="User profile menu"
               >
-                <div className="h-8 w-8 rounded-full bg-[#2F2C59] dark:bg-indigo-600 text-white font-semibold text-xs flex items-center justify-center shadow-xs">
-                  {user?.full_name?.charAt(0).toUpperCase() || "U"}
-                </div>
+                <UserAvatar
+                  src={user?.avatar_url}
+                  name={user?.full_name}
+                  size="sm"
+                />
                 <div className="hidden md:block text-left text-xs pr-1">
                   <div className="font-semibold text-slate-800 dark:text-slate-200 max-w-[100px] truncate leading-tight">
                     {user?.full_name?.split(" ")[0]}
@@ -332,6 +462,72 @@ export function DashboardHeader({ onToggleSidebar }: DashboardHeaderProps) {
                           {activeCompany.role}
                         </span>
                       )}
+                    </div>
+                  </div>
+
+                  {/* Live Role Simulation Control */}
+                  <div className="p-2.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200/60 dark:border-indigo-800/60 space-y-2">
+                    <div className="flex items-center justify-between text-[11px] font-semibold text-indigo-900 dark:text-indigo-200">
+                      <span>Simulate Role:</span>
+                      {simulatedRole && (
+                        <button
+                          type="button"
+                          onClick={() => setSimulatedRole(null)}
+                          className="text-[10px] text-indigo-600 dark:text-indigo-400 underline hover:no-underline cursor-pointer"
+                        >
+                          Reset
+                        </button>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-2 gap-1.5 text-[10px] font-semibold">
+                      <button
+                        type="button"
+                        onClick={() => setSimulatedRole("SUPER_ADMIN")}
+                        className={`px-2 py-1.5 rounded-xl border text-center transition cursor-pointer flex flex-col items-center justify-center ${
+                          isSuperAdmin
+                            ? "bg-[#2F2C59] text-white border-[#2F2C59] shadow-xs"
+                            : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        <span className="font-bold">Product Owner</span>
+                        <span className={`text-[9px] ${isSuperAdmin ? "text-amber-300" : "text-slate-400"}`}>ORBIT SaaS</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSimulatedRole("COMPANY_ADMIN")}
+                        className={`px-2 py-1.5 rounded-xl border text-center transition cursor-pointer flex flex-col items-center justify-center ${
+                          !isSuperAdmin && isCompanyAdmin
+                            ? "bg-[#2F5BFF] text-white border-[#2F5BFF] shadow-xs"
+                            : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        <span className="font-bold">Business Owner</span>
+                        <span className={`text-[9px] ${!isSuperAdmin && isCompanyAdmin ? "text-blue-100" : "text-slate-400"}`}>Client Tenant</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSimulatedRole("STORE_MANAGER")}
+                        className={`px-2 py-1.5 rounded-xl border text-center transition cursor-pointer flex flex-col items-center justify-center ${
+                          !isSuperAdmin && isStoreManager
+                            ? "bg-amber-600 text-white border-amber-600 shadow-xs"
+                            : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        <span className="font-bold">Store Manager</span>
+                        <span className={`text-[9px] ${!isSuperAdmin && isStoreManager ? "text-amber-100" : "text-slate-400"}`}>Branch Shifts</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSimulatedRole("STAFF")}
+                        className={`px-2 py-1.5 rounded-xl border text-center transition cursor-pointer flex flex-col items-center justify-center ${
+                          !isSuperAdmin && isStaff
+                            ? "bg-emerald-600 text-white border-emerald-600 shadow-xs"
+                            : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        <span className="font-bold">Staff Member</span>
+                        <span className={`text-[9px] ${!isSuperAdmin && isStaff ? "text-emerald-100" : "text-slate-400"}`}>Roster & Leave</span>
+                      </button>
                     </div>
                   </div>
 

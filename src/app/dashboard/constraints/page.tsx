@@ -14,14 +14,46 @@ import {
   EditConstraintModal,
 } from "@/components/dashboard/constraints";
 import { Pagination } from "@/components/ui/Pagination";
+import { fetchConstraintsApi, createConstraintApi, deleteConstraintApi } from "@/lib/apiClient";
 
 export default function ConstraintsPage() {
-  const [constraints, setEmployees] = useState<ConstraintRule[]>(INITIAL_CONSTRAINTS);
+  const [constraints, setEmployees] = useState<ConstraintRule[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [viewMode, setViewMode] = useState<"table" | "cards">("table");
+
+  React.useEffect(() => {
+    async function loadConstraints() {
+      try {
+        const res = await fetchConstraintsApi();
+        if (res.data && res.data.length > 0) {
+          const mapped: ConstraintRule[] = res.data.map((c: any) => ({
+            id: c._id || c.id,
+            code: c.code || "RULE",
+            name: c.name,
+            description: c.description || "",
+            type: c.type || "hard",
+            category: c.category || "labor_law",
+            threshold: c.threshold || 8,
+            unit: c.unit || "hours",
+            weight: c.weight || 100,
+            scope: c.scope || "All Crew Members",
+            status: c.status || "Active",
+            updatedAt: "Synced from DB"
+          }));
+          setEmployees(mapped);
+        } else {
+          setEmployees([]);
+        }
+      } catch (err) {
+        console.warn("Backend constraints fallback:", err);
+        setEmployees([]);
+      }
+    }
+    loadConstraints();
+  }, []);
 
   // Modal State & Toast
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -98,6 +130,19 @@ export default function ConstraintsPage() {
       updatedAt: "Just now",
     };
 
+    createConstraintApi({
+      code: newRule.code,
+      name: newRule.name,
+      description: newRule.description,
+      type: newRule.type,
+      category: newRule.category,
+      threshold: newRule.threshold,
+      unit: newRule.unit,
+      weight: newRule.weight,
+      scope: newRule.scope,
+      status: newRule.status
+    }).catch(err => console.warn("Constraint sync:", err));
+
     setEmployees((prev) => [newRule, ...prev]);
     setIsAddModalOpen(false);
     showToast(`Added constraint ${newRule.code}: ${newRule.name}.`);
@@ -113,6 +158,7 @@ export default function ConstraintsPage() {
     const target = constraints.find((c) => c.id === id);
     if (!target) return;
     if (confirm(`Delete constraint ${target.code} (${target.name})?`)) {
+      deleteConstraintApi(id).catch(err => console.warn("Delete constraint sync:", err));
       setEmployees((prev) => prev.filter((c) => c.id !== id));
       showToast(`Removed rule ${target.code} from constraints.`);
     }

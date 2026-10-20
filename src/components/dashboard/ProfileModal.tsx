@@ -15,6 +15,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { ChangePasswordForm } from "./ChangePasswordForm";
+import { UserAvatar } from "@/components/ui/UserAvatar";
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -66,9 +67,12 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
         <div className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
           {/* Avatar Banner */}
           <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-            <div className="h-12 w-12 rounded-2xl bg-[#2F2C59] dark:bg-indigo-600 text-white font-semibold text-lg flex items-center justify-center shadow-xs shrink-0">
-              {user.full_name?.charAt(0).toUpperCase() || "U"}
-            </div>
+            <UserAvatar
+              src={user.avatar_url}
+              name={user.full_name}
+              size="lg"
+              shape="rounded"
+            />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-semibold text-slate-900 dark:text-white truncate">

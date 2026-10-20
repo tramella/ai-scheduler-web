@@ -88,50 +88,74 @@ function TimeTrack({ start, end, barClass }: { start: number; end: number; barCl
 /*  Main Component                                                            */
 /* -------------------------------------------------------------------------- */
 
+import { fetchDashboardAnalyticsApi } from "@/lib/apiClient";
+
 export default function AnalyticsPage() {
   const { lang } = useLanguage();
   const [selectedPeriod, setSelectedPeriod] = useState<"week42" | "week41" | "month10">("week42");
-  const [selectedDayIdx, setSelectedDayIdx] = useState(1); // Tuesday (default today)
+  const [selectedDayIdx, setSelectedDayIdx] = useState(1);
   const [workloadFilter, setWorkloadFilter] = useState<"all" | "cap" | "under">("all");
+  const [analyticsData, setAnalyticsData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const roleAllocation = [
-    { role: "Barista", staffCount: 12, hours: 384, percentage: 42.8, color: "bg-[#2F5BFF]" },
-    { role: "Cashier", staffCount: 8, hours: 296, percentage: 33.0, color: "bg-[#FF7A59]" },
-    { role: "Shift supervisor", staffCount: 3, hours: 136, percentage: 15.2, color: "bg-[#2F2C59] dark:bg-indigo-400" },
-    { role: "Kitchen & prep", staffCount: 5, hours: 80, percentage: 9.0, color: "bg-emerald-500" },
-  ];
+  React.useEffect(() => {
+    async function loadAnalytics() {
+      try {
+        setIsLoading(true);
+        const periodParam = selectedPeriod === "week41" ? "previous" : "current";
+        const res = await fetchDashboardAnalyticsApi(periodParam);
+        if (res.data) {
+          setAnalyticsData(res.data);
+          const tIdx = res.data.dailyLoad?.findIndex((d: any) => d.isToday);
+          if (tIdx !== -1 && typeof tIdx === "number") {
+            setSelectedDayIdx(tIdx);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to load analytics from API:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadAnalytics();
+  }, [selectedPeriod]);
 
-  const dailyLoad = [
-    { day: "Mon", dayNum: "12", fullDate: "Monday, Oct 12", totalStaff: 16, morning: 6, afternoon: 6, night: 4, hours: 128, supervisor: "Nguyễn Văn An" },
-    { day: "Tue", dayNum: "13", fullDate: "Tuesday, Oct 13", totalStaff: 16, morning: 6, afternoon: 6, night: 4, hours: 128, supervisor: "Nguyễn Văn An", isToday: true },
-    { day: "Wed", dayNum: "14", fullDate: "Wednesday, Oct 14", totalStaff: 18, morning: 7, afternoon: 7, night: 4, hours: 144, supervisor: "Lý Khánh Nam" },
-    { day: "Thu", dayNum: "15", fullDate: "Thursday, Oct 15", totalStaff: 16, morning: 6, afternoon: 6, night: 4, hours: 128, supervisor: "Nguyễn Văn An" },
-    { day: "Fri", dayNum: "16", fullDate: "Friday, Oct 16", totalStaff: 20, morning: 8, afternoon: 8, night: 4, hours: 160, supervisor: "Vũ Tuấn Kiệt" },
-    { day: "Sat", dayNum: "17", fullDate: "Saturday, Oct 17", totalStaff: 22, morning: 9, afternoon: 9, night: 4, hours: 176, supervisor: "Lý Khánh Nam" },
-    { day: "Sun", dayNum: "18", fullDate: "Sunday, Oct 18", totalStaff: 14, morning: 5, afternoon: 5, night: 4, hours: 112, supervisor: "Vũ Tuấn Kiệt" },
-  ];
+  const roleAllocation: any[] = analyticsData?.roleAllocation || [];
+  const dailyLoad: any[] = analyticsData?.dailyLoad || [];
 
-  const maxSlots = 24; // Reference scale for clean vertical headroom
-  const activeDay = dailyLoad[selectedDayIdx];
+  const maxSlots = Math.max(1, ...dailyLoad.map((d: any) => (d.morning || 0) + (d.afternoon || 0) + (d.night || 0)));
+  const activeDay = dailyLoad[selectedDayIdx] || dailyLoad[0] || { totalStaff: 0, hours: 0, morning: 0, afternoon: 0, night: 0, supervisor: "Unassigned", fullDate: "No active day" };
 
-  const staffWorkload = [
-    { name: "Nguyễn Văn An", role: "Supervisor", initial: "A", hours: 40, target: 40, status: "Optimal" },
-    { name: "Lý Khánh Nam", role: "Supervisor", initial: "N", hours: 40, target: 40, status: "Optimal" },
-    { name: "Vũ Tuấn Kiệt", role: "Supervisor", initial: "K", hours: 36, target: 40, status: "Under cap" },
-    { name: "Trần Thị Bình", role: "Barista", initial: "B", hours: 38, target: 40, status: "Under cap" },
-    { name: "Lê Hoàng Long", role: "Barista", initial: "L", hours: 38, target: 40, status: "Under cap" },
-    { name: "Hoàng Gia Huy", role: "Barista", initial: "H", hours: 34, target: 40, status: "Under cap" },
-    { name: "Bùi Tuyết Mai", role: "Barista", initial: "M", hours: 32, target: 40, status: "Under cap" },
-    { name: "Phạm Thảo Vy", role: "Cashier", initial: "V", hours: 40, target: 40, status: "Optimal" },
-    { name: "Dương Quốc Bảo", role: "Cashier", initial: "B", hours: 34, target: 40, status: "Under cap" },
-    { name: "Trịnh Thùy Linh", role: "Cashier", initial: "L", hours: 40, target: 40, status: "Optimal" },
-  ];
+  const scheduledHoursStats = analyticsData?.scheduledHours || { total: 0, budget: 0, utilizationPercent: 0 };
+  const overtimeStats = analyticsData?.overtimeBreaches || { count: 0, compliant: true };
+  const fairnessStats = analyticsData?.fairnessIndex || { score: 100, stdDevHours: 0 };
+  const payrollStats = analyticsData?.estimatedPayroll || { totalVnd: 0, formattedVnd: "0 ₫", budgetVnd: 0 };
 
-  const filteredStaff = staffWorkload.filter((sw) => {
+  const rawStaffWorkload: any[] = analyticsData?.staffWorkload || [];
+
+  const staffWorkload = rawStaffWorkload.map((sw: any) => ({
+    name: sw.name,
+    role: sw.role,
+    initial: sw.avatar || (sw.name ? sw.name.slice(0, 1).toUpperCase() : "E"),
+    hours: sw.scheduledHours !== undefined ? sw.scheduledHours : sw.hours || 0,
+    target: sw.targetHours !== undefined ? sw.targetHours : sw.target || 40,
+    status: sw.status === "optimal" || sw.status === "Optimal" ? "Optimal" : (sw.scheduledHours || sw.hours || 0) >= 40 ? "Overtime" : "Under cap"
+  }));
+
+  const filteredStaff = staffWorkload.filter((sw: any) => {
     if (workloadFilter === "cap") return sw.hours >= 40;
     if (workloadFilter === "under") return sw.hours < 40;
     return true;
   });
+
+  const atCapCount = staffWorkload.filter((sw: any) => sw.hours >= 40).length;
+  const underCapCount = staffWorkload.filter((sw: any) => sw.hours < 40).length;
+
+  const periodHeaderLabel = analyticsData?.period?.startDate && analyticsData?.period?.endDate
+    ? `${new Date(analyticsData.period.startDate).toLocaleDateString()} – ${new Date(analyticsData.period.endDate).toLocaleDateString()}`
+    : dailyLoad.length > 0
+    ? `${dailyLoad[0]?.fullDate} – ${dailyLoad[dailyLoad.length - 1]?.fullDate}`
+    : "Current period";
 
   return (
     <DashboardLayout>
@@ -141,8 +165,8 @@ export default function AnalyticsPage() {
         <PageHeader
           eyebrow={
             lang === "vi"
-              ? "Tuần 42 · 12/10 – 18/10/2026 · Chi nhánh: Central Hub"
-              : "Week 42 · Oct 12 – Oct 18, 2026 · Store: Central Hub"
+              ? `${periodHeaderLabel} · Không gian làm việc quản trị`
+              : `${periodHeaderLabel} · Central Hub Workspace`
           }
           title={lang === "vi" ? "Phân tích lực lượng lao động" : "Workforce analytics"}
           description={
@@ -162,7 +186,7 @@ export default function AnalyticsPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  {lang === "vi" ? "Tuần 42" : "Week 42"}
+                  {lang === "vi" ? "Tuần này" : "Current week"}
                 </button>
                 <button
                   type="button"
@@ -173,18 +197,7 @@ export default function AnalyticsPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  {lang === "vi" ? "Tuần 41" : "Week 41"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedPeriod("month10")}
-                  className={`rounded-full px-3 py-1.5 transition cursor-pointer ${
-                    selectedPeriod === "month10"
-                      ? "bg-[#2F2C59] text-white dark:bg-indigo-600 shadow-xs"
-                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  {lang === "vi" ? "Tháng 10" : "Month"}
+                  {lang === "vi" ? "Tuần trước" : "Previous week"}
                 </button>
               </div>
 
@@ -207,22 +220,27 @@ export default function AnalyticsPage() {
                   <Clock className="h-[18px] w-[18px]" />
                 </div>
                 <span className="rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#2F5BFF] dark:text-blue-300 px-2.5 py-1 text-[11px] font-semibold tabular-nums">
-                  -24h under cap
+                  {Math.round(scheduledHoursStats.budget - scheduledHoursStats.total)}h under cap
                 </span>
               </div>
               <p className="mt-4 text-[13px] font-medium text-slate-500 dark:text-slate-400">
                 {lang === "vi" ? "Tổng số giờ xếp ca" : "Total scheduled hours"}
               </p>
               <p className="mt-1 text-[28px] font-semibold tracking-tight tabular-nums text-slate-900 dark:text-white">
-                896h
+                {scheduledHoursStats.total}h
               </p>
             </div>
             <div className="mt-4 space-y-2">
               <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                <div className="h-full bg-[#2F5BFF] w-[97.4%] rounded-full" />
+                <div
+                  className="h-full bg-[#2F5BFF] rounded-full"
+                  style={{ width: `${Math.min(100, scheduledHoursStats.utilizationPercent)}%` }}
+                />
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {lang === "vi" ? "Định mức: 920.0h · Đạt 97.4%" : "Budget: 920.0h · 97.4% utilized"}
+                {lang === "vi"
+                  ? `Định mức: ${scheduledHoursStats.budget}h · Đạt ${scheduledHoursStats.utilizationPercent}%`
+                  : `Budget: ${scheduledHoursStats.budget}h · ${scheduledHoursStats.utilizationPercent}% utilized`}
               </p>
             </div>
           </article>
@@ -234,15 +252,21 @@ export default function AnalyticsPage() {
                 <div className="h-10 w-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                   <ShieldCheck className="h-[18px] w-[18px]" />
                 </div>
-                <span className="rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-2.5 py-1 text-[11px] font-semibold">
-                  100% compliant
+                <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                  overtimeStats.compliant
+                    ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300"
+                    : "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300"
+                }`}>
+                  {overtimeStats.compliant ? "100% compliant" : `${overtimeStats.count} breaches`}
                 </span>
               </div>
               <p className="mt-4 text-[13px] font-medium text-slate-500 dark:text-slate-400">
                 {lang === "vi" ? "Vi phạm làm thêm giờ" : "Overtime breaches"}
               </p>
-              <p className="mt-1 text-[28px] font-semibold tracking-tight tabular-nums text-emerald-600 dark:text-emerald-400">
-                0
+              <p className={`mt-1 text-[28px] font-semibold tracking-tight tabular-nums ${
+                overtimeStats.compliant ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600"
+              }`}>
+                {overtimeStats.count}
               </p>
             </div>
             <div className="mt-4 space-y-2">
@@ -265,19 +289,22 @@ export default function AnalyticsPage() {
                   <TrendingUp className="h-[18px] w-[18px]" />
                 </div>
                 <span className="rounded-full bg-orange-50 dark:bg-orange-950/60 text-[#FF7A59] dark:text-orange-300 px-2.5 py-1 text-[11px] font-semibold tabular-nums">
-                  ±1.4h deviation
+                  ±{fairnessStats.stdDevHours}h deviation
                 </span>
               </div>
               <p className="mt-4 text-[13px] font-medium text-slate-500 dark:text-slate-400">
                 {lang === "vi" ? "Chỉ số công bằng" : "Fairness index"}
               </p>
               <p className="mt-1 text-[28px] font-semibold tracking-tight tabular-nums text-slate-900 dark:text-white">
-                98.2%
+                {fairnessStats.score}%
               </p>
             </div>
             <div className="mt-4 space-y-2">
               <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                <div className="h-full bg-[#FF7A59] w-[98.2%] rounded-full" />
+                <div
+                  className="h-full bg-[#FF7A59] rounded-full"
+                  style={{ width: `${Math.min(100, fairnessStats.score)}%` }}
+                />
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 {lang === "vi" ? "Phân bổ đều giữa nhân sự full-time" : "Even distribution across staff"}
@@ -293,14 +320,14 @@ export default function AnalyticsPage() {
                   <DollarSign className="h-[18px] w-[18px]" />
                 </div>
                 <span className="rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-2.5 py-1 text-[11px] font-semibold tabular-nums">
-                  -1.2M VND
+                  ~50k VND / hr
                 </span>
               </div>
               <p className="mt-4 text-[13px] font-medium text-slate-500 dark:text-slate-400">
                 {lang === "vi" ? "Ước tính quỹ lương" : "Estimated payroll"}
               </p>
               <p className="mt-1 text-[28px] font-semibold tracking-tight tabular-nums text-[#2F2C59] dark:text-indigo-300">
-                44.8M ₫
+                {payrollStats.formattedVnd}
               </p>
             </div>
             <div className="mt-4 space-y-2">
@@ -308,7 +335,7 @@ export default function AnalyticsPage() {
                 <div className="h-full bg-[#2F2C59] dark:bg-indigo-400 w-[96.5%] rounded-full" />
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                {lang === "vi" ? "Ngân sách: 46.0M VND (~50k/h)" : "Budget: 46.0M VND · ~50k/h avg"}
+                {lang === "vi" ? "Dựa trên định mức ca làm việc" : "Based on scheduled shift hours"}
               </p>
             </div>
           </article>
@@ -329,7 +356,7 @@ export default function AnalyticsPage() {
                 </h2>
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">
                   <CheckCircle2 className="h-3 w-3" />
-                  122 shifts
+                  {analyticsData?.totalShifts || 0} shifts
                 </span>
               </div>
               <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
@@ -349,31 +376,37 @@ export default function AnalyticsPage() {
             </div>
           </div>
 
-          {/* Elevated Vertical Stacked Bars Chart */}
-          <div className="relative pt-2">
-            {/* Background Guidelines with Headcount Ticks */}
-            <div className="pointer-events-none absolute inset-x-0 top-2 h-56" aria-hidden>
-              {[
-                { pct: 0, label: "24 staff" },
-                { pct: 33.3, label: "16 staff" },
-                { pct: 66.6, label: "8 staff" },
-                { pct: 100, label: "0" },
-              ].map((g) => (
-                <div
-                  key={g.pct}
-                  className="absolute inset-x-0 border-t border-dashed border-slate-200/80 dark:border-slate-800 flex items-center justify-end"
-                  style={{ top: `${g.pct}%` }}
-                >
-                  <span className="text-[10px] text-slate-400 tabular-nums -mt-4 pr-1">
-                    {g.label}
-                  </span>
-                </div>
-              ))}
+          {dailyLoad.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-12 text-center text-xs text-slate-400">
+              {lang === "vi" ? "Chưa có phân bổ ca trực nào trong kỳ này." : "No daily staffing load recorded for this period."}
             </div>
+          ) : (
+            <>
+              {/* Elevated Vertical Stacked Bars Chart */}
+              <div className="relative pt-2">
+                {/* Background Guidelines with Headcount Ticks */}
+                <div className="pointer-events-none absolute inset-x-0 top-2 h-56" aria-hidden>
+                  {[
+                    { pct: 0, label: `${maxSlots} staff` },
+                    { pct: 33.3, label: `${Math.round(maxSlots * 0.66)} staff` },
+                    { pct: 66.6, label: `${Math.round(maxSlots * 0.33)} staff` },
+                    { pct: 100, label: "0" },
+                  ].map((g) => (
+                    <div
+                      key={g.pct}
+                      className="absolute inset-x-0 border-t border-dashed border-slate-200/80 dark:border-slate-800 flex items-center justify-end"
+                      style={{ top: `${g.pct}%` }}
+                    >
+                      <span className="text-[10px] text-slate-400 tabular-nums -mt-4 pr-1">
+                        {g.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
 
             {/* 7 Day Column Tracks */}
             <div className="relative grid grid-cols-7 gap-2 sm:gap-6 pr-8">
-              {dailyLoad.map((d, i) => {
+              {dailyLoad.map((d: any, i: number) => {
                 const isSelected = i === selectedDayIdx;
                 const isToday = d.isToday;
                 return (
@@ -482,6 +515,8 @@ export default function AnalyticsPage() {
               })}
             </div>
           </div>
+          </>
+          )}
         </section>
 
         {/* ================= 4. SUPPORTING VISUALIZATIONS (12-COL SPLIT) ================= */}
@@ -502,49 +537,59 @@ export default function AnalyticsPage() {
                 </p>
               </div>
               <span className="rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-1 text-xs font-semibold tabular-nums text-slate-600 dark:text-slate-300">
-                896h total
+                {scheduledHoursStats.total}h total
               </span>
             </div>
 
-            {/* Segmented Multi-Color Track */}
-            <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex gap-0.5">
-              {roleAllocation.map((ra) => (
-                <div
-                  key={ra.role}
-                  style={{ width: `${ra.percentage}%` }}
-                  className={`h-full ${ra.color}`}
-                  title={`${ra.role}: ${ra.percentage}%`}
-                />
-              ))}
-            </div>
-
-            {/* Department Breakdown List */}
-            <div className="space-y-3.5 pt-1">
-              {roleAllocation.map((ra) => (
-                <div key={ra.role} className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="flex items-center gap-2 font-medium text-slate-800 dark:text-slate-200">
-                      <span className={`h-2.5 w-2.5 rounded-full ${ra.color}`} />
-                      <span>{ra.role}</span>
-                      <span className="text-[11px] text-slate-400 font-normal">({ra.staffCount} staff)</span>
-                    </span>
-                    <span className="text-slate-700 dark:text-slate-300 tabular-nums font-semibold">
-                      {ra.hours}h <span className="text-slate-400 font-normal">({ra.percentage}%)</span>
-                    </span>
-                  </div>
-                  <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+            {roleAllocation.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-6 text-center text-xs text-slate-400">
+                {lang === "vi" ? "Chưa có dữ liệu phân bổ vai trò cho kỳ này." : "No role allocation data for this period."}
+              </div>
+            ) : (
+              <>
+                {/* Segmented Multi-Color Track */}
+                <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex gap-0.5">
+                  {roleAllocation.map((ra: any) => (
                     <div
-                      className={`h-full ${ra.color} rounded-full`}
+                      key={ra.role}
                       style={{ width: `${ra.percentage}%` }}
+                      className={`h-full ${ra.color}`}
+                      title={`${ra.role}: ${ra.percentage}%`}
                     />
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+
+                {/* Department Breakdown List */}
+                <div className="space-y-3.5 pt-1">
+                  {roleAllocation.map((ra: any) => (
+                    <div key={ra.role} className="space-y-1.5">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="flex items-center gap-2 font-medium text-slate-800 dark:text-slate-200">
+                          <span className={`h-2.5 w-2.5 rounded-full ${ra.color}`} />
+                          <span>{ra.role}</span>
+                          <span className="text-[11px] text-slate-400 font-normal">({ra.staffCount} staff)</span>
+                        </span>
+                        <span className="text-slate-700 dark:text-slate-300 tabular-nums font-semibold">
+                          {ra.hours}h <span className="text-slate-400 font-normal">({ra.percentage}%)</span>
+                        </span>
+                      </div>
+                      <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full ${ra.color} rounded-full`}
+                          style={{ width: `${ra.percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
 
             <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-              <span>{lang === "vi" ? "Quy mô đội ngũ: 28 nhân sự" : "Staff pool: 28 personnel"}</span>
-              <span className="font-semibold text-emerald-600 dark:text-emerald-400">100% capacity</span>
+              <span>{lang === "vi" ? `Tổng nhân sự: ${staffWorkload.length} nhân viên` : `Staff pool: ${staffWorkload.length} personnel`}</span>
+              <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                {scheduledHoursStats.total > 0 ? `${scheduledHoursStats.utilizationPercent}% capacity` : "0% capacity"}
+              </span>
             </div>
           </section>
 
@@ -587,7 +632,7 @@ export default function AnalyticsPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  At 40h cap (4)
+                  At 40h cap ({atCapCount})
                 </button>
                 <button
                   type="button"
@@ -598,14 +643,19 @@ export default function AnalyticsPage() {
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
                 >
-                  Under cap (6)
+                  Under cap ({underCapCount})
                 </button>
               </div>
             </div>
 
             {/* Employee Workload Ledger with Threshold Progress Bars */}
             <div className="space-y-2.5 max-h-[340px] overflow-y-auto pr-1">
-              {filteredStaff.map((sw) => {
+              {filteredStaff.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-8 text-center text-xs text-slate-400">
+                  {lang === "vi" ? "Chưa có dữ liệu phân bổ ca của nhân viên trong kỳ này." : "No staff workload assignments recorded for this period."}
+                </div>
+              ) : (
+                filteredStaff.map((sw: any) => {
                 const pct = (sw.hours / 40) * 100;
                 const isAtCap = sw.hours >= 40;
                 return (
@@ -655,8 +705,9 @@ export default function AnalyticsPage() {
                     </div>
                   </div>
                 );
-              })}
-            </div>
+              })
+            )}
+          </div>
 
             {/* Footer Directory Link */}
             <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">

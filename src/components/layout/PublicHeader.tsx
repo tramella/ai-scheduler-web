@@ -1,213 +1,207 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X, ArrowRight, LayoutDashboard, LogOut, Building2 } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { UserAvatar } from "@/components/ui/UserAvatar";
+
+const NAV_LINKS = [
+  { name: "Product", href: "/product" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "FAQ", href: "/faq" },
+  { name: "Contact", href: "/contact" },
+];
 
 export const PublicHeader: React.FC = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { user, isAuthenticated, activeCompany, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
 
-  const navLinks = [
-    { name: "Product", href: "/product" },
-    { name: "Demo Roster", href: "/demo" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "FAQ", href: "/faq" },
-    { name: "Contact", href: "/contact" },
-  ];
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
-  const isActive = (path: string) => {
-    if (path === "/" && pathname === "/") return true;
-    if (path !== "/" && pathname.startsWith(path)) return true;
-    return false;
-  };
+  // Transparent header at page top, solid + blurred on scroll
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close mobile navigation drawer on route change or Escape key
+  useEffect(() => setMenuOpen(false), [pathname]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   const handleLogout = () => {
+    setMenuOpen(false);
     logout();
     router.push("/login");
   };
 
-  return (
-    <header className="sticky top-0 z-50 w-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-md transition-all">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
-        
-        {/* Left: Brand Logo */}
-        <div className="flex items-center">
-          <Link
-            href="/"
-            className="flex items-center transition opacity-95 hover:opacity-100 focus:outline-hidden"
-          >
-            <Image
-              src="/images/logo/orbit-weave-logo-indigo-light-bg.svg"
-              alt="ORBIT"
-              width={125}
-              height={34}
-              className="h-7 sm:h-8 w-auto object-contain"
-              style={{ width: "auto" }}
-              priority
-            />
-          </Link>
-        </div>
+  const solid = scrolled || menuOpen;
 
-        {/* Center: Navigation Links - No border, No light gray bg */}
-        <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-          {navLinks.map((link) => {
+  return (
+    <header
+      className={`sticky top-0 z-50 w-full border-b backdrop-blur-xl transition-colors duration-200 ${
+        solid
+          ? "bg-white/85 dark:bg-slate-950/85 border-slate-200/70 dark:border-slate-800/70"
+          : "bg-transparent border-transparent"
+      }`}
+    >
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Logo: adapts to light/dark theme automatically */}
+        <Link href="/" aria-label="ORBIT home" className="flex items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2F5BFF]">
+          <Image
+            src="/images/logo/orbit-weave-logo-indigo-light-bg.svg"
+            alt="ORBIT"
+            width={156}
+            height={40}
+            priority
+            className="h-8 w-auto dark:hidden"
+            style={{ width: "auto" }}
+          />
+          <Image
+            src="/images/logo/orbit-weave-logo-dark-bg.svg"
+            alt="ORBIT"
+            width={156}
+            height={40}
+            priority
+            className="hidden h-8 w-auto dark:block"
+            style={{ width: "auto" }}
+          />
+        </Link>
+
+        {/* Center navigation */}
+        <nav aria-label="Main" className="hidden md:flex items-center gap-1">
+          {NAV_LINKS.map((link) => {
             const active = isActive(link.href);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative px-3.5 py-2 text-sm transition-colors duration-150 ${
+                aria-current={active ? "page" : undefined}
+                className={`rounded-full px-3.5 py-1.5 text-sm transition-colors ${
                   active
-                    ? "text-[#2F2C59] dark:text-white font-bold"
-                    : "text-slate-600 dark:text-slate-400 font-medium hover:text-[#2F2C59] dark:hover:text-white"
+                    ? "bg-[#2F2C59]/[0.08] font-semibold text-[#2F2C59] dark:bg-white/10 dark:text-white"
+                    : "font-medium text-slate-600 hover:bg-slate-900/[0.04] hover:text-slate-950 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-white"
                 }`}
               >
-                <span>{link.name}</span>
-                {active && (
-                  <span className="absolute bottom-0.5 left-3.5 right-3.5 h-0.5 bg-[#2F5BFF] rounded-full" />
-                )}
+                {link.name}
               </Link>
             );
           })}
         </nav>
 
-        {/* Right: Auth & Primary Action CTA */}
-        <div className="hidden md:flex items-center space-x-2.5">
+        {/* Right action controls */}
+        <div className="hidden md:flex items-center gap-2">
           {isAuthenticated ? (
             <>
-              {activeCompany && (
-                <div className="inline-flex items-center space-x-1.5 px-3 py-1 text-xs font-medium text-slate-600 dark:text-slate-400 max-w-[150px] truncate">
-                  <Building2 className="h-3.5 w-3.5 text-slate-500 shrink-0" />
-                  <span className="truncate">{activeCompany.name}</span>
-                </div>
-              )}
               <Link
                 href="/dashboard"
-                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 text-xs font-semibold text-[#2F2C59] dark:text-indigo-400 hover:text-[#1E1B3A] transition"
+                title="Go to dashboard"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white py-1 pl-1 pr-3.5 text-sm font-medium text-slate-800 transition hover:border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               >
-                <LayoutDashboard className="h-3.5 w-3.5 text-[#2F5BFF]" />
-                <span>Dashboard</span>
-              </Link>
-              <Link
-                href="/dashboard/profile"
-                className="inline-flex items-center space-x-1.5 pl-1 pr-2 py-1 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 transition"
-                title="Account profile"
-              >
-                <div className="h-6 w-6 rounded-full bg-[#2F2C59] text-white flex items-center justify-center font-bold text-[10px] shadow-2xs">
-                  {user?.full_name?.charAt(0).toUpperCase() || "U"}
-                </div>
-                <span className="max-w-[100px] truncate">{user?.full_name?.split(" ")[0]}</span>
+                <UserAvatar src={user?.avatar_url} name={user?.full_name} size="xs" />
+                Dashboard
               </Link>
               <button
                 type="button"
                 onClick={handleLogout}
-                title="Log out"
-                className="p-1.5 text-slate-400 hover:text-rose-600 rounded-full transition cursor-pointer"
                 aria-label="Log out"
+                title="Log out"
+                className="cursor-pointer rounded-full p-2 text-slate-400 transition hover:bg-slate-900/[0.05] hover:text-slate-700 dark:hover:bg-white/10 dark:hover:text-slate-200"
               >
-                <LogOut className="h-3.5 w-3.5" />
+                <LogOut className="h-4 w-4" />
               </button>
             </>
           ) : (
             <>
               <Link
                 href="/login"
-                className="px-3.5 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-[#2F2C59] dark:hover:text-white transition-colors"
+                className="rounded-full px-3.5 py-1.5 text-sm font-medium text-slate-600 transition hover:text-slate-950 dark:text-slate-400 dark:hover:text-white"
               >
-                Sign In
+                Sign in
               </Link>
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center space-x-1.5 px-4.5 py-2 text-xs font-semibold text-white bg-[#2F2C59] hover:bg-[#1E1B3A] rounded-full shadow-xs transition-all active:scale-[0.98] border border-[#2F2C59]"
+                className="btn-primary px-5 py-2 text-sm"
               >
-                <span>Get Started</span>
-                <ArrowRight className="h-3.5 w-3.5 text-white" />
+                Get started
               </Link>
             </>
           )}
         </div>
 
-        {/* Mobile Menu Toggle Button */}
-        <div className="flex md:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex items-center justify-center p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:text-slate-950 focus:outline-hidden cursor-pointer"
-            aria-expanded={mobileMenuOpen}
-            aria-label="Toggle navigation menu"
-          >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
+        {/* Mobile menu toggle trigger */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          className="md:hidden cursor-pointer rounded-xl p-2.5 text-slate-700 dark:text-slate-200"
+        >
+          {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-4 pt-3 pb-6 space-y-3 shadow-lg">
-          <div className="space-y-1">
-            {navLinks.map((link) => {
+      {/* Menu mobile */}
+      {menuOpen && (
+        <div
+          id="mobile-menu"
+          className="orbit-rise md:hidden absolute inset-x-0 top-full border-b border-slate-200/70 bg-white px-4 pb-6 pt-2 shadow-xl dark:border-slate-800 dark:bg-slate-950"
+        >
+          <nav aria-label="Mobile" className="flex flex-col">
+            {NAV_LINKS.map((link) => {
               const active = isActive(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-3 py-2 text-sm transition ${
+                  aria-current={active ? "page" : undefined}
+                  className={`flex items-center justify-between rounded-xl px-3 py-3.5 text-base ${
                     active
-                      ? "font-bold text-[#2F2C59] dark:text-white"
-                      : "font-medium text-slate-600 dark:text-slate-400 hover:text-[#2F2C59] dark:hover:text-white"
+                      ? "bg-[#2F2C59]/[0.06] font-semibold text-[#2F2C59] dark:bg-white/10 dark:text-white"
+                      : "font-medium text-slate-700 dark:text-slate-300"
                   }`}
                 >
                   {link.name}
+                  {active && <span className="h-1.5 w-1.5 rounded-full bg-[#FF7A59]" />}
                 </Link>
               );
             })}
-          </div>
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col space-y-2">
+          </nav>
+
+          <div className="mt-4 flex flex-col gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
             {isAuthenticated ? (
               <>
-                <div className="px-3.5 py-2 text-xs text-slate-500 font-medium">
-                  Signed in as <span className="font-semibold text-slate-800 dark:text-slate-200">{user?.full_name}</span>
-                </div>
-                <Link
-                  href="/dashboard"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center px-4 py-2.5 text-xs font-semibold text-white bg-[#2F2C59] hover:bg-[#1E1B3A] rounded-full shadow-xs transition"
-                >
-                  Go to Dashboard
+                <p className="px-3 text-xs text-slate-500">
+                  Signed in as{" "}
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">{user?.full_name}</span>
+                </p>
+                <Link href="/dashboard" className="btn-primary py-3 text-center text-sm">
+                  Go to dashboard
                 </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    handleLogout();
-                  }}
-                  className="w-full text-center px-4 py-2 text-xs font-medium text-rose-600 rounded-full transition cursor-pointer"
-                >
+                <button type="button" onClick={handleLogout} className="cursor-pointer rounded-full px-4 py-3 text-sm font-medium text-rose-600">
                   Log out
                 </button>
               </>
             ) : (
               <>
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-200 rounded-full transition"
-                >
-                  Sign In
+                <Link href="/register" className="btn-primary py-3 text-center text-sm">
+                  Get started
                 </Link>
-                <Link
-                  href="/register"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center px-4 py-2.5 text-xs font-semibold text-white bg-[#2F2C59] hover:bg-[#1E1B3A] rounded-full shadow-xs transition"
-                >
-                  Get Started
+                <Link href="/login" className="btn-secondary py-3 text-center text-sm">
+                  Sign in
                 </Link>
               </>
             )}

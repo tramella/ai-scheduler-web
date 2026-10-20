@@ -15,74 +15,74 @@ export default function PricingPage() {
 
   const plans = [
     {
-      name: "Community",
-      badge: "Free Trial",
-      description: "Test automated AI scheduling with Google Gemini.",
+      name: "Personal Free",
+      badge: "Free Tier",
+      description: "Essential AI schedule generation for personal managers and solo operators.",
       priceMonthly: "$0",
       priceAnnual: "$0",
       period: "forever",
       subtext: "No credit card required",
-      ctaText: "Try 1 Free Schedule",
-      ctaHref: "/product",
+      ctaText: "Start Free",
+      ctaHref: "/register",
       popular: false,
       features: [
-        "1 Free schedule generation trial",
-        "Powered by Google Gemini AI",
-        "Deterministic rule validation",
+        "Personal workspace & staff management",
+        "Deterministic rule & labor constraint validation",
         "Excel (.xlsx) import & export",
-        "Standard shift constraints check",
+        "Google Gemini AI schedule optimization",
+        "Full staff roster & profile directory",
       ],
     },
     {
-      name: "Pro",
-      badge: "Most Popular",
-      description: "For growing stores requiring OpenAI engine, unlimited runs, and custom rules.",
-      priceMonthly: "$39",
-      priceAnnual: "$29",
+      name: "Personal Pro",
+      badge: "Recommended",
+      description: "Advanced AI power with OpenAI & Gemini switcher for power scheduling.",
+      priceMonthly: "$29",
+      priceAnnual: "$19",
       period: "/month",
-      subtext: "billed annually ($348/yr)",
-      ctaText: "Upgrade to Pro",
+      subtext: "billed annually ($228/yr)",
+      ctaText: "Get Personal Pro",
       ctaHref: "/register",
       popular: true,
       features: [
-        "Unlock OpenAI (GPT-4o) + Gemini switcher",
-        "Unlimited schedule generations",
-        "Multi-location & branch support",
-        "Custom labor rules & rest intervals",
-        "Roster history & saved templates",
-        "Priority solver processing",
-        "Email & live chat support",
+        "OpenAI (GPT-4o) + Gemini engine switcher",
+        "Unlimited schedule generation runs",
+        "Fast parallel AI solver processing",
+        "Custom shift constraints & rest intervals",
+        "Export to Excel & high-resolution schedule views",
+        "Priority AI queue & email support",
       ],
     },
     {
-      name: "Enterprise",
-      badge: "Custom",
-      description: "For organizations needing HRIS integration and tailored labor agreements.",
-      priceMonthly: "Custom",
-      priceAnnual: "Custom",
+      name: "Company & Business",
+      badge: "Version 2 (Coming Soon)",
+      description: "Multi-tenant company organizations, departmental roles, and enterprise HRIS.",
+      priceMonthly: "V2 Roadmap",
+      priceAnnual: "V2 Roadmap",
       period: "",
-      subtext: "Custom billing & dedicated SLA",
-      ctaText: "Contact Sales",
+      subtext: "Launching in Version 2",
+      ctaText: "Join V2 Waitlist",
       ctaHref: "/contact",
       popular: false,
       features: [
-        "Bring Your Own Key (BYOK) - OpenAI / Gemini / Custom",
+        "Multi-company & branch tenant switcher",
+        "Granular RBAC (Company Admin, Manager, Staff)",
+        "Bring Your Own Key (BYOK) - OpenAI / Gemini",
         "Direct HRIS integrations (BambooHR, Workday)",
-        "Custom collective bargaining / union rules",
-        "SSO / SAML 2.0 access control",
-        "99.9% uptime SLA guarantee",
-        "Dedicated onboarding specialist",
+        "Audit telemetry & organizational security",
+        "Custom enterprise labor agreements",
       ],
     },
   ];
 
   const comparisonRows = [
-    { feature: "AI Engine", community: "Google Gemini", pro: "OpenAI (GPT-4o) + Gemini", enterprise: "BYOK / Custom LLM" },
-    { feature: "Schedule Generations", community: "1 Free Trial", pro: "Unlimited", enterprise: "Unlimited" },
-    { feature: "Excel (.xlsx) Import & Export", community: "Yes", pro: "Yes (Up to 10MB)", enterprise: "Direct API + Unlimited" },
-    { feature: "Rule Engine Validation", community: "Deterministic", pro: "Deterministic + Custom", enterprise: "Full Custom Labor Code" },
-    { feature: "Multi-Location Support", community: "Single", pro: "Up to 10 branches", enterprise: "Unlimited" },
-    { feature: "Support SLA", community: "Community FAQ", pro: "24h Email & Chat", enterprise: "Dedicated SLA Manager" },
+    { feature: "Target Audience", community: "Personal / Solo Manager", pro: "Personal Power User", enterprise: "Company Organization (V2)" },
+    { feature: "AI Scheduling Engine", community: "Google Gemini 2.5", pro: "OpenAI (GPT-4o) + Gemini", enterprise: "BYOK / Custom LLM (V2)" },
+    { feature: "Schedule Generations", community: "Standard runs", pro: "Unlimited parallel runs", enterprise: "Unlimited (V2)" },
+    { feature: "Excel (.xlsx) Import & Export", community: "Yes", pro: "Yes (Enhanced)", enterprise: "Direct API + Batch (V2)" },
+    { feature: "Workspace Type", community: "Personal Workspace", pro: "Personal Workspace", enterprise: "Multi-Company B2B (V2)" },
+    { feature: "Role Management", community: "Personal Owner", pro: "Personal Owner", enterprise: "Multi-level RBAC (V2)" },
+    { feature: "Support SLA", community: "Community FAQ", pro: "Priority Email Support", enterprise: "Dedicated SLA Manager (V2)" },
   ];
 
   return (
@@ -91,15 +91,15 @@ export default function PricingPage() {
         
         {/* Header */}
         <div className="max-w-3xl mx-auto text-center mb-12 space-y-3">
-          <div className="inline-flex items-center space-x-2 rounded-full bg-slate-100 border border-slate-200/80 px-4 py-1 text-xs font-semibold text-slate-800 shadow-2xs">
+          <div className="inline-flex items-center space-x-2 rounded-full border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-2xs">
             <Sparkles className="h-3.5 w-3.5 text-[#FF7A59]" />
-            <span>Transparent Pricing</span>
+            <span className="tracking-tight">Transparent Pricing</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[#2F2C59]">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-slate-950 dark:text-white leading-[1.08]">
             Simple plans for every team.
           </h1>
-          <p className="text-base sm:text-lg text-slate-600 max-w-xl mx-auto">
-            Test 1 free schedule with Google Gemini, or upgrade to Pro for OpenAI and unlimited generations.
+          <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+            Get started with Personal plans for solo store and shift operators, or join the waitlist for Company multi-tenant enterprise in Version 2.
           </p>
 
           {/* Billing Cycle Toggle */}
@@ -190,14 +190,14 @@ export default function PricingPage() {
                   {/* CTA Button */}
                   <Link
                     href={plan.ctaHref}
-                    className={`w-full inline-flex items-center justify-center rounded-full py-2.5 px-4 text-xs font-semibold transition active:scale-[0.98] mb-6 cursor-pointer shadow-xs ${
+                    className={`group w-full py-3 px-4 text-xs mb-6 cursor-pointer ${
                       isPro
-                        ? "bg-[#2F2C59] text-white hover:bg-[#1E1B3A] border border-[#2F2C59]"
-                        : "bg-slate-100 text-slate-900 hover:bg-slate-200 border border-slate-200/80"
+                        ? "btn-primary"
+                        : "btn-secondary"
                     }`}
                   >
                     <span>{plan.ctaText}</span>
-                    <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                    <ArrowRight className="ml-1.5 h-3.5 w-3.5 text-[#FF7A59] transition-transform group-hover:translate-x-0.5 dark:text-[#E8613F]" />
                   </Link>
 
                   {/* Features List */}
