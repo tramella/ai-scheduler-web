@@ -2,20 +2,13 @@
 
 import React, { useState } from "react";
 import {
-  CreditCard,
   Sparkles,
-  Zap,
   CheckCircle2,
   Users,
   Store,
-  Clock,
-  ArrowRight,
   Download,
-  ShieldCheck,
   Check,
-  AlertCircle,
   Receipt,
-  Layers,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -67,7 +60,7 @@ const DAILY_USAGE_DATA = [
 ];
 
 export default function BillingPage() {
-  const [invoices, setInvoices] = useState<InvoiceItem[]>(INVOICES);
+  const [invoices] = useState<InvoiceItem[]>(INVOICES);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {

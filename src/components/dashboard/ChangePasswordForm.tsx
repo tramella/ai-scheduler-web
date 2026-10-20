@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Lock, CheckCircle2, AlertCircle } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { changePasswordApi } from "@/lib/authApi";
+import { changePasswordApi } from "@/lib/api-clients/auth/authApi";
 import { PillButton } from "@/components/ui/PillButton";
 
 interface ChangePasswordFormProps {

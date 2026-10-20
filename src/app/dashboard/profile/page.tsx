@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import {
   User,
   Mail,
-  Phone,
   Building2,
   ShieldCheck,
   Lock,
@@ -46,8 +45,6 @@ export default function ProfilePage() {
     logout();
     router.push("/login");
   };
-
-  const initial = user?.full_name?.charAt(0).toUpperCase() || "U";
 
   return (
     <DashboardLayout>

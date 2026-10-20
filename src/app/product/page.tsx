@@ -13,7 +13,7 @@ import { LoadingState } from "@/components/scheduling/LoadingState";
 import { ScheduleResultView } from "@/components/scheduling/ScheduleResultView";
 import { ErrorBanner } from "@/components/ui/ErrorBanner";
 import CustomDatePicker from "@/components/scheduling/CustomDatePicker";
-import { generateSchedule, DailySchedule } from "@/lib/apiClient";
+import { generateSchedule, DailySchedule } from "@/lib/api-clients/schedule/scheduleApi";
 
 export default function ProductPage() {
   const [file, setFile] = useState<File | null>(null);

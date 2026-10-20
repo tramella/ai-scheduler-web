@@ -14,7 +14,7 @@ import {
   resendVerificationApi,
   getMeApi,
   switchCompanyApi,
-} from "@/lib/authApi";
+} from "@/lib/api-clients/auth/authApi";
 
 export type SimulatedRole = "SUPER_ADMIN" | "COMPANY_ADMIN" | "STORE_MANAGER" | "STAFF" | null;
 

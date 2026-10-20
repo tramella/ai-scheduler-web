@@ -8,12 +8,8 @@ import {
   CheckCircle2,
   Users,
   ShieldCheck,
-  Star,
   Check,
   X,
-  Edit2,
-  Sparkles,
-  Layers,
   GraduationCap,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
@@ -21,8 +17,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { KpiCard } from "@/components/ui/KpiCard";
 import { Card } from "@/components/ui/Card";
 import { PillButton } from "@/components/ui/PillButton";
-import { StatusChip } from "@/components/ui/StatusChip";
-import { fetchSkillsApi, createSkillApi } from "@/lib/apiClient";
+import { fetchSkillsApi, createSkillApi } from "@/lib/api-clients/skills/skillsApi";
 
 export interface SkillItem {
   id: string;
@@ -47,13 +42,9 @@ export interface EmployeeSkillMatrixRow {
   }[];
 }
 
-const INITIAL_SKILLS: SkillItem[] = [];
-
-const INITIAL_MATRIX_ROWS: EmployeeSkillMatrixRow[] = [];
-
 export default function SkillsPage() {
   const [skills, setSkills] = useState<SkillItem[]>([]);
-  const [matrixRows, setMatrixRows] = useState<EmployeeSkillMatrixRow[]>([]);
+  const [matrixRows] = useState<EmployeeSkillMatrixRow[]>([]);
   const [activeTab, setActiveTab] = useState<"DIRECTORY" | "MATRIX">("DIRECTORY");
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -252,7 +243,7 @@ export default function SkillsPage() {
               </div>
               <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">No skills registered yet</h3>
               <p className="mt-1 text-xs text-slate-500 max-w-sm mx-auto">
-                No skill definitions have been configured. Click "Add New Skill" to register certifications and competencies for your staff.
+                No skill definitions have been configured. Click &quot;Add New Skill&quot; to register certifications and competencies for your staff.
               </p>
             </div>
           ) : (

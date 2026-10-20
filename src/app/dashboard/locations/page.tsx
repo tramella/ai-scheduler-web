@@ -11,11 +11,7 @@ import {
   Check,
   X,
   Edit2,
-  Trash2,
-  Sparkles,
-  CheckCircle2,
   Store,
-  Calendar,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -23,7 +19,7 @@ import { KpiCard } from "@/components/ui/KpiCard";
 import { Card } from "@/components/ui/Card";
 import { PillButton } from "@/components/ui/PillButton";
 import { StatusChip } from "@/components/ui/StatusChip";
-import { fetchLocationsApi, createLocationApi, deleteLocationApi } from "@/lib/apiClient";
+import { fetchLocationsApi, createLocationApi } from "@/lib/api-clients/locations/locationsApi";
 
 export interface LocationItem {
   id: string;
@@ -41,61 +37,6 @@ export interface LocationItem {
   status: "Active" | "Inactive";
   manager_name: string;
 }
-
-const INITIAL_LOCATIONS: LocationItem[] = [
-  {
-    id: "LOC-01",
-    code: "LOC-D1-FLAGSHIP",
-    name: "Downtown Flagship Roastery",
-    address: "128 Dong Khoi, District 1, Ho Chi Minh City",
-    timezone: "Asia/Ho_Chi_Minh",
-    open_days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    working_hours: { open: "06:30", close: "23:00" },
-    max_capacity: 24,
-    current_staff_count: 18,
-    status: "Active",
-    manager_name: "Anna Vance",
-  },
-  {
-    id: "LOC-02",
-    code: "LOC-D2-BOUTIQUE",
-    name: "Thao Dien Garden Cafe",
-    address: "45 Xuan Thuy, Thao Dien, Thu Duc City",
-    timezone: "Asia/Ho_Chi_Minh",
-    open_days: ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    working_hours: { open: "07:00", close: "22:00" },
-    max_capacity: 16,
-    current_staff_count: 12,
-    status: "Active",
-    manager_name: "David Kim",
-  },
-  {
-    id: "LOC-03",
-    code: "LOC-D7-MALL",
-    name: "Crescent Mall Express Kiosk",
-    address: "101 Ton Dat Tien, Tan Phu, District 7",
-    timezone: "Asia/Ho_Chi_Minh",
-    open_days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    working_hours: { open: "09:30", close: "22:00" },
-    max_capacity: 10,
-    current_staff_count: 8,
-    status: "Active",
-    manager_name: "Michael Chen",
-  },
-  {
-    id: "LOC-04",
-    code: "LOC-D3-ROASTERY",
-    name: "Vo Van Tan Lab & Training Hub",
-    address: "210 Vo Van Tan, Ward 5, District 3",
-    timezone: "Asia/Ho_Chi_Minh",
-    open_days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    working_hours: { open: "08:00", close: "18:00" },
-    max_capacity: 12,
-    current_staff_count: 6,
-    status: "Inactive",
-    manager_name: "Sarah Miller",
-  },
-];
 
 export default function LocationsPage() {
   const [locations, setLocations] = useState<LocationItem[]>([]);

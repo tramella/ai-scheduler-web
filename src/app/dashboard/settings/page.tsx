@@ -32,7 +32,7 @@ function calculateShiftHours(start: string, end: string): string {
   return (totalMin / 60).toFixed(1);
 }
 
-import { fetchSettingsApi, updateSettingsApi } from "@/lib/apiClient";
+import { fetchSettingsApi, updateSettingsApi } from "@/lib/api-clients/settings/settingsApi";
 
 export default function SettingsPage() {
   const { activeCompany } = useAuth();

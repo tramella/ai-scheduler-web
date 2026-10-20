@@ -1,5 +1,4 @@
 import React from "react";
-import { MessageSquareText } from "lucide-react";
 
 interface PromptInputProps {
   value: string;

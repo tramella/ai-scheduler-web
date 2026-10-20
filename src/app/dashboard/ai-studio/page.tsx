@@ -5,9 +5,7 @@ import {
   Sparkles,
   CalendarDays,
   Building2,
-  Users,
   CheckCircle2,
-  Clock,
   Sliders,
   CheckCheck,
   Save,
@@ -18,19 +16,15 @@ import {
   ChevronRight,
   Plus,
   X,
-  Cpu,
-  RotateCcw,
   Filter,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { ScheduleResultView } from "@/components/scheduling/ScheduleResultView";
 import CustomDatePicker from "@/components/scheduling/CustomDatePicker";
-import { DailySchedule, generateSchedule, saveScheduleDraft } from "@/lib/apiClient";
+import { DailySchedule, generateSchedule, saveScheduleDraft } from "@/lib/api-clients/schedule/scheduleApi";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { Card } from "@/components/ui/Card";
 import { StatusChip } from "@/components/ui/StatusChip";
-import { PillButton } from "@/components/ui/PillButton";
 
 export interface ConstraintPolicy {
   id: string;
@@ -136,10 +130,10 @@ const POLICY_TEMPLATES: Omit<ConstraintPolicy, "enabled">[] = [
   },
 ];
 
-import { fetchLocationsApi } from "@/lib/apiClient";
+import { fetchLocationsApi } from "@/lib/api-clients/locations/locationsApi";
 
 export default function AiStudioPage() {
-  const { user, activeCompany } = useAuth();
+  const { activeCompany } = useAuth();
 
   // Tab: "generator" (AI Generator) | "result" (Calendar Result)
   const [activeTab, setActiveTab] = useState<"generator" | "result">("generator");
@@ -300,16 +294,6 @@ export default function AiStudioPage() {
     );
     showToast(enable ? "Enabled all filtered policies" : "Disabled all filtered policies");
   };
-
-  const policiesSummaryText = enabledPolicies
-    .map((p) => {
-      if (p.id === "MAX_HOURS") return `Max ${p.value}h/wk`;
-      if (p.id === "MIN_REST") return `Min ${p.value}h rest`;
-      if (p.id === "MANDATORY_ROLE") return `${p.value} ${p.role?.split(" ")[0] || "Supervisor"}`;
-      if (p.id === "ZERO_DOUBLE_BOOKING") return "No Overlap";
-      return p.name;
-    })
-    .join(" • ");
 
   // 2. Engine Execution State
   const [solvingStatus, setSolvingStatus] = useState<"IDLE" | "SOLVING">("IDLE");

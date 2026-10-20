@@ -145,25 +145,13 @@ function Sparkline({ values, highlight, barClass }: { values: number[]; highligh
   );
 }
 
-type KpiProps = {
-  label: string;
-  value: string;
-  chip: string;
-  chipClass: string;
-  note: string;
-  icon: React.ElementType;
-  iconClass: string;
-  valueClass?: string;
-  children?: React.ReactNode;
-};
-
 const Kpi = KpiCard;
 
 /* -------------------------------------------------------------------------- */
 /*  Page                                                                      */
 /* -------------------------------------------------------------------------- */
 
-import { fetchDashboardSummaryApi } from "@/lib/apiClient";
+import { fetchDashboardSummaryApi } from "@/lib/api-clients/dashboard/dashboardApi";
 
 export default function DashboardPage() {
   const { user } = useAuth();

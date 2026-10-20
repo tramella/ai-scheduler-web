@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, X, Sliders } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { ConstraintRule, ConstraintType, ConstraintCategory, CATEGORY_LABELS } from "./types";
 
 interface AddConstraintModalProps {

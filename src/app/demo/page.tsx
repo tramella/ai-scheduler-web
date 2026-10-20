@@ -451,7 +451,7 @@ export default function DemoScheduleReviewPage() {
         )}
 
         {/* ================= 1. PAGE HEADER ================= */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-2 border-b border-slate-200/80 dark:border-slate-800">
           <div>
             <div className="inline-flex items-center space-x-2 rounded-full bg-indigo-50/90 dark:bg-indigo-950/60 px-3.5 py-1 text-xs font-semibold text-indigo-950 dark:text-indigo-200 mb-2 border border-indigo-200/60 dark:border-indigo-800/60 shadow-2xs">
               <Sparkles className="h-3.5 w-3.5 text-[#FF7A59]" />

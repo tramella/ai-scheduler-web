@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import { CheckCircle2, X } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import {
   ConstraintRule,
-  INITIAL_CONSTRAINTS,
   ConstraintHeader,
   ConstraintToolbar,
   ConstraintTable,
@@ -14,7 +13,7 @@ import {
   EditConstraintModal,
 } from "@/components/dashboard/constraints";
 import { Pagination } from "@/components/ui/Pagination";
-import { fetchConstraintsApi, createConstraintApi, deleteConstraintApi } from "@/lib/apiClient";
+import { fetchConstraintsApi, createConstraintApi, deleteConstraintApi } from "@/lib/api-clients/constraints/constraintsApi";
 
 export default function ConstraintsPage() {
   const [constraints, setEmployees] = useState<ConstraintRule[]>([]);
@@ -93,11 +92,6 @@ export default function ConstraintsPage() {
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(8);
-
-  // Reset page when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, selectedType, selectedCategory, selectedStatus]);
 
   const totalPages = Math.max(1, Math.ceil(filteredConstraints.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
@@ -210,20 +204,33 @@ export default function ConstraintsPage() {
         {/* 2. Toolbar & Filters */}
         <ConstraintToolbar
           searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
+          onSearchChange={(value) => {
+            setSearchTerm(value);
+            setCurrentPage(1);
+          }}
           selectedType={selectedType}
-          onTypeChange={setSelectedType}
+          onTypeChange={(value) => {
+            setSelectedType(value);
+            setCurrentPage(1);
+          }}
           hardCount={metrics.hardCount}
           softCount={metrics.softCount}
           selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
+          onCategoryChange={(value) => {
+            setSelectedCategory(value);
+            setCurrentPage(1);
+          }}
           selectedStatus={selectedStatus}
-          onStatusChange={setSelectedStatus}
+          onStatusChange={(value) => {
+            setSelectedStatus(value);
+            setCurrentPage(1);
+          }}
           onResetFilters={() => {
             setSearchTerm("");
             setSelectedType("all");
             setSelectedCategory("all");
             setSelectedStatus("all");
+            setCurrentPage(1);
           }}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
@@ -273,6 +280,7 @@ export default function ConstraintsPage() {
 
         {/* 5. Edit Constraint Modal */}
         <EditConstraintModal
+          key={editingConstraint?.id}
           constraint={editingConstraint}
           isOpen={Boolean(editingConstraint)}
           onClose={() => setEditingConstraint(null)}

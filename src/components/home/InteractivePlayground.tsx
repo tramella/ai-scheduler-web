@@ -2,14 +2,11 @@
 
 import React, { useState } from "react";
 import {
-  Sparkles,
-  CheckCircle2,
   Clock,
   ArrowRight,
   Sun,
   Sunset,
   Moon,
-  Users,
   ShieldCheck,
   Check,
 } from "lucide-react";

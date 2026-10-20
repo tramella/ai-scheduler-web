@@ -7,28 +7,21 @@ import {
   ShieldCheck,
   Building2,
   Search,
-  Filter,
   Lock,
   Unlock,
   UserCheck,
-  UserX,
   Mail,
   Phone,
   ShieldAlert,
-  Calendar,
-  ArrowLeft,
   CheckCircle2,
   AlertTriangle,
-  RefreshCw,
-  MoreVertical,
   ExternalLink,
 } from "lucide-react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { KpiCard } from "@/components/ui/KpiCard";
-import { Card, CARD_BASE_CLASSES } from "@/components/ui/Card";
+import { Card } from "@/components/ui/Card";
 import { PillButton } from "@/components/ui/PillButton";
-import { StatusChip } from "@/components/ui/StatusChip";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { useAuth } from "@/context/AuthContext";
 

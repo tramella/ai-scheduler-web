@@ -13,7 +13,6 @@ import {
   Sunset,
   Moon,
   CheckCircle2,
-  Users,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
@@ -88,7 +87,7 @@ function TimeTrack({ start, end, barClass }: { start: number; end: number; barCl
 /*  Main Component                                                            */
 /* -------------------------------------------------------------------------- */
 
-import { fetchDashboardAnalyticsApi } from "@/lib/apiClient";
+import { fetchDashboardAnalyticsApi } from "@/lib/api-clients/dashboard/dashboardApi";
 
 export default function AnalyticsPage() {
   const { lang } = useLanguage();

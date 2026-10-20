@@ -1,0 +1,18 @@
+{
+  "planHash": "b951af208e6d352aeb7bd574dd5802c255982549361c5e1ce857d8df4c87525a",
+  "phase": "standalone",
+  "recordedAtUtc": "2026-10-20T10:11:21.1355471Z",
+  "retryCount": 1,
+  "resetBaseline": false,
+  "complete": false,
+  "runningStep": "setup[0]:npm",
+  "partialOutput": "npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.\r\n",
+  "cleanupCompleted": true,
+  "result": {
+    "setupSucceeded": false,
+    "setupDurationMs": 0,
+    "setupFailureOutput": null,
+    "assertions": [],
+    "executions": []
+  }
+}
